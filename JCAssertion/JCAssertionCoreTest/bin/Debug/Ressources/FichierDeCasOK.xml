@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ListeDAssertion>
-  <Assertion>
-    <ID>Si fichier existe</ID>
-    <Description>Ce cas est vrai car lefichier existe</Description>
-    <Type>FichierExiste</Type>
-    <Fichier>{{Fichier}}</Fichier>
-  </Assertion>
-</ListeDAssertion>

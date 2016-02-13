@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Reflection;
+using System.IO;
+
 
 
 namespace JCAssertionCore
@@ -23,6 +26,11 @@ namespace JCAssertionCore
         public void Load(String NomFichierLoad)
             {
             }
+
+        public static string RepertoireAssembly()
+        {
+            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\";
+        }
 
     }
 }

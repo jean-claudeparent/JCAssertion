@@ -5,3 +5,11 @@ D:\DevCenter\Sources\Local\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAssertion
 D:\DevCenter\Sources\Local\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAssertionnCore.pdb
 D:\DevCenter\Sources\Local\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.dll
 D:\DevCenter\Sources\Local\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.pdb
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\FichierDeCasOK.xml
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAssertionCoreTest.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAssertionCoreTest.pdb
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAssertionnCore.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAssertionnCore.pdb
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.csprojResolveAssemblyReference.cache
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.pdb

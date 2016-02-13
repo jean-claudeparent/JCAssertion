@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+
 
 namespace JCAssertionCore
 {
@@ -13,6 +15,10 @@ namespace JCAssertionCore
         public Boolean Journaliser = true;
         public int NombreCas = 0;
         public int CasCourant = 0;
+        public XmlDocument ListeDeCas;
+        public XmlNode CasCourant;
+
+        
 
         public void Load(String NomFichierLoad)
             {

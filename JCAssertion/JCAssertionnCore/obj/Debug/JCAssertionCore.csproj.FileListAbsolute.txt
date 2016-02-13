@@ -2,3 +2,8 @@ D:\DevCenter\Sources\Local\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCo
 D:\DevCenter\Sources\Local\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.pdb
 D:\DevCenter\Sources\Local\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionnCore.dll
 D:\DevCenter\Sources\Local\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionnCore.pdb
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionCore.csprojResolveAssemblyReference.cache
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionnCore.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionnCore.pdb
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.pdb

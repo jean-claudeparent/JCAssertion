@@ -6,3 +6,6 @@ D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\obj\Debug\JCAssertion.Propert
 D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\obj\Debug\JCAssertion.csproj.GenerateResource.Cache
 D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\obj\Debug\JCAssertion.exe
 D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\obj\Debug\JCAssertion.pdb
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\bin\Debug\JCAssertion.exe.config
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\obj\Debug\JCAssertion.exe
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\obj\Debug\JCAssertion.pdb

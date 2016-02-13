@@ -13,7 +13,7 @@ namespace JCAssertionCoreTest
         public void CoreLoadOK()
         {
             Core monJCACore = new Core();
-            Assert.AreEqual(7, monJCACore ,"Le fichier chargé devrait contenir 7 cas de test, réel = " + monJCACore.NombreCas.ToString()  );
+            Assert.AreEqual(1, monJCACore ,"Le fichier chargé devrait contenir 1 cas de test, réel = " + monJCACore.NombreCas.ToString()  );
 
 
 

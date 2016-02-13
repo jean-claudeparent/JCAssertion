@@ -19,8 +19,12 @@ namespace JCAssertionCore
         public Boolean Journaliser = true;
         public int NombreCas = 0;
         public int NoCasCourant = 0;
-        public XmlDocument ListeDeCas;
-        public XmlNode CasCourant;
+        public String Message = "";
+
+
+        private XmlDocument ListeDeCasXML;
+        private XmlNode CasCourant;
+        private XmlNodeList ListeDeCas;
 
         
 
@@ -45,7 +49,16 @@ namespace JCAssertionCore
 
         {
             FichierJournal = FichierDeCas + ".log.txt";
-        }
+            ListeDeCasXML = new XmlDocument();
+            ListeDeCasXML.Load(FichierDeCas);
+            if (ListeDeCasXML == null) throw new Exception("Le document CML est vide oumal structuré");
+            XmlElement monRoot = ListeDeCasXML.DocumentElement;
+            ListeDeCas = monRoot.GetElementsByTagName("Assertion");
+            if (ListeDeCas == null) throw new Exception("Le document CML est vide oumal structuré");
+            
+            NombreCas = ListeDeCas.Count;
+            Message = monRoot.InnerXml;
+          }
 
         public static string RepertoireAssembly()
         {

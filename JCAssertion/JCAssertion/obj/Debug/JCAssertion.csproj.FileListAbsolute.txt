@@ -1,0 +1,8 @@
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\bin\Debug\JCAssertion.exe.config
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\bin\Debug\JCAssertion.exe
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\bin\Debug\JCAssertion.pdb
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\obj\Debug\JCAssertion.csprojResolveAssemblyReference.cache
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\obj\Debug\JCAssertion.Properties.Resources.resources
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\obj\Debug\JCAssertion.csproj.GenerateResource.Cache
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\obj\Debug\JCAssertion.exe
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertion\obj\Debug\JCAssertion.pdb

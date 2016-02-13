@@ -1,0 +1,5 @@
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.dll
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.pdb
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionnCore.csprojResolveAssemblyReference.cache
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionnCore.dll
+D:\DevCenter\Sources\Local\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionnCore.pdb

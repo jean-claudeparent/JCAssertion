@@ -14,7 +14,7 @@ namespace JCAssertionCore
         public string FichierJournal;
         public Boolean Journaliser = true;
         public int NombreCas = 0;
-        public int CasCourant = 0;
+        public int NoCasCourant = 0;
         public XmlDocument ListeDeCas;
         public XmlNode CasCourant;
 

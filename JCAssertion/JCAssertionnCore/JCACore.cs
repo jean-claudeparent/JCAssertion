@@ -11,7 +11,7 @@ using System.IO;
 
 namespace JCAssertionCore
 {
-    public class Core
+    public class JCACore
     {
         public String FichierDeCas;
         public string FichierJournal;

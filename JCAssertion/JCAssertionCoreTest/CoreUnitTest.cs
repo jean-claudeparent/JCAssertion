@@ -14,8 +14,8 @@ namespace JCAssertionCoreTest
         {
             // test limité sans fichier de valeurs
 
-            Core monJCACore = new Core();
-            monJCACore.Load(Core.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
+            JCACore monJCACore = new JCACore();
+            monJCACore.Load(JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
             // Assert.AreEqual("rien", monJCACore.Message );
             
             Assert.AreEqual(2, monJCACore.NombreCas , "Le fichier chargé devrait contenir 2 cas de test, réel = " + monJCACore.NombreCas.ToString());

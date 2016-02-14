@@ -23,9 +23,11 @@ namespace JCAssertionCoreTest
             Assert.IsTrue(monJCACore.FichierDeCas.Contains("Ressources\\FichierDeCasOK.xml"));
             Assert.IsNull(monJCACore.FichierValeur);
             Assert.IsNotNull(monJCACore.FichierJournal);
+            Assert.AreEqual(1,monJCACore.NoCasCourant);
+            Assert.IsTrue(monJCACore.Message.Contains ("réussi"), "Message erroné " + monJCACore.Message );
  
             // Test plus étendu avec fichier de valeur
-            Assert.Fail("Oas encore implémenté.");
+            //Assert.Fail("Oas encore implémenté.");
 
             
         }

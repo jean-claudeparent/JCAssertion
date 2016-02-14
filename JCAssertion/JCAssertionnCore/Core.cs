@@ -57,7 +57,16 @@ namespace JCAssertionCore
             if (ListeDeCas == null) throw new Exception("Le document CML est vide oumal structuré");
             
             NombreCas = ListeDeCas.Count;
-            Message = monRoot.InnerXml;
+            if (NombreCas > 0)
+                {
+                  Message = "Chargement de la liste des cas réussie. Nombre de cas " + NombreCas.ToString()  ;
+                  NoCasCourant = 1;
+                } else
+                {
+                  Message = "Chargement de la liste des cas échouée. pas de cas ";
+                  NoCasCourant = 0;
+                }
+
           }
 
         public static string RepertoireAssembly()

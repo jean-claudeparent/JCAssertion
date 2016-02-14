@@ -25,6 +25,8 @@ namespace JCAssertionCore
         private XmlDocument ListeDeCasXML;
         private XmlNode CasCourant;
         private XmlNodeList ListeDeCas;
+        private Dictionary<String, String > Variables = new Dictionary<String, String >();
+
 
         
 
@@ -72,6 +74,19 @@ namespace JCAssertionCore
         public static string RepertoireAssembly()
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\";
+        }
+
+        public void MAJVariable(String Cle, String Valeur)
+        {
+            // ajoute la paire au dictionnaire si absent,modifierla valeursiprésent
+            if (Variables.ContainsKey(Cle)) Variables.Remove(Cle);
+            Variables.Add(Cle,Valeur);
+
+        }
+
+        public int NombreVariables()
+        {
+            return Variables.Count;
         }
 
     }

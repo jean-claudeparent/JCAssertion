@@ -12,11 +12,10 @@ namespace JCAssertionCoreTest
         [TestMethod]
         public void CoreLoadOK()
         {
-            // test limité sans fichier de valeurs
+            // test sans fichier de valeurs
 
             JCACore monJCACore = new JCACore();
             monJCACore.Load(JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
-            // Assert.AreEqual("rien", monJCACore.Message );
             
             Assert.AreEqual(2, monJCACore.NombreCas , "Le fichier chargé devrait contenir 2 cas de test, réel = " + monJCACore.NombreCas.ToString());
             
@@ -25,7 +24,12 @@ namespace JCAssertionCoreTest
             Assert.IsNotNull(monJCACore.FichierJournal);
             Assert.AreEqual(1,monJCACore.NoCasCourant);
             Assert.IsTrue(monJCACore.Message.Contains ("réussi"), "Message erroné " + monJCACore.Message );
- 
+            Assert.AreEqual(0, monJCACore.NombreVariables() );
+            monJCACore.MAJVariable("Fichier","Aucun");
+            monJCACore.MAJVariable("Fichier", JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
+            Assert.AreEqual(1, monJCACore.NombreVariables());
+
+
             // Test plus étendu avec fichier de valeur
             //Assert.Fail("Oas encore implémenté.");
 

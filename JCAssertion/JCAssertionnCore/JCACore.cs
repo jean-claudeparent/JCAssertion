@@ -33,16 +33,11 @@ namespace JCAssertionCore
         public void Load(String NomFichierLoad)
             {
                 FichierDeCas = NomFichierLoad;
-                FichierValeur = null;
+                
                 Load();
             }
 
-        public void Load(String NomFichierLoad, String NomFichierValLoad)
-        {
-            FichierDeCas = NomFichierLoad;
-            FichierValeur = NomFichierValLoad;
-            Load();
-        }
+        
 
         public void Load()
             // Charger le fichier de cas et optionnellement
@@ -93,6 +88,12 @@ namespace JCAssertionCore
             String valeur;
             if (Variables.TryGetValue(Cle,   out valeur )) return valeur;
             else return null;
+        }
+
+        public Boolean ExecuteCas(int NoCas)
+        {
+            Message = "Pas encore implementé.";
+            return false;
         }
 
 

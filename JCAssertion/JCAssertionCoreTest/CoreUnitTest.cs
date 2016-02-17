@@ -58,7 +58,7 @@ namespace JCAssertionCoreTest
         }
 
         [TestMethod]
-        public void JCACoreExecuterOK()
+        public void JCACoreExecuterCasOK()
         {
             // test sans fichier de valeurs
 
@@ -75,7 +75,10 @@ namespace JCAssertionCoreTest
             
 
             // Test plus étendu avec fichier de valeur
-            Assert.Fail("Oas encore implémenté.");
+            Assert.IsFalse(monJCACore.ExecuteCas(0), "Cas hors limite plus petit que 1");
+            Assert.IsTrue (monJCACore.ExecuteCas (1) ,"Test de ichier qui existe = true");
+            Assert.IsFalse(monJCACore.ExecuteCas(2), "Test de ichier qui existe = false");
+            Assert.IsFalse(monJCACore.ExecuteCas(133564),"Cas hors limite dépasse le nombre maximum");
 
 
         }

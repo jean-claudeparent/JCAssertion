@@ -92,8 +92,25 @@ namespace JCAssertionCore
 
         public Boolean ExecuteCas(int NoCas)
         {
-            Message = "Pas encore implementé.";
-            return false;
+            if ((NoCas < 1) || (NoCas > NombreCas)) return false;
+
+            Message = "";
+            return ExecuteXMLNode(ListeDeCas.Item(NoCas));
+            
+        }
+
+        public bool ExecuteXMLNode(XmlNode XMLCas)
+        {
+            if (XMLCas["Type"] == null)
+                {
+                    Message = "La balise type est introuvable ou n'a pas de valeur.";
+                    return false;
+                } else
+                {
+                    String monOperateur = XMLCas["Typex"].InnerText  ;
+                    Message = "Type : " + monOperateur;
+                    return false;
+                }
         }
 
 

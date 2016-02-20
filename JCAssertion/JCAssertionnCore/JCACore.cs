@@ -83,13 +83,18 @@ namespace JCAssertionCore
         {
             return Variables.Count;
         }
-
         public String  GetValeurVariable(String Cle)
         {
             
             String valeur;
             if (Variables.TryGetValue(Cle,   out valeur )) return valeur;
             else return null;
+        }
+
+        public Dictionary<String, String> GetDictionnaireVariable()
+        {
+            return Variables;
+            
         }
 
         public Boolean ExecuteCas(int NoCas)
@@ -114,7 +119,7 @@ namespace JCAssertionCore
                     switch (monOperateur)
                         {
                             case "FichierExiste":
-                                return JCAPontXML.JCAFichierExiste(XMLCas, ref Message );
+                                return JCAPontXML.JCAFichierExiste(XMLCas, ref Message, Variables  );
                         default:
                             Message = Message + "Type inconnu";
                             return false;

@@ -42,6 +42,7 @@
     <Compile Include="JCACore.cs" />
     <Compile Include="JCAPontXML.cs" />
     <Compile Include="JCAssertionException.cs" />
+    <Compile Include="JCAVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

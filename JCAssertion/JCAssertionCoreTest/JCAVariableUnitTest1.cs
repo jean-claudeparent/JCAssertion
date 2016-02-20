@@ -22,7 +22,7 @@ namespace JCAssertionCoreTest
             try  {
                 Assert.AreEqual("Exception attendue", JCAVariable.SubstituerVariables("Début:{{TestVarexistepas}}:Fin", monJCACore.GetDictionnaireVariable()));
             } catch (JCAssertionException excep) {
-                Assert.IsTrue(excep.Message.Contains("pas fournie"),"Il devrait y avoir un exception si la variable n'est pas fournie." );
+                Assert.IsTrue(excep.Message.Contains("pas eu de valeur fournie"), "Le message d'exception devraitcontenir 'pas eu de valeur fournie'. Mais est " + excep.Message);
             }
 
         }

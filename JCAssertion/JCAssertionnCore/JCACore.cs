@@ -9,6 +9,7 @@ using System.IO;
 
 
 
+
 namespace JCAssertionCore
 {
     public class JCACore
@@ -85,6 +86,7 @@ namespace JCAssertionCore
 
         public String  GetValeurVariable(String Cle)
         {
+            
             String valeur;
             if (Variables.TryGetValue(Cle,   out valeur )) return valeur;
             else return null;
@@ -101,15 +103,22 @@ namespace JCAssertionCore
 
         public bool ExecuteXMLNode(XmlNode XMLCas)
         {
-            if (XMLCas["Type"] == null)
+            if ((XMLCas["Type"] == null) || (XMLCas["Type"].InnerText == null))
                 {
                     Message = "La balise type est introuvable ou n'a pas de valeur.";
                     return false;
                 } else
                 {
-                    String monOperateur = XMLCas["Typex"].InnerText  ;
+                    String monOperateur = XMLCas["Type"].InnerText  ;
                     Message = "Type : " + monOperateur;
-                    return false;
+                    switch (monOperateur)
+                        {
+                            case "FichierExiste":
+                                return JCAPontXML.JCAFichierExiste(XMLCas, ref Message );
+                        default:
+                            Message = Message + "Type inconnu";
+                            return false;
+                        }
                 }
         }
 

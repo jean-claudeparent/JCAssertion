@@ -24,11 +24,16 @@ namespace JCAssertionCore
 
 
         private XmlDocument ListeDeCasXML;
-        private XmlNode CasCourant;
+        // private XmlNode CasCourant;
         private XmlNodeList ListeDeCas;
         private Dictionary<String, String > Variables = new Dictionary<String, String >();
+        private Boolean JournalInitialise = false;
 
-
+        public void MessageAjoutter(String Texte)
+            {
+                Message = Message + Environment.NewLine  + Texte;
+            }
+        
         
 
         public void Load(String NomFichierLoad)
@@ -47,9 +52,10 @@ namespace JCAssertionCore
 
         {
             FichierJournal = FichierDeCas + ".log.txt";
+            JournalInitialise = false;
             ListeDeCasXML = new XmlDocument();
             ListeDeCasXML.Load(FichierDeCas);
-            if (ListeDeCasXML == null) throw new Exception("Le document CML est vide oumal structuré");
+            if (ListeDeCasXML == null) throw new Exception("Le document XML est vide oumal structuré");
             XmlElement monRoot = ListeDeCasXML.DocumentElement;
             ListeDeCas = monRoot.GetElementsByTagName("Assertion");
             if (ListeDeCas == null) throw new Exception("Le document CML est vide oumal structuré");
@@ -83,6 +89,7 @@ namespace JCAssertionCore
         {
             return Variables.Count;
         }
+
         public String  GetValeurVariable(String Cle)
         {
             
@@ -99,33 +106,54 @@ namespace JCAssertionCore
 
         public Boolean ExecuteCas(int NoCas)
         {
-            if ((NoCas < 1) || (NoCas > NombreCas)) return false;
+            if ((NoCas < 0) || (NoCas > NombreCas)) return false;
 
-            Message = "";
-            return ExecuteXMLNode(ListeDeCas.Item(NoCas));
-            
+            Message = "Cas numéro : " + NoCas + 1 ;
+            bool Resultat =  ExecuteXMLNode(ListeDeCas.Item(NoCas));
+            Journalise(Message);
+            return Resultat;
+
         }
 
         public bool ExecuteXMLNode(XmlNode XMLCas)
         {
             if ((XMLCas["Type"] == null) || (XMLCas["Type"].InnerText == null))
                 {
-                    Message = "La balise type est introuvable ou n'a pas de valeur.";
+                    MessageAjoutter("La balise type est introuvable ou n'a pas de valeur.");
                     return false;
                 } else
                 {
                     String monOperateur = XMLCas["Type"].InnerText  ;
-                    Message = "Type : " + monOperateur;
+                    MessageAjoutter( "Type : " + monOperateur);
                     switch (monOperateur)
                         {
                             case "FichierExiste":
                                 return JCAPontXML.JCAFichierExiste(XMLCas, ref Message, Variables  );
                         default:
-                            Message = Message + "Type inconnu";
+                            MessageAjoutter("Type inconnu");
                             return false;
                         }
                 }
-        }
+            }
+
+
+            public void Journalise(String monMessage)
+            {
+                if (Journaliser)
+                    { 
+                        if (! JournalInitialise )
+                        {
+                            if (File.Exists(FichierJournal)) File.Delete(FichierJournal);
+                            JournalInitialise = true;
+                        }
+                        StreamWriter fileJournal =  File.AppendText(FichierJournal);
+                        fileJournal.WriteLine(monMessage );
+                        fileJournal.Close();
+                    }
+            }            
+        
+
+        
 
 
     }

@@ -75,8 +75,10 @@ namespace JCAssertionCoreTest
             
 
             // Test plus étendu avec fichier de valeur
-            Assert.IsFalse(monJCACore.ExecuteCas(0), "Cas hors limite plus petit que 1");
-            Assert.IsTrue (monJCACore.ExecuteCas (1) ,"Test de ichier qui existe = true");
+            Assert.IsTrue(monJCACore.ExecuteCas(0), "Cas hors limite plus petit que 1");
+            // Assert.AreEqual("debug", monJCACore.Message);
+       
+            Assert.IsFalse (monJCACore.ExecuteCas (1) ,"Test de ichier qui existe = true");
             Assert.IsFalse(monJCACore.ExecuteCas(2), "Test de ichier qui existe = false");
             Assert.IsFalse(monJCACore.ExecuteCas(133564),"Cas hors limite dépasse le nombre maximum");
 

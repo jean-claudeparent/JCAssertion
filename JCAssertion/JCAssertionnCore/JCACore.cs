@@ -63,11 +63,11 @@ namespace JCAssertionCore
             NombreCas = ListeDeCas.Count;
             if (NombreCas > 0)
                 {
-                  Message = "Chargement de la liste des cas réussie. Nombre de cas " + NombreCas.ToString()  ;
-                  NoCasCourant = 1;
+                  Journalise("Chargement de la liste des cas réussie. Nombre de cas " + NombreCas.ToString())  ;
+                  NoCasCourant = 0;
                 } else
                 {
-                  Message = "Chargement de la liste des cas échouée. pas de cas ";
+                  Journalise("Chargement de la liste des cas échouée. pas de cas ");
                   NoCasCourant = 0;
                 }
 
@@ -108,15 +108,16 @@ namespace JCAssertionCore
         {
             if ((NoCas < 0) || (NoCas > NombreCas)) return false;
 
-            Message = "Cas numéro : " + NoCas + 1 ;
             bool Resultat =  ExecuteXMLNode(ListeDeCas.Item(NoCas));
-            Journalise(Message);
             return Resultat;
 
         }
 
         public bool ExecuteXMLNode(XmlNode XMLCas)
         {
+            NoCasCourant = NoCasCourant + 1;
+            Message = "Cas numéro : " + NoCasCourant ;
+            
             if ((XMLCas["Type"] == null) || (XMLCas["Type"].InnerText == null))
                 {
                     MessageAjoutter("La balise type est introuvable ou n'a pas de valeur.");
@@ -128,9 +129,12 @@ namespace JCAssertionCore
                     switch (monOperateur)
                         {
                             case "FichierExiste":
-                                return JCAPontXML.JCAFichierExiste(XMLCas, ref Message, Variables  );
+                                bool Resultat =  JCAPontXML.JCAFichierExiste(XMLCas, ref Message, Variables  );
+                                Journalise(Message);
+                                return Resultat;
                         default:
                             MessageAjoutter("Type inconnu");
+                            Journalise(Message);
                             return false;
                         }
                 }

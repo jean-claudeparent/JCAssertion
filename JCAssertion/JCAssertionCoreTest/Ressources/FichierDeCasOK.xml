@@ -12,4 +12,10 @@
     <Type>FichierExiste</Type>
     <Fichier>{{Fichier}}fichierinexistant.pasla</Fichier>
   </Assertion>
+  <Assertion>
+    <ID>manque balise Si fichier existe</ID>
+    <Description>Ce cas est vrai car lefichier existe</Description>
+    <Type>FichierExiste</Type>
+    
+  </Assertion>
 </ListeDAssertion>

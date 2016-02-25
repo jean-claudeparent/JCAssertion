@@ -19,7 +19,7 @@ namespace JCAssertionCoreTest
             JCACore monJCACore = new JCACore();
             monJCACore.Load(JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
             
-            Assert.AreEqual(2, monJCACore.NombreCas , "Le fichier chargé devrait contenir 2 cas de test, réel = " + monJCACore.NombreCas.ToString());
+            Assert.AreEqual(3, monJCACore.NombreCas , "Le fichier chargé devrait contenir 2 cas de test, réel = " + monJCACore.NombreCas.ToString());
             
             Assert.IsTrue(monJCACore.FichierDeCas.Contains("Ressources\\FichierDeCasOK.xml"));
             Assert.IsNull(monJCACore.FichierValeur);
@@ -67,7 +67,7 @@ namespace JCAssertionCoreTest
             JCACore monJCACore = new JCACore();
             monJCACore.Load(JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
 
-            Assert.AreEqual(2, monJCACore.NombreCas, "Le fichier chargé devrait contenir 2 cas de test, réel = " + monJCACore.NombreCas.ToString());
+            Assert.AreEqual(3, monJCACore.NombreCas, "Le fichier chargé devrait contenir 2 cas de test, réel = " + monJCACore.NombreCas.ToString());
 
             Assert.IsNotNull(monJCACore.FichierJournal,"Un nom de fichier journalpar défaut aurait du être assigné");
             
@@ -83,6 +83,7 @@ namespace JCAssertionCoreTest
             Assert.IsTrue(monJCACore.ExecuteCas(monJCACore.getListeDeCas().Item(0)),"Test pour un fichier qui existe");
             
             Assert.IsFalse (monJCACore.ExecuteCas(monJCACore.getListeDeCas().Item(1)) ,"Test de ichier qui n'existe pas = donc retourne false");
+            Assert.IsFalse(monJCACore.ExecuteCas(monJCACore.getListeDeCas().Item(2)), "une exception retourne false");
             
 
         }

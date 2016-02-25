@@ -126,6 +126,7 @@ namespace JCAssertionCore
                 {
                     String monOperateur = XMLCas["Type"].InnerText  ;
                     MessageAjoutter( "Type : " + monOperateur);
+                    try {
                     switch (monOperateur)
                         {
                             case "FichierExiste":
@@ -136,6 +137,13 @@ namespace JCAssertionCore
                             MessageAjoutter("Type inconnu");
                             Journalise(Message);
                             return false;
+                        }
+                        } catch (JCAssertionException excep)
+                        {
+                            MessageAjoutter(excep.Message);
+                            Journalise(Message);
+                            return false;
+
                         }
                 }
             }

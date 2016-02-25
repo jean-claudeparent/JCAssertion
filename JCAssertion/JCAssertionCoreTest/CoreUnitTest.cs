@@ -80,9 +80,9 @@ namespace JCAssertionCoreTest
             
 
 
-            Assert.IsTrue(monJCACore.ExecuteXMLNode(monJCACore.getListeDeCas().Item(0)),"Test pour un fichier qui existe");
+            Assert.IsTrue(monJCACore.ExecuteCas(monJCACore.getListeDeCas().Item(0)),"Test pour un fichier qui existe");
             
-            Assert.IsFalse (monJCACore.ExecuteXMLNode(monJCACore.getListeDeCas().Item(1)) ,"Test de ichier qui existe = true");
+            Assert.IsFalse (monJCACore.ExecuteCas(monJCACore.getListeDeCas().Item(1)) ,"Test de ichier qui existe = true");
             
 
         }

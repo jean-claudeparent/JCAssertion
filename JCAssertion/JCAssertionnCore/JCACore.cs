@@ -85,6 +85,13 @@ namespace JCAssertionCore
             Variables.Add(Cle,Valeur);
         }
 
+        public XmlNodeList getListeDeCas()
+        {
+            return ListeDeCas;
+        }
+
+
+
         public int NombreVariables()
         {
             return Variables.Count;
@@ -104,14 +111,14 @@ namespace JCAssertionCore
             
         }
 
-        public Boolean ExecuteCas(int NoCas)
-        {
-            if ((NoCas < 0) || (NoCas > NombreCas)) return false;
+        // public Boolean ExecuteCas(int NoCas)
+        // {
+        //     if ((NoCas < 0) || (NoCas > NombreCas)) return false;
+        // 
+        //     bool Resultat =  ExecuteXMLNode(ListeDeCas.Item(NoCas));
+        //     return Resultat;
 
-            bool Resultat =  ExecuteXMLNode(ListeDeCas.Item(NoCas));
-            return Resultat;
-
-        }
+        // }
 
         public bool ExecuteXMLNode(XmlNode XMLCas)
         {

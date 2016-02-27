@@ -42,7 +42,8 @@ namespace JCAssertionCore
             Variables.Add(Cle,Valeur);
         }
 
-       public int NombreVariables()
+       
+        public int NombreVariables()
         {
             return Variables.Count;
         }
@@ -58,6 +59,16 @@ namespace JCAssertionCore
         public Dictionary<String, String> GetDictionnaireVariable()
         {
             return Variables;
+        }
+
+        public void  EcrireFichier(String NomFichier)
+        {
+            
+        }
+
+        public void LireFichier(String NomFichier)
+        {
+
         }
         
     }

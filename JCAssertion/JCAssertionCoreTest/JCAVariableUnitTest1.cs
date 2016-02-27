@@ -27,5 +27,36 @@ namespace JCAssertionCoreTest
             }
 
         }
+
+        [TestMethod]
+        public void EcrireEtLire()
+        {
+            JCAVariable mesVariablesAvant = new JCAVariable();
+            JCAVariable mesVariablesApres = new JCAVariable();
+            String NomFichier = "";
+            
+            // remplir les avariables avant ecriture
+            mesVariablesAvant.MAJVariable("Test3","Valeur de la variable Test3");
+            mesVariablesAvant.MAJVariable("Test1", "Valeur de la variable Test1");
+            mesVariablesAvant.MAJVariable("Test2", "Valeur de la variable Test2");
+            mesVariablesAvant.EcrireFichier(NomFichier);
+
+            Assert.Fail("Implémenter le test de  la vérificatio du contenu du fichier");
+
+            // Créer du contenu qui sera remplacé dans la variable apr
+            mesVariablesApres.MAJVariable("errone","Cette valeur devrait disparaitre");
+
+            Assert.AreNotEqual(mesVariablesAvant, mesVariablesApres,"Avant de commencer le test lesvariablesdevraient être différentes");
+
+            // faire le test
+
+            mesVariablesApres.LireFichier(NomFichier );
+            Assert.AreEqual(mesVariablesAvant, mesVariablesApres, "Aprè le test les deux objets de variable devraient être pareils");
+
+
+
+
+            
+        }
     }
 }

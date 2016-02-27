@@ -9,6 +9,9 @@ namespace JCAssertionCore
 {
     public class JCAVariable
     {
+        public Dictionary<String, String> Variables = new Dictionary<String, String>();
+        
+
         public static   String ExtraireVariable(String  Argument)
         {
             // retournele nom delaprochainevariableou "" si aucune
@@ -31,5 +34,31 @@ namespace JCAssertionCore
                 }
                 return Argument;
             }
+
+        public void MAJVariable(String Cle, String Valeur)
+        {
+            // ajoute la paire au dictionnaire si absent,modifierla valeursiprésent
+            if (Variables.ContainsKey(Cle)) Variables.Remove(Cle);
+            Variables.Add(Cle,Valeur);
+        }
+
+       public int NombreVariables()
+        {
+            return Variables.Count;
+        }
+
+        public String  GetValeurVariable(String Cle)
+        {
+            
+            String valeur;
+            if (Variables.TryGetValue(Cle,   out valeur )) return valeur;
+            else return null;
+        }
+
+        public Dictionary<String, String> GetDictionnaireVariable()
+        {
+            return Variables;
+        }
+        
     }
 }

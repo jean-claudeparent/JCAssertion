@@ -12,7 +12,7 @@ namespace JCAssertionCore
 {
     public   class JCAPontXML
     {
-        public static   bool  JCAFichierExiste(XmlNode monXMLNode, ref string   Message, Dictionary<String, String > Variables)
+        public static   bool  JCAFichierExiste(XmlNode monXMLNode, ref string   Message,ref  Dictionary<String, String > Variables)
             {
                 Message = Message + Environment.NewLine  + "Assertion FichierExiste\n";
                 if (monXMLNode == null) throw new JCAssertionException("Le XML est vide.");

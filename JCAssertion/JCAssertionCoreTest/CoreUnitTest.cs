@@ -29,12 +29,12 @@ namespace JCAssertionCoreTest
             
             // test pour les méthode de la liste desvariables
 
-            Assert.AreEqual(0, monJCACore.NombreVariables() ,"Au début le nombre de variables devrait être 0");
-            monJCACore.MAJVariable("Fichier","Aucun");
-            monJCACore.MAJVariable("Fichier", JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
-            Assert.AreEqual(1, monJCACore.NombreVariables(),"Il devrait y avoir maintenant 1 variable");
-            Assert.IsTrue(monJCACore.GetValeurVariable("Fichier").Contains("Ressources\\FichierDeCasOK.xml"),"La variable devrait contenir le chemin du fichier");
-            Assert.IsNull(monJCACore.GetValeurVariable("CleAbsente"),"Les variables absentes devraient retourner null");
+            Assert.AreEqual(0, monJCACore.Variables.NombreVariables() ,"Au début le nombre de variables devrait être 0");
+            monJCACore.Variables.MAJVariable("Fichier", "Aucun");
+            monJCACore.Variables.MAJVariable("Fichier", JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
+            Assert.AreEqual(1, monJCACore.Variables.NombreVariables(),"Il devrait y avoir maintenant 1 variable");
+            Assert.IsTrue(monJCACore.Variables.GetValeurVariable("Fichier").Contains("Ressources\\FichierDeCasOK.xml"),"La variable devrait contenir le chemin du fichier");
+            Assert.IsNull(monJCACore.Variables.GetValeurVariable("CleAbsente"),"Les variables absentes devraient retourner null");
 
 
             // Test plus étendu avec fichier de valeur
@@ -51,12 +51,13 @@ namespace JCAssertionCoreTest
             
             // test pour les méthode de la liste desvariables
 
-            Assert.AreEqual(0, monJCACore.NombreVariables(),"Au début lenombre de variables devrait être 0");
-            monJCACore.MAJVariable("Fichier", "Aucun");
-            monJCACore.MAJVariable("Fichier", JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
-            Assert.AreEqual(1, monJCACore.NombreVariables(),"Maintenant le nombre de vraiables devrait être 1");
-            Assert.IsTrue(monJCACore.GetValeurVariable("Fichier").Contains("Ressources\\FichierDeCasOK.xml"));
-            Assert.IsNull(monJCACore.GetValeurVariable("CleAbsente"));
+            
+            Assert.AreEqual(0, monJCACore.Variables.NombreVariables(),"Au début lenombre de variables devrait être 0");
+            monJCACore.Variables.MAJVariable("Fichier", "Aucun");
+            monJCACore.Variables.MAJVariable("Fichier", JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
+            Assert.AreEqual(1, monJCACore.Variables.NombreVariables(),"Maintenant le nombre de vraiables devrait être 1");
+            Assert.IsTrue(monJCACore.Variables.GetValeurVariable("Fichier").Contains("Ressources\\FichierDeCasOK.xml"));
+            Assert.IsNull(monJCACore.Variables.GetValeurVariable("CleAbsente"));
         }
 
         [TestMethod]
@@ -73,7 +74,7 @@ namespace JCAssertionCoreTest
             
             // Initialiser les méthode de la liste desvariables
 
-            monJCACore.MAJVariable("Fichier", JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
+            monJCACore.Variables.MAJVariable("Fichier", JCACore.RepertoireAssembly() + "Ressources\\FichierDeCasOK.xml");
             
 
             // Test plus étendu avec fichier de valeur

@@ -9,7 +9,6 @@ using System.IO;
 
 
 
-
 namespace JCAssertionCore
 {
     public class JCACore
@@ -21,12 +20,11 @@ namespace JCAssertionCore
         public int NombreCas = 0;
         public int NoCasCourant = 0;
         public String Message = "";
-
+        public JCAssertionCore.JCAVariable Variables = new JCAssertionCore.JCAVariable() ;
+        
 
         private XmlDocument ListeDeCasXML;
-        // private XmlNode CasCourant;
         private XmlNodeList ListeDeCas;
-        private Dictionary<String, String > Variables = new Dictionary<String, String >();
         private Boolean JournalInitialise = false;
 
         public void MessageAjoutter(String Texte)
@@ -77,14 +75,6 @@ namespace JCAssertionCore
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\";
         }
-
-        public void MAJVariable(String Cle, String Valeur)
-        {
-            // ajoute la paire au dictionnaire si absent,modifierla valeursiprésent
-            if (Variables.ContainsKey(Cle)) Variables.Remove(Cle);
-            Variables.Add(Cle,Valeur);
-        }
-
         public XmlNodeList getListeDeCas()
         {
             return ListeDeCas;
@@ -92,24 +82,8 @@ namespace JCAssertionCore
 
 
 
-        public int NombreVariables()
-        {
-            return Variables.Count;
-        }
-
-        public String  GetValeurVariable(String Cle)
-        {
             
-            String valeur;
-            if (Variables.TryGetValue(Cle,   out valeur )) return valeur;
-            else return null;
-        }
-
-        public Dictionary<String, String> GetDictionnaireVariable()
-        {
-            return Variables;
-            
-        }
+        
 
         
 
@@ -130,7 +104,7 @@ namespace JCAssertionCore
                     switch (monOperateur)
                         {
                             case "FichierExiste":
-                                bool Resultat =  JCAPontXML.JCAFichierExiste(XMLCas, ref Message, Variables  );
+                                bool Resultat =  JCAPontXML.JCAFichierExiste(XMLCas,ref  Message, ref  Variables.Variables );
                                 Journalise(Message);
                                 return Resultat;
                         default:

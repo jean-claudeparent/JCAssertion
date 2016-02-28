@@ -45,20 +45,21 @@ namespace JCAssertionCoreTest
             mesVariablesAvant.MAJVariable("Test\"1\"", "Valeur de <la> variable Test1");
             mesVariablesAvant.MAJVariable("AATest2", "Valeur de la variable Test2");
             mesVariablesAvant.EcrireFichier(NomFichier);
+            String Contenu = System.IO.File.ReadAllText(NomFichier);
+            Assert.IsTrue(Contenu.Contains("Test&lt;3&gt;"));
+            Assert.IsTrue(Contenu.Contains("Valeur&quot; de la variable Test3"));
+            Assert.IsTrue(Contenu.Contains("Test&quot;1&quot;"));
+            Assert.IsTrue(Contenu.Contains("Valeur de &lt;la&gt; variable Test1"));
+            Assert.IsTrue(Contenu.Contains("AATest2"));
+            Assert.IsTrue(Contenu.Contains("Valeur de la variable Test2"));
 
-            Assert.Fail("Implémenter le test de  la vérificatio du contenu du fichier");
-
+            
             // Créer du contenu qui sera remplacé dans la variable apr
             mesVariablesApres.MAJVariable("errone","Cette valeur devrait disparaitre");
 
             Assert.AreNotEqual(mesVariablesAvant, mesVariablesApres,"Avant de commencer le test lesvariablesdevraient être différentes");
 
-            // faire le test
-
-            mesVariablesAvant.EcrireFichier (NomFichier );
-            Assert.IsTrue (File.Exists (NomFichier),"Le fichier de sérialisation devrait exister");
-            Assert.Fail ("implémenter test de contenu de fichier");
-
+            
             mesVariablesApres.LireFichier(NomFichier );
             Assert.AreEqual(mesVariablesAvant, mesVariablesApres, "Aprè le test les deux objets de variable devraient être pareils");
 

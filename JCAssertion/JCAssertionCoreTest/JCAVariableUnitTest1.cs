@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JCAssertionCore;
+using System.IO;
 
 namespace JCAssertionCoreTest
 {
@@ -33,12 +34,16 @@ namespace JCAssertionCoreTest
         {
             JCAVariable mesVariablesAvant = new JCAVariable();
             JCAVariable mesVariablesApres = new JCAVariable();
-            String NomFichier = "";
+            String NomFichier = JCACore.RepertoireAssembly() + "Ressources\\EcrireEtLire.xml";
             
+            // tester l'état de l'environnement de test
+            if (File.Exists(NomFichier)) File.Delete(NomFichier);
+            Assert.IsFalse (File.Exists (NomFichier),"Le fichier de sérialisation devrait ne pas exister");
+
             // remplir les avariables avant ecriture
-            mesVariablesAvant.MAJVariable("Test3","Valeur de la variable Test3");
-            mesVariablesAvant.MAJVariable("Test1", "Valeur de la variable Test1");
-            mesVariablesAvant.MAJVariable("Test2", "Valeur de la variable Test2");
+            mesVariablesAvant.MAJVariable("Test<3>", "Valeur\" de la variable Test3");
+            mesVariablesAvant.MAJVariable("Test\"1\"", "Valeur de <la> variable Test1");
+            mesVariablesAvant.MAJVariable("AATest2", "Valeur de la variable Test2");
             mesVariablesAvant.EcrireFichier(NomFichier);
 
             Assert.Fail("Implémenter le test de  la vérificatio du contenu du fichier");
@@ -49,6 +54,10 @@ namespace JCAssertionCoreTest
             Assert.AreNotEqual(mesVariablesAvant, mesVariablesApres,"Avant de commencer le test lesvariablesdevraient être différentes");
 
             // faire le test
+
+            mesVariablesAvant.EcrireFichier (NomFichier );
+            Assert.IsTrue (File.Exists (NomFichier),"Le fichier de sérialisation devrait exister");
+            Assert.Fail ("implémenter test de contenu de fichier");
 
             mesVariablesApres.LireFichier(NomFichier );
             Assert.AreEqual(mesVariablesAvant, mesVariablesApres, "Aprè le test les deux objets de variable devraient être pareils");

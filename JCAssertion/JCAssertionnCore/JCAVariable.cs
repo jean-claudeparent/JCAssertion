@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Xml;
 
 namespace JCAssertionCore
 {
@@ -63,6 +63,33 @@ namespace JCAssertionCore
 
         public void  EcrireFichier(String NomFichier)
         {
+            // Créer le document xml desvariables
+            XmlDocument monXMLDeVariables = new XmlDocument();
+            XmlDeclaration maDeclaration = monXMLDeVariables.CreateXmlDeclaration("1.0","UTF-8", null);
+            XmlElement root = monXMLDeVariables.DocumentElement;
+            monXMLDeVariables.InsertBefore(maDeclaration ,root);
+            
+            XmlElement monElementListe = monXMLDeVariables.CreateElement (String.Empty ,"ListeDeVariables" , String.Empty );
+            monXMLDeVariables.AppendChild(monElementListe);
+            foreach (KeyValuePair<String, String>  maPaire in Variables  )
+            {
+                XmlElement maVariable = 
+                    monXMLDeVariables.CreateElement (String.Empty,"Variable",String.Empty);
+                maVariable.SetAttribute("Cle", maPaire.Key);
+                maVariable.SetAttribute("Veleur", maPaire.Value );
+
+                monElementListe.AppendChild(maVariable);
+                
+
+            
+            }
+            
+            // sauver le document
+            monXMLDeVariables.Save(NomFichier );
+
+            
+            
+            
             
         }
 

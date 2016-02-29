@@ -61,7 +61,7 @@ namespace JCAssertionCoreTest
 
             
             mesVariablesApres.LireFichier(NomFichier );
-            Assert.AreEqual(mesVariablesAvant, mesVariablesApres, "Aprè le test les deux objets de variable devraient être pareils");
+            Assert.AreEqual(mesVariablesAvant.Variables , mesVariablesApres.Variables , "Aprè le test les deux objets de variable devraient être pareils");
 
 
 

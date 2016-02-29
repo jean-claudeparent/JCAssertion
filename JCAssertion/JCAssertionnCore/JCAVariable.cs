@@ -40,6 +40,8 @@ namespace JCAssertionCore
             // ajoute la paire au dictionnaire si absent,modifierla valeursiprésent
             if (Variables.ContainsKey(Cle)) Variables.Remove(Cle);
             Variables.Add(Cle,Valeur);
+            Trier();
+            
         }
 
        
@@ -64,6 +66,7 @@ namespace JCAssertionCore
         public void  EcrireFichier(String NomFichier)
         {
             // Créer le document xml desvariables
+            Trier();
             XmlDocument monXMLDeVariables = new XmlDocument();
             XmlDeclaration maDeclaration = monXMLDeVariables.CreateXmlDeclaration("1.0","UTF-8", null);
             XmlElement root = monXMLDeVariables.DocumentElement;
@@ -76,27 +79,53 @@ namespace JCAssertionCore
                 XmlElement maVariable = 
                     monXMLDeVariables.CreateElement (String.Empty,"Variable",String.Empty);
                 maVariable.SetAttribute("Cle", maPaire.Key);
-                maVariable.SetAttribute("Veleur", maPaire.Value );
+                maVariable.SetAttribute("Valeur", maPaire.Value );
 
                 monElementListe.AppendChild(maVariable);
                 
-
-            
             }
             
             // sauver le document
             monXMLDeVariables.Save(NomFichier );
 
-            
-            
-            
-            
         }
 
-        public void LireFichier(String NomFichier)
+        public void LireFichier(String NomFichier, Boolean Ajouter = false )
         {
+            if(! Ajouter) Variables = new Dictionary<String, String>();
+            XmlDocument DocLiteVariable = new XmlDocument();
+            DocLiteVariable.Load(NomFichier);
+            XmlNodeList Liste = DocLiteVariable.SelectNodes("/ListeDeVariables/Variable");
+            if (Liste != null)
+                {
+                    foreach (XmlNode maVariable in Liste)
+                    {
+                        
+                        if (maVariable.Attributes["Cle"] == null) throw new JCAssertionException("L'attribut cle est null" + maVariable.InnerXml.ToString() );
+                        if (maVariable.Attributes["Valeur"] == null) throw new JCAssertionException("L'attribut Valeur est null" + maVariable.InnerXml.ToString());
+
+                        if ((maVariable.Attributes["Cle"].Value != null) && (maVariable.Attributes["Valeur"].Value != null))
+                            MAJVariable(maVariable.Attributes["Cle"].Value    , maVariable.Attributes["Valeur"].Value );
+                 }
+                    Trier();
+                }
 
         }
         
+
+         public void Trier()
+        {
+            var maListe = Variables.Keys.ToList();
+            maListe.Sort();
+            Dictionary<String, String> VariablesTriees = new Dictionary<String, String>();
+            foreach (var maCle in maListe )
+                {
+                    VariablesTriees.Add(maCle, GetValeurVariable(maCle ));
+                }
+            Variables = VariablesTriees;
+
+        }
+
+
     }
 }

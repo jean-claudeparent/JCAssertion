@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAssertionCore", "JCAssert
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAssertionCoreTest", "JCAssertionCoreTest\JCAssertionCoreTest.csproj", "{DF050259-7D8E-4091-BFE9-12C09F84EC8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAExport", "JCAExport\JCAExport.csproj", "{1450DAD1-D6E3-4E63-ABC0-9EC1559EF60B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{DF050259-7D8E-4091-BFE9-12C09F84EC8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF050259-7D8E-4091-BFE9-12C09F84EC8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF050259-7D8E-4091-BFE9-12C09F84EC8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1450DAD1-D6E3-4E63-ABC0-9EC1559EF60B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1450DAD1-D6E3-4E63-ABC0-9EC1559EF60B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1450DAD1-D6E3-4E63-ABC0-9EC1559EF60B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1450DAD1-D6E3-4E63-ABC0-9EC1559EF60B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -56,12 +56,17 @@ namespace JCAssertionCoreTest
             
             // Créer du contenu qui sera remplacé dans la variable apr
             mesVariablesApres.MAJVariable("errone","Cette valeur devrait disparaitre");
+            String Detail;
+            Boolean TestComplexe = mesVariablesAvant.EstEgal (mesVariablesApres.Variables  , out Detail  );
 
-            Assert.AreNotEqual(mesVariablesAvant, mesVariablesApres,"Avant de commencer le test lesvariablesdevraient être différentes");
+            Assert.IsFalse(TestComplexe, "Avant de commencer le test lesvariablesdevraient être différentes");
 
             
             mesVariablesApres.LireFichier(NomFichier );
-            Assert.AreEqual(mesVariablesAvant.Variables , mesVariablesApres.Variables , "Aprè le test les deux objets de variable devraient être pareils");
+            
+            TestComplexe = mesVariablesAvant.EstEgal(mesVariablesApres.Variables, out Detail);
+
+            Assert.IsTrue(TestComplexe, "Aprè le test les deux objets de variable devraient être pareils : " + Detail );
 
 
 

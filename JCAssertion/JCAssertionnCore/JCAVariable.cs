@@ -126,6 +126,33 @@ namespace JCAssertionCore
 
         }
 
+        public Boolean EstEgal(Dictionary<String, String> VarAcomparer, out String Detail )
+        {
+            Detail = "Égal";
+            if (Variables.Count() != VarAcomparer.Count() )
+                {
+                    Detail = "Le nombre de variables est différent, " + Variables.Count().ToString() + " et " + VarAcomparer.Count().ToString();
+                    return false;
+                }
+            foreach (KeyValuePair<String, String> maPaire in Variables  )
+                {
+                  if(! VarAcomparer.ContainsKey(maPaire.Key))
+                      {
+                          Detail = "Une clé de variable manque soit : " + maPaire.Key;
+                          return false;
+                      }
+                  String maValeur;
+                  VarAcomparer.TryGetValue(maPaire.Key  ,out maValeur );
+
+                  if (maPaire.Value != maValeur)
+                  {
+                      Detail = "La valeur d'une clé de vraiable est différent  soit clé : " + maPaire.Key + " valeur : " + maPaire.Value + " autre valeur : " + maValeur  ;
+                      return false;
+                  }
+                }
+            return true ;
+        }
+
 
     }
 }

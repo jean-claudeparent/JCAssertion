@@ -8,22 +8,28 @@ using JCAssertionCore;
 
 namespace JCAExporte
 {
-    class JCAExporteCore
+    public class JCAExporteCore
     {
+        public int ExecuteExporte(string[] args, out String Message)
+        {
+            JCAVariable mesArgs = new JCAssertionCore.JCAVariable();
+            JCAConsole maConsole = new JCAssertionCore.JCAConsole ();
 
-        private JCAVariable Arguments = new JCAVariable();
+            Message = "";
 
-        public int Execute(string[] args, out String Message)
-        {   
             if (args.Count() < 2)
-                {
-                    Message = "Pas assez d'argument, usage :" + Environment.NewLine + "JCAExporte /F:fichier /V:cle=valeur";
-                    return 99;
-                }
+            {
+                Message = "Pas assez d'argument, usage :" + Environment.NewLine + "JCAExporte /F:fichier /V:cle=valeur";
+                return 99;
+            }
 
-            Message = "Pas encore implémenté";
-            return 99;
+            mesArgs = maConsole.Arguments(args);
+
+
+            return 0;
         }
 
-    }
-}
+        
+        
+    } // class
+} // namespace

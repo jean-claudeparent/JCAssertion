@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JCAConsole.cs" />
     <Compile Include="JCACore.cs" />
     <Compile Include="JCAPontXML.cs" />
     <Compile Include="JCAssertionException.cs" />

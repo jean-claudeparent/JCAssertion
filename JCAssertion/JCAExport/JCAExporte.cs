@@ -16,7 +16,8 @@ namespace JCAExporte
                 int CodeDeRetour = 0;
                 JCAExporteCore monJCAExporteCore = new JCAExporteCore();
 
-                
+                CodeDeRetour = monJCAExporteCore.ExecuteExporte(args , out Message );
+
 
                 Console.WriteLine(Message );
                 Environment.Exit(CodeDeRetour );

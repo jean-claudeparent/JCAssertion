@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAssertionCore", "JCAssert
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAssertionCoreTest", "JCAssertionCoreTest\JCAssertionCoreTest.csproj", "{DF050259-7D8E-4091-BFE9-12C09F84EC8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAExport", "JCAExport\JCAExport.csproj", "{1450DAD1-D6E3-4E63-ABC0-9EC1559EF60B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAExporte", "JCAExport\JCAExporte.csproj", "{1450DAD1-D6E3-4E63-ABC0-9EC1559EF60B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAssertionTest", "JCAssertionTest\JCAssertionTest.csproj", "{A801F64A-3E10-41D5-8EA9-45048ADDF5FC}"
 EndProject

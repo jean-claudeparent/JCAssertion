@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JCAExport\JCAExport.csproj">
+    <ProjectReference Include="..\JCAExport\JCAExporte.csproj">
       <Project>{1450dad1-d6e3-4e63-abc0-9ec1559ef60b}</Project>
-      <Name>JCAExport</Name>
+      <Name>JCAExporte</Name>
     </ProjectReference>
     <ProjectReference Include="..\JCAssertionnCore\JCAssertionCore.csproj">
       <Project>{2591a9de-e6ec-4be0-afbe-175ae508ad8e}</Project>

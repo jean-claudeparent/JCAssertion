@@ -4,9 +4,36 @@ using JCAExporte;
 
 namespace JCAssertionTest
 {
+
+
+    
+
     [TestClass]
     public class JCAssertionUnitTest
     {
+        [TestMethod]
+        public void ExportteOKTest()
+        {
+            JCAExporte.JCAExporteCore monExporte = new JCAExporteCore();
+            String[] mesArgs = new String[10];
+            String Message;
+            String NomFichier = JCAssertionCore.JCACore.RepertoireAssembly() +
+                "\\Ressources\\JCAExporteOKCree.xml";
+            mesArgs[0] = "/f:" + NomFichier ;
+            mesArgs[1] = "/v1:Test1=Valeur1";
+            mesArgs[2] = "/v2:Test1=Valeur1";
+            mesArgs[3] = "/v3:Test1=Valeur1";
+            mesArgs[4] = "/v4:Test1=Valeur1";
+            mesArgs[5] = "/v5:Test1=Valeur1";
+            mesArgs[6] = "/v1:Duplex";
+
+            Assert.AreEqual(0, monExporte.ExecuteExporte(mesArgs, out Message));
+            Assert.Fail("Implémenter la vérif de fichier");
+
+            
+        }
+
+        
         [TestMethod]
         public void ExporttePasOKTest()
         {

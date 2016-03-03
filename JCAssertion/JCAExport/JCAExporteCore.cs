@@ -16,6 +16,9 @@ namespace JCAExporte
             JCAVariable mesVariables = new JCAssertionCore.JCAVariable();
             JCAConsole maConsole = new JCAssertionCore.JCAConsole ();
             String Usage = "usage :" + Environment.NewLine + Environment.NewLine + "JCAExporte /F:fichier /V1:cle=valeur /v2=cle2=valeur2 ...";
+            String Cle;
+            String Valeur;
+
 
             Message = "";
 
@@ -37,10 +40,20 @@ namespace JCAExporte
             String NomFichier = mesArgs.GetValeurVariable("F");
             if (System.IO.File.Exists (NomFichier)) mesVariables.LireFichier(NomFichier );
             // Ajouter ou maj les variables
+            foreach (var monParem in mesArgs.Variables )
+                {
+                    
+                    if ((monParem.Key.Length > 1 ) && (monParem.Key.Substring(0,1).ToUpper()   == "V"))
+                    {
+                        
+                        mesVariables.MAJVariable ("a","a");
+
+                    }
+                }
 
             //Sauvegarder
             mesVariables.EcrireFichier(NomFichier);
-
+            
             Message = "Fichier : " + NomFichier + " mis à jour.";
             
             return 0;

@@ -9,6 +9,20 @@ namespace JCAssertionCoreTest
     public class JCAVariableUnitTest1
     {
         [TestMethod]
+        public void ExtrairePaireTest()
+        {
+            JCAVariable maVariable = new JCAVariable();
+            String Valeur;
+            String Cle;
+
+            Cle = maVariable.ExtrairePaire("Test=Valeur",out Valeur );
+            Assert.AreEqual("Test", Cle);
+            Assert.AreEqual("Valeur", Valeur );
+
+
+        }
+        
+        [TestMethod]
         public void SubstituerVariable()
         {
             JCACore monJCACore = new JCACore();

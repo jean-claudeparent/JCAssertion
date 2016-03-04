@@ -16,7 +16,7 @@ namespace JCAssertionCoreTest
 
 
             mesVariables = maConsole.Arguments(mesArgs);
-            Assert.AreEqual(0, mesVariables.Variables.Count,"Les barianles d'argument devraient êtres vides." );
+            Assert.AreEqual(0, mesVariables.Variables.Count,"Les varianles d'argument devraient êtres vides." );
             
             mesArgs = new String[10];
             mesArgs[0] = "/Fichier:c:app.exe";

@@ -153,6 +153,18 @@ namespace JCAssertionCore
             return true ;
         }
 
+        public   String ExtrairePaire(String  Argument, out String Valeur)
+        {
+            Valeur = "";
+            if ((Argument == null ) || (Argument == "")) return "";
+            if(Argument.IndexOf("=") < 0 ) Argument = Argument + "=" + Argument;
+            if(Argument.IndexOf("=") == (Argument.Length - 1) ) Argument = Argument + "=" + Argument.Substring (0, Argument.Length - 1);
+            String Cle = Argument.Substring (0,Argument.IndexOf ("="));
+            Valeur = Argument.Substring (Argument.IndexOf("=") + 1 , Argument.Length - 1 - Cle.Length );
+            return Cle;
+        }
+        
+
 
     }
 }

@@ -40,20 +40,21 @@ namespace JCAExporte
             String NomFichier = mesArgs.GetValeurVariable("F");
             if (System.IO.File.Exists (NomFichier)) mesVariables.LireFichier(NomFichier );
             // Ajouter ou maj les variables
+            
             foreach (var monParem in mesArgs.Variables )
                 {
                     
-                    if ((monParem.Key.Length > 1 ) && (monParem.Key.Substring(0,1).ToUpper()   == "V"))
+                    if ((monParem.Key.Length > 0 ) && (monParem.Key.Substring(0,1).ToUpper()   == "V"))
                     {
-                        
-                        mesVariables.MAJVariable ("a","a");
+                        Cle = mesArgs.ExtrairePaire(monParem.Value, out  Valeur);
+                        mesVariables.MAJVariable (Cle ,Valeur );
 
                     }
                 }
-
+                      
             //Sauvegarder
             mesVariables.EcrireFichier(NomFichier);
-            
+            mesArgs.EcrireFichier(NomFichier + ".debug.xml");
             Message = "Fichier : " + NomFichier + " mis à jour.";
             
             return 0;

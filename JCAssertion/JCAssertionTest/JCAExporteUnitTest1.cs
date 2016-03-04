@@ -19,17 +19,45 @@ namespace JCAssertionTest
             String Message;
             String NomFichier = JCAssertionCore.JCACore.RepertoireAssembly() +
                 "\\Ressources\\JCAExporteOKCree.xml";
+            if (System.IO.File.Exists(NomFichier)) System.IO.File.Delete(NomFichier );
+            Assert.IsFalse(System.IO.File.Exists (NomFichier ));
+
             mesArgs[0] = "/f:" + NomFichier ;
             mesArgs[1] = "/v1:Test1=Valeur1";
-            mesArgs[2] = "/v2:Test1=Valeur1";
-            mesArgs[3] = "/v3:Test1=Valeur1";
-            mesArgs[4] = "/v4:Test1=Valeur1";
-            mesArgs[5] = "/v5:Test1=Valeur1";
-            mesArgs[6] = "/v1:Duplex";
+            mesArgs[2] = "/v2:Test2=Valeur2";
+            mesArgs[3] = "/v3:Test3=Valeur3";
+            mesArgs[4] = "/v4:Test4=Valeur4";
+            mesArgs[5] = "/v:Test5=Valeur5";
+            mesArgs[6] = "/v655:Duplex";
 
             Assert.AreEqual(0, monExporte.ExecuteExporte(mesArgs, out Message));
-            Assert.Fail("Implémenter la vérif de fichier");
+            String Contenu = System.IO.File.ReadAllText(NomFichier );
+            Assert.IsFalse (Contenu.Contains("AjoutApres"),"Le fichier ne devrai pas contenuui la valeur à ajouter dansleprochain test.");
+            Assert.IsTrue (Contenu.Contains ("Variable Cle=\"Duplex\" Valeur=\"Duplex\""),"La cle Duplex ou la valeur Duplex ne sont pas dans le fichier");
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test1\" Valeur=\"Valeur1\""),"La clé Test1 ou la valeurValeur1 ne sont pas dans le fichier");
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test2\" Valeur=\"Valeur2\""));
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test3\" Valeur=\"Valeur3\""));
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test4\" Valeur=\"Valeur4\""));
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test5\" Valeur=\"Valeur5\""),"Test5 n'est pas dans le fichier");
+            
+            // maj le fichier existant
+            mesArgs = new String[2];
+            mesArgs[1] = "/F:" + NomFichier ;
+            mesArgs[0] = "/v:AjoutApres";
+            Assert.AreEqual(0, monExporte.ExecuteExporte(mesArgs, out Message));
+            Contenu = System.IO.File.ReadAllText(NomFichier);
 
+            Assert.IsTrue (Contenu.Contains("AjoutApres"),"La valeur n'a pas  étéajoutée au fichier de sortie");
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Duplex\" Valeur=\"Duplex\""));
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test1\" Valeur=\"Valeur1\""));
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test2\" Valeur=\"Valeur2\""));
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test3\" Valeur=\"Valeur3\""));
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test4\" Valeur=\"Valeur4\""));
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test5\" Valeur=\"Valeur5\""));
+            
+
+            
+            
             
         }
 

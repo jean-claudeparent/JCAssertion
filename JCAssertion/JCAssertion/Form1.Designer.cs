@@ -36,7 +36,7 @@
             this.tbxFVariables = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tbxActivite = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnAnnuler = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -113,14 +113,14 @@
             this.tbxActivite.TabIndex = 6;
             this.tbxActivite.Text = "Démarrage";
             // 
-            // button1
+            // btnAnnuler
             // 
-            this.button1.Location = new System.Drawing.Point(17, 230);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 27);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Annuler";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnAnnuler.Location = new System.Drawing.Point(17, 230);
+            this.btnAnnuler.Name = "btnAnnuler";
+            this.btnAnnuler.Size = new System.Drawing.Size(75, 27);
+            this.btnAnnuler.TabIndex = 7;
+            this.btnAnnuler.Text = "Annuler";
+            this.btnAnnuler.UseVisualStyleBackColor = true;
             // 
             // JCAssertion
             // 
@@ -128,7 +128,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 398);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnAnnuler);
             this.Controls.Add(this.tbxActivite);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.tbxFVariables);
@@ -155,7 +155,7 @@
         private System.Windows.Forms.TextBox tbxFVariables;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbxActivite;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnAnnuler;
     }
 }
 

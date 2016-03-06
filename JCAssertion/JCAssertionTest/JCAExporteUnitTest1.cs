@@ -9,7 +9,7 @@ namespace JCAssertionTest
     
 
     [TestClass]
-    public class JCAssertionUnitTest
+    public class JCExporteUnitTest
     {
         [TestMethod]
         public void ExportteOKTest()

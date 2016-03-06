@@ -6,6 +6,13 @@
         /// Variable nécessaire au concepteur.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        
+        
+        public string gettxbActivite()
+        {
+            return tbxActivite.Text  ;
+        }
+
 
         /// <summary>
         /// Nettoyage des ressources utilisées.

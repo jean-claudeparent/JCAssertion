@@ -21,6 +21,13 @@ namespace JCAssertion
         public string[] args;
         public Boolean Popup = true;
 
+        // Methode utilisé  par le load et qui peutêtreunittestée
+        public int Execute()
+        {
+            return 99;
+        }
+
+
         public JCAssertion()
         {
             InitializeComponent();

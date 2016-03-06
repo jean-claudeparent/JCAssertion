@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace JCAssertion
 {
-    public partial class Form1 : Form
+    public partial class JCAssertion : Form
     {
-        public Form1()
+        public JCAssertion()
         {
             InitializeComponent();
+        }
+
+        private void JCAssertion_Load(object sender, EventArgs e)
+        {
+            // c.est ici que ca se âsse
         }
     }
 }

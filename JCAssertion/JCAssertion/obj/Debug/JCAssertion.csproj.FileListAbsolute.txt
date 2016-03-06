@@ -15,3 +15,5 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\obj\Debug\JCAsse
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\obj\Debug\JCAssertion.Properties.Resources.resources
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\obj\Debug\JCAssertion.csproj.GenerateResource.Cache
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\obj\Debug\JCAssertion.JCAssertion.resources
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\bin\Debug\JCAssertionnCore.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\bin\Debug\JCAssertionnCore.pdb

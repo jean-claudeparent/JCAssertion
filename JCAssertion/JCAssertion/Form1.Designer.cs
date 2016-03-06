@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbxFAssertion = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbxFVariables = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.tbxActivite = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -49,13 +49,13 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Fichier d\'assertion";
             // 
-            // textBox1
+            // tbxFAssertion
             // 
-            this.textBox1.Location = new System.Drawing.Point(128, 4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(417, 20);
-            this.textBox1.TabIndex = 1;
+            this.tbxFAssertion.Location = new System.Drawing.Point(128, 4);
+            this.tbxFAssertion.Name = "tbxFAssertion";
+            this.tbxFAssertion.ReadOnly = true;
+            this.tbxFAssertion.Size = new System.Drawing.Size(417, 20);
+            this.tbxFAssertion.TabIndex = 1;
             // 
             // label2
             // 
@@ -87,13 +87,13 @@
             this.label4.TabIndex = 2;
             this.label4.Text = "Fichier de variables";
             // 
-            // textBox2
+            // tbxFVariables
             // 
-            this.textBox2.Location = new System.Drawing.Point(128, 31);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(423, 20);
-            this.textBox2.TabIndex = 4;
+            this.tbxFVariables.Location = new System.Drawing.Point(128, 31);
+            this.tbxFVariables.Name = "tbxFVariables";
+            this.tbxFVariables.ReadOnly = true;
+            this.tbxFVariables.Size = new System.Drawing.Size(423, 20);
+            this.tbxFVariables.TabIndex = 4;
             // 
             // label5
             // 
@@ -104,14 +104,14 @@
             this.label5.TabIndex = 5;
             this.label5.Text = "Activité";
             // 
-            // textBox3
+            // tbxActivite
             // 
-            this.textBox3.Location = new System.Drawing.Point(11, 84);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(534, 123);
-            this.textBox3.TabIndex = 6;
-            this.textBox3.Text = "Démarrage";
+            this.tbxActivite.Location = new System.Drawing.Point(11, 84);
+            this.tbxActivite.Multiline = true;
+            this.tbxActivite.Name = "tbxActivite";
+            this.tbxActivite.Size = new System.Drawing.Size(534, 123);
+            this.tbxActivite.TabIndex = 6;
+            this.tbxActivite.Text = "Démarrage";
             // 
             // button1
             // 
@@ -129,13 +129,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 398);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.tbxActivite);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.tbxFVariables);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tbxFAssertion);
             this.Controls.Add(this.label1);
             this.Name = "JCAssertion";
             this.Text = "JC Assertion";
@@ -148,13 +148,13 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbxFAssertion;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbxFVariables;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox tbxActivite;
         private System.Windows.Forms.Button button1;
     }
 }

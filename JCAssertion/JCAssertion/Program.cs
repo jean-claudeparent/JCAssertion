@@ -12,11 +12,15 @@ namespace JCAssertion
         /// Point d'entrée principal de l'application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new JCAssertion());
+            // Application.Run(new JCAssertion());
+            var monProgramme = new JCAssertion();
+            monProgramme.args = args;
+
+            Application.Run(monProgramme);
         }
     }
 }

@@ -1,0 +1,2 @@
+﻿spool "{{SpoolFile}}"
+select '{{Logon}}' from dual;

@@ -54,6 +54,7 @@
     <Compile Include="CoreUnitTest.cs" />
     <Compile Include="ExtraireVariableUnitTest.cs" />
     <Compile Include="JCAConsoleUnitTest.cs" />
+    <Compile Include="JCAUtilitaireFichierUnitTest.cs" />
     <Compile Include="JCAVariableUnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Ressources\FichierDeCasOK.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressources\SQLOK.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

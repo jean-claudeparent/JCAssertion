@@ -16,6 +16,7 @@ namespace JCAssertionTest
             Assert.IsTrue(monProgramme.gettxbActivite().Contains ("Démarrage")  );
             // cas sans argument
             String[] argsvide = new String[0];
+            monProgramme.args = argsvide;
             Assert.AreEqual (99, monProgramme.Execute ());
 
 
@@ -27,10 +28,18 @@ namespace JCAssertionTest
             Assert.AreEqual(99, monProgramme.Execute());
 
             // cas qui marche
-            monProgramme.args[0] = "/FV:test";
-            monProgramme.args[1] = "/fa:test";
-            Assert.AreEqual(0, monProgramme.Execute());
+            monProgramme.args[0] = "/FV:" +
+                 JCAssertionCore.JCACore.RepertoireAssembly() +
+                "\\Ressources\\EssaiCompletVar.xml";
+            monProgramme.args[1] = "/fa:" + JCAssertionCore.JCACore.RepertoireAssembly() +
+                "\\Ressources\\EssaiComplet.xml";
+            JCAssertionCore.JCAVariable mesVariables =
+                new JCAssertionCore.JCAVariable();
+            mesVariables.MAJVariable("Fichier",JCAssertionCore.JCACore.RepertoireAssembly() +
+                "\\Ressources\\EssaiCompletVar.xml" );
 
+            Assert.AreEqual(0, monProgramme.Execute(), "Erreur technique");
+            Assert.Fail("Implanter le reste de l'essai");
 
 
         }

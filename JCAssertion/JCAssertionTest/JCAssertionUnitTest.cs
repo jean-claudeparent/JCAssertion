@@ -12,7 +12,7 @@ namespace JCAssertionTest
         public void JCAssertionTest1()
         {
             JCAssertion.JCAssertion monProgramme = new JCAssertion.JCAssertion ();
-            monProgramme.Popup = false;
+            monProgramme.Interactif  = false;
             Assert.IsTrue(monProgramme.gettxbActivite().Contains ("Démarrage")  );
             // cas sans argument
             String[] argsvide = new String[0];

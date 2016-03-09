@@ -9,7 +9,42 @@ namespace JCAssertionTest
     public class JCAssertionUnitTest
     {
         [TestMethod]
-        public void JCAssertionTest1()
+        public void JCAssertionTestValide()
+        {
+            JCAssertion.JCAssertion monProgramme = new JCAssertion.JCAssertion();
+            monProgramme.Interactif = false;
+            monProgramme.args = new String[2];
+            
+            Assert.IsTrue(monProgramme.gettxbActivite().Contains("Démarrage"));
+            
+            // cas qui marche
+            monProgramme.args[0] = "/FV:" +
+                 JCAssertionCore.JCACore.RepertoireAssembly() +
+                "\\Ressources\\EssaiCompletVar.xml";
+            monProgramme.args[1] = "/fa:" + JCAssertionCore.JCACore.RepertoireAssembly() +
+                "\\Ressources\\EssaiComplet.xml";
+            JCAssertionCore.JCAVariable mesVariables =
+                new JCAssertionCore.JCAVariable();
+            mesVariables.MAJVariable("Fichier", JCAssertionCore.JCACore.RepertoireAssembly() +
+                "\\Ressources\\EssaiCompletVar.xml");
+            mesVariables.EcrireFichier(JCAssertionCore.JCACore.RepertoireAssembly() +
+
+                "\\Ressources\\EssaiCompletVar.xml");
+            int Resultat = monProgramme.Execute();
+            String FichierActivite = JCAssertionCore.JCACore.RepertoireAssembly() +
+                "\\Ressources\\EssaiCompletActivite.txt";
+            System.IO.File.WriteAllText(FichierActivite, monProgramme.gettxbActivite());
+
+            Assert.AreEqual(0, Resultat,
+                "Erreur technique" + monProgramme.gettxbActivite());
+
+            Assert.Fail("Implanter le reste de l'essai");
+
+        }
+        
+
+        [TestMethod]
+        public void JCAssertionTestInvalide()
         {
             JCAssertion.JCAssertion monProgramme = new JCAssertion.JCAssertion ();
             monProgramme.Interactif  = false;
@@ -27,29 +62,7 @@ namespace JCAssertionTest
             monProgramme.args[1] = "/ab:test";
             Assert.AreEqual(99, monProgramme.Execute());
 
-            // cas qui marche
-            monProgramme.args[0] = "/FV:" +
-                 JCAssertionCore.JCACore.RepertoireAssembly() +
-                "\\Ressources\\EssaiCompletVar.xml";
-            monProgramme.args[1] = "/fa:" + JCAssertionCore.JCACore.RepertoireAssembly() +
-                "\\Ressources\\EssaiComplet.xml";
-            JCAssertionCore.JCAVariable mesVariables =
-                new JCAssertionCore.JCAVariable();
-            mesVariables.MAJVariable("Fichier",JCAssertionCore.JCACore.RepertoireAssembly() +
-                "\\Ressources\\EssaiCompletVar.xml" );
-            mesVariables.EcrireFichier(JCAssertionCore.JCACore.RepertoireAssembly() +
-
-                "\\Ressources\\EssaiCompletVar.xml");
-            int Resultat = monProgramme.Execute() ;
-            String FichierActivite = JCAssertionCore.JCACore.RepertoireAssembly() +
-                "\\Ressources\\EssaiCompletActivite.txt";
-            System.IO.File.WriteAllText(FichierActivite, monProgramme.gettxbActivite());
-
-            Assert.AreEqual(0, Resultat  , 
-                "Erreur technique" + monProgramme.gettxbActivite());
             
-            Assert.Fail("Implanter le reste de l'essai");
-
 
         }
     }

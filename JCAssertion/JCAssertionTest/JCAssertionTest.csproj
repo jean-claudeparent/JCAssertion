@@ -70,7 +70,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Ressources\EssaiComplet.xml" />
+    <Content Include="Ressources\EssaiComplet.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Ressources\JCAExporteOK.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

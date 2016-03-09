@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using JCAssertionCore;
 using System.IO;
+using System.Xml;
+
 
 
 namespace JCAssertion
@@ -18,6 +20,7 @@ namespace JCAssertion
         Boolean Annuler = false;
         JCAVariable mesArguments = new JCAssertionCore.JCAVariable();
         JCAConsole maConsole = new JCAssertionCore.JCAConsole();
+        JCACore monJCACore = new JCACore();
         String Usage = "usage :" + Environment.NewLine + Environment.NewLine + "JCAssertion /FA:fichierassertion /fv:fichierdevariables";
         public string[] args = new string[0];
         public Boolean Interactif = true;
@@ -27,6 +30,18 @@ namespace JCAssertion
         private void AjouteActivite(String Texte )
         {
             tbxActivite.Text = tbxActivite.Text + Environment.NewLine + Texte;
+        }
+
+        public int ExecuteAssertion()
+        {
+            try {
+                return Execute();
+                } catch (Exception excep)
+                {
+                    Message = excep.Message ;
+                    AjouteActivite(Message);
+                    throw excep;
+                }
         }
 
         // Methode utilisé  par le load et qui peutêtreunittestée
@@ -71,8 +86,27 @@ namespace JCAssertion
             tbxFVariables.Text = FichierVariable ;
             AjouteActivite("Lecture du fichier d'assertion : " 
                 + FichierAssertion );
-               
-            return 0;
+            monJCACore.Load(FichierAssertion ); 
+            if(FichierVariable != "")
+            {
+                AjouteActivite("Lecture du fichier de variables : "
+                + FichierVariable);
+                monJCACore.Variables.LireFichier(FichierVariable );
+            }
+
+            int i = 1;
+            foreach (XmlNode monCas in monJCACore.getListeDeCas())
+                {
+                    AjouteActivite("Exécution di cas " + i.ToString() );
+                    if (monJCACore.ExecuteCas(monCas))
+                        AjouteActivite("Assertion vraie") ;
+                    else AjouteActivite("Assertion fausse");
+                    i = i++;
+                }
+
+
+
+                return 0;
         }
 
 
@@ -83,23 +117,15 @@ namespace JCAssertion
 
         private void JCAssertion_Load(object sender, EventArgs e)
         {
-            String Message = "";
-
-            // c.est ici que ca se âsse
+            
             try {
-                
-                
-                mesArguments.EcrireFichier("d:\\Devcenter\\debug.txt");
-
-                //System.Windows.Forms.MessageBox.Show("Ce programme doit recevoir des arugments enligne de commande." + Usage);
-                   
-
-
+                ExecuteAssertion();
                     
              } catch (Exception excep)
                  {
-                     throw excep;
-
+                     Console.WriteLine(excep.Message );
+                    if(! Interactif ) 
+                        Environment.Exit(99);
                 }
 
             // end run

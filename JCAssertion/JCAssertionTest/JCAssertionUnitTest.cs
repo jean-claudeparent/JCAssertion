@@ -37,8 +37,17 @@ namespace JCAssertionTest
                 new JCAssertionCore.JCAVariable();
             mesVariables.MAJVariable("Fichier",JCAssertionCore.JCACore.RepertoireAssembly() +
                 "\\Ressources\\EssaiCompletVar.xml" );
+            mesVariables.EcrireFichier(JCAssertionCore.JCACore.RepertoireAssembly() +
 
-            Assert.AreEqual(0, monProgramme.Execute(), "Erreur technique");
+                "\\Ressources\\EssaiCompletVar.xml");
+            int Resultat = monProgramme.Execute() ;
+            String FichierActivite = JCAssertionCore.JCACore.RepertoireAssembly() +
+                "\\Ressources\\EssaiCompletActivite.txt";
+            System.IO.File.WriteAllText(FichierActivite, monProgramme.gettxbActivite());
+
+            Assert.AreEqual(0, Resultat  , 
+                "Erreur technique" + monProgramme.gettxbActivite());
+            
             Assert.Fail("Implanter le reste de l'essai");
 
 

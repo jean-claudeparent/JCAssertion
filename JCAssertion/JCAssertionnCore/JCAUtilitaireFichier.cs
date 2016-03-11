@@ -21,5 +21,10 @@ namespace JCAssertionCore
             monContenu = JCAVariable.SubstituerVariables(monContenu, mesVariables.Variables );
             System.IO.File.WriteAllText(FichierResultat, monContenu);
         }
+
+        public  void EffaceSiExiste(String Fichier)
+        {
+            if (System.IO.File.Exists(Fichier)) System.IO.File.Delete(Fichier );
+        }
     }
 }

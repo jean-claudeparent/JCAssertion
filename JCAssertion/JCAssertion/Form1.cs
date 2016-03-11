@@ -26,6 +26,17 @@ namespace JCAssertion
         public Boolean Interactif = true;
         public String  Message = "";
 
+        private void Informer(String Texte, Boolean Severe = false )
+        {
+            AjouteActivite(Texte);
+            if (Severe)
+                {
+                    Message = Environment.NewLine + Texte;
+                    if (Interactif) System.Windows.Forms.MessageBox.Show(Texte);
+                      
+                }
+        }
+
         // Methpde pour ajouter du texte dans l'activté
         private void AjouteActivite(String Texte )
         {
@@ -49,47 +60,46 @@ namespace JCAssertion
         {
             Message = "Démarrage";
             mesArguments = maConsole.Arguments(args);
+            
+            // Vérifier qu'au moins le nom de fichier d'assertion est fourni
+            
             if ((mesArguments.GetValeurVariable("FA") == null) || (mesArguments.GetValeurVariable("FA") == ""))
                     {
-                        Message = "Ce programme doit recevoir des arguments enligne de commande." + Usage;
-                        AjouteActivite(Message);        
-                         if(Interactif  ) System.Windows.Forms.MessageBox.Show(Message);
+                        Informer("Ce programme doit recevoir des arguments enligne de commande." + Usage, true) ;
                         return 99;
-                    }
-            // Au moins le nom de fichier d'assertion est fourni
+                   }
             // Valider un peu les arguments
             String FichierAssertion = mesArguments.GetValeurVariable("FA");
             String FichierVariable = "";
             if ((mesArguments.GetValeurVariable("FV") != null) &&
-                (mesArguments.GetValeurVariable("FV") != "")) FichierVariable = mesArguments.GetValeurVariable("FV");
+                (mesArguments.GetValeurVariable("FV") != "")) 
+                    FichierVariable = mesArguments.GetValeurVariable("FV");
             
             if (!System.IO.File.Exists(FichierAssertion))
             {
-                Message = "Le fichier d'assertion . " +
-                    FichierAssertion + " n'existe pas.";
-                AjouteActivite(Message);        
-                        
-                if (Interactif) System.Windows.Forms.MessageBox.Show(Message);
+                Informer( "Le fichier d'assertion . " +
+                    FichierAssertion + " n'existe pas." , true );
                 return 99;
             }
+
            if((FichierVariable != "" ) &&
                (System.IO.File.Exists (FichierVariable)))
            {
-                Message = "Le fichier de variables . " +
-                    FichierVariable + " n'existe pas.";
-                if (Interactif) System.Windows.Forms.MessageBox.Show(Message);
+                Informer  ("Le fichier de variables . " +
+                    FichierVariable + " n'existe pas.", true );
                 return 99;
             } 
             //
             // commencer le traitementproprement dit
             tbxFAssertion.Text = FichierAssertion;
             tbxFVariables.Text = FichierVariable ;
-            AjouteActivite("Lecture du fichier d'assertion : " 
+            Informer("Lecture du fichier d'assertion : " 
                 + FichierAssertion );
-            monJCACore.Load(FichierAssertion ); 
+            monJCACore.Load(FichierAssertion );
+            Informer("Nombre de cas ;a traiter : " + monJCACore.NombreCas.ToString () );
             if(FichierVariable != "")
             {
-                AjouteActivite("Lecture du fichier de variables : "
+                Informer ("Lecture du fichier de variables : "
                 + FichierVariable);
                 monJCACore.Variables.LireFichier(FichierVariable );
             }
@@ -97,9 +107,9 @@ namespace JCAssertion
             int i = 1;
             foreach (XmlNode monCas in monJCACore.getListeDeCas())
                 {
-                    AjouteActivite("Exécution di cas " + i.ToString() );
+                    Informer ("Exécution di cas " + i.ToString() );
                     if (monJCACore.ExecuteCas(monCas))
-                        AjouteActivite("Assertion vraie") ;
+                        Informer ("Assertion vraie") ;
                     else AjouteActivite("Assertion fausse");
                     i = i++;
                 }

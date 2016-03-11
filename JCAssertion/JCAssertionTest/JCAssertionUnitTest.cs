@@ -20,19 +20,18 @@ namespace JCAssertionTest
             // cas qui marche
             monProgramme.args[0] = "/FV:" +
                  JCAssertionCore.JCACore.RepertoireAssembly() +
-                "\\Ressources\\EssaiCompletVar.xml";
+                "Ressources\\EssaiCompletVar.xml";
             monProgramme.args[1] = "/fa:" + JCAssertionCore.JCACore.RepertoireAssembly() +
-                "\\Ressources\\EssaiComplet.xml";
+                "Ressources\\EssaiComplet.xml";
             JCAssertionCore.JCAVariable mesVariables =
                 new JCAssertionCore.JCAVariable();
             mesVariables.MAJVariable("Fichier", JCAssertionCore.JCACore.RepertoireAssembly() +
-                "\\Ressources\\EssaiCompletVar.xml");
+                "Ressources\\EssaiCompletVar.xml");
             mesVariables.EcrireFichier(JCAssertionCore.JCACore.RepertoireAssembly() +
-
-                "\\Ressources\\EssaiCompletVar.xml");
+                "Ressources\\EssaiCompletVar.xml");
             int Resultat = monProgramme.Execute();
             String FichierActivite = JCAssertionCore.JCACore.RepertoireAssembly() +
-                "\\Ressources\\EssaiCompletActivite.txt";
+                "Ressources\\EssaiCompletActivite.txt";
             System.IO.File.WriteAllText(FichierActivite, monProgramme.gettxbActivite());
 
             Assert.AreEqual(0, Resultat,

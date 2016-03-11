@@ -46,8 +46,16 @@ namespace JCAssertionTest
 
             Assert.AreEqual(0, Resultat,
                 "Erreur technique" + monProgramme.gettxbActivite());
+            String Activite = monProgramme.gettxbActivite();
 
-            Assert.Fail("Implanter le reste de l'essai");
+            Assert.IsTrue(Activite.Contains("Lecture du fichier d'assertion"), "Lecture du fichier d'assertion");
+            Assert.IsTrue(Activite.Contains("Nombre de cas à traiter :"), "Nombre de cas à traiter :");
+            Assert.IsTrue(Activite.Contains("Lecture du fichier de variables :"), "Lecture du fichier de variables :");
+            Assert.IsTrue(Activite.Contains("Exécution du cas 1"), "Exécution du cas 1");
+            Assert.IsTrue(Activite.Contains("Assertion vraie"), "Assertion vraie");
+            Assert.IsTrue(Activite.Contains("Cas réussis :"), "Cas réussis :");
+            Assert.IsTrue(Activite.Contains("Cas en échec :"), "Cas en échec :");
+            
 
         }
         

@@ -106,7 +106,7 @@ namespace JCAssertion
                 + FichierAssertion );
             monJCACore.Load(FichierAssertion );
             NombreCas = monJCACore.NombreCas;
-            Informer("Nombre de cas ;a traiter : " + monJCACore.NombreCas.ToString () );
+            Informer("Nombre de cas à traiter : " + monJCACore.NombreCas.ToString () );
             if(FichierVariable != "")
             {
                 Informer ("Lecture du fichier de variables : "
@@ -154,6 +154,8 @@ namespace JCAssertion
             
             try {
                 ExecuteAssertion();
+                Console.WriteLine("Cas réussis : " + NombreReussi.ToString() +
+                    " sur " + NombreCas.ToString() + " et " + NombreEchec.ToString() + " échecs."  );
                 if ((NombreEchec > 0) && (!Interactif)) Environment.Exit(1);
                 if (!Interactif) Environment.Exit(0);
              } catch (Exception excep)

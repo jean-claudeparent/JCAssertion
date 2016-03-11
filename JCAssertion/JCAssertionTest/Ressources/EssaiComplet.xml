@@ -2,7 +2,8 @@
 <ListeDAssertion>
   <Assertion>
     <ID>Si fichier existe</ID>
+    <Type>FichierExiste</Type>
     <Description>Ce cas est vrai car lefichier existe</Description>
- <Fichier>{{Fichier}}</Fichier>
+    <Fichier>{{Fichier}}</Fichier>
   </Assertion>
 </ListeDAssertion>

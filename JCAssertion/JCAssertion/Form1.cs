@@ -23,8 +23,13 @@ namespace JCAssertion
         JCACore monJCACore = new JCACore();
         String Usage = "usage :" + Environment.NewLine + Environment.NewLine + "JCAssertion /FA:fichierassertion /fv:fichierdevariables";
         public string[] args = new string[0];
-        public Boolean Interactif = true;
+        public Boolean Interactif = false ;
         public String  Message = "";
+        int NombreReussi = 0;
+        int NombreEchec = 0;
+        int NombreCas = 0;
+
+
 
         private void Informer(String Texte, Boolean Severe = false )
         {
@@ -58,6 +63,10 @@ namespace JCAssertion
         // Methode utilisé  par le load et qui peutêtreunittestée
         public int Execute()
         {
+            NombreCas = 0;
+            NombreEchec = 0;
+            NombreReussi = 0;
+
             Message = "Démarrage";
             mesArguments = maConsole.Arguments(args);
             
@@ -83,7 +92,7 @@ namespace JCAssertion
             }
 
            if((FichierVariable != "" ) &&
-               (System.IO.File.Exists (FichierVariable)))
+               (! System.IO.File.Exists (FichierVariable)))
            {
                 Informer  ("Le fichier de variables . " +
                     FichierVariable + " n'existe pas.", true );
@@ -96,6 +105,7 @@ namespace JCAssertion
             Informer("Lecture du fichier d'assertion : " 
                 + FichierAssertion );
             monJCACore.Load(FichierAssertion );
+            NombreCas = monJCACore.NombreCas;
             Informer("Nombre de cas ;a traiter : " + monJCACore.NombreCas.ToString () );
             if(FichierVariable != "")
             {
@@ -107,12 +117,26 @@ namespace JCAssertion
             int i = 1;
             foreach (XmlNode monCas in monJCACore.getListeDeCas())
                 {
-                    Informer ("Exécution di cas " + i.ToString() );
+                    Informer ("Exécution du cas " + i.ToString() );
                     if (monJCACore.ExecuteCas(monCas))
-                        Informer ("Assertion vraie") ;
-                    else AjouteActivite("Assertion fausse");
+                        {
+                            NombreReussi = NombreReussi + 1;
+                            Informer ("Assertion vraie") ;
+                            Informer (monJCACore.Message);
+                        }
+                    else
+                        {
+                            Informer ("Assertion fausse");
+                            Informer (monJCACore.Message);
+                            NombreEchec = NombreEchec + 1;
+                        }
                     i = i++;
                 }
+            Informer("Fin de l'exécution");
+            Informer("Cas réussis : " + NombreReussi.ToString() + " sur " + NombreCas.ToString()  );
+            Informer("Cas en échec : " + NombreEchec.ToString() + " sur " + NombreCas.ToString());
+
+
 
 
 
@@ -130,7 +154,8 @@ namespace JCAssertion
             
             try {
                 ExecuteAssertion();
-                    
+                if ((NombreEchec > 0) && (!Interactif)) Environment.Exit(1);
+                if (!Interactif) Environment.Exit(0);
              } catch (Exception excep)
                  {
                      Console.WriteLine(excep.Message );

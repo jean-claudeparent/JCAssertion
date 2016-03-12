@@ -89,18 +89,27 @@ namespace JCAssertionCore
 
         public bool ExecuteCas(XmlNode XMLCas)
         {
+            XmlDocument monDoc = new XmlDocument ();
+
             NoCasCourant = NoCasCourant + 1;
             Message = "Cas numéro : " + NoCasCourant ;
-            
+            // vérifier et corriger si On est dans un node xml trop haut
+            if (XMLCas["Assertion"] != null )
+               {
+                   monDoc.InnerXml  = XMLCas.InnerXml  ;
+                   XMLCas = monDoc.GetElementsByTagName("Assertion").Item (0);
+                                  
+               }
             if ((XMLCas["Type"] == null) || (XMLCas["Type"].InnerText == null))
                 {
-                    MessageAjoutter("La balise type est introuvable ou n'a pas de valeur.");
+                    MessageAjoutter("La balise type est introuvable ou n'a pas de valeur." + XMLCas.InnerXml  );
                     return false;
                 } else
                 {
                     String monOperateur = XMLCas["Type"].InnerText  ;
                     MessageAjoutter( "Type : " + monOperateur);
                     try {
+                        monOperateur = XMLCas["Type"].InnerText ;
                     switch (monOperateur)
                         {
                             case "FichierExiste":
@@ -125,6 +134,7 @@ namespace JCAssertionCore
 
             public void Journalise(String monMessage)
             {
+                if (FichierJournal == null) Journaliser = false;
                 if (Journaliser)
                     { 
                         if (! JournalInitialise )

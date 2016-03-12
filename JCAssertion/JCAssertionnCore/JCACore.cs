@@ -106,6 +106,7 @@ namespace JCAssertionCore
                     return false;
                 } else
                 {
+                    Boolean Resultat = false;
                     String monOperateur = XMLCas["Type"].InnerText  ;
                     MessageAjoutter( "Type : " + monOperateur);
                     try {
@@ -113,9 +114,15 @@ namespace JCAssertionCore
                     switch (monOperateur)
                         {
                             case "FichierExiste":
-                                bool Resultat =  JCAPontXML.JCAFichierExiste(XMLCas,ref  Message, ref  Variables.Variables );
+                                Resultat =  JCAPontXML.JCAFichierExiste(XMLCas,ref  Message, ref  Variables.Variables );
                                 Journalise(Message);
                                 return Resultat;
+
+                            case "SubstituerVariablesFichier":
+                                Resultat = JCAPontXML.JCASubstituerVariablesFichier(XMLCas, ref  Message, ref  Variables.Variables);
+                                Journalise(Message);
+                                return Resultat;
+                        
                         default:
                             MessageAjoutter("Type inconnu");
                             Journalise(Message);
@@ -123,7 +130,7 @@ namespace JCAssertionCore
                         }
                         } catch (JCAssertionException excep)
                         {
-                            MessageAjoutter(excep.Message);
+                            MessageAjoutter( excep.Message);
                             Journalise(Message);
                             return false;
 

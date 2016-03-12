@@ -31,19 +31,24 @@ namespace JCAssertionCore
         public static bool JCASubstituerVariablesFichier(XmlNode monXMLNode, ref string Message, ref  Dictionary<String, String> Variables)
         {
             Message = Message + Environment.NewLine + "Assertion SubstituerVariablesFichier";
-            if (monXMLNode == null) throw new JCAssertionException("Le XML est vide.");
+            if (monXMLNode == null) 
+                throw new JCAssertionException("Le XML est vide.");
             
             // Valider le fichoer de modèle
-            if (monXMLNode["FichierModele"] == null) throw new JCAssertionException("Le XML ne contient pas la balise FichierModele." + monXMLNode.InnerXml);
-            if (monXMLNode["FichierModele"].InnerText == null) throw new JCAssertionException("La balise FichierModele est vide." + monXMLNode.InnerXml);
-            if (monXMLNode["FichieModeler"].InnerText == "")
+            if (monXMLNode["FichierModele"] == null) 
+                throw new JCAssertionException("Le XML ne contient pas la balise FichierModele." + monXMLNode.InnerXml);
+            if (monXMLNode["FichierModele"].InnerText == null) 
                 throw new JCAssertionException("La balise FichierModele est vide." + monXMLNode.InnerXml);
+            if (monXMLNode["FichierModele"].InnerText == "")
+                throw new JCAssertionException("La balise FichierModele est vide." + monXMLNode.InnerXml);
+            
+            
             string NomFichierModele = monXMLNode["FichierModele"].InnerText;
             NomFichierModele = JCAVariable.SubstituerVariables(NomFichierModele, Variables);
             Message = Message + Environment.NewLine + "Fichier de modèle:" + NomFichierModele + Environment.NewLine  ;
             if(File.Exists(NomFichierModele))
                 throw new JCAssertionException("La fichier modèle n'existe pas." + monXMLNode.InnerXml);
-
+            
             // Valider le fichoer de sortie
             if (monXMLNode["FichierSortie"] == null)
                 throw new JCAssertionException("Le XML ne contient pas la balise FichierSortie." + monXMLNode.InnerXml);

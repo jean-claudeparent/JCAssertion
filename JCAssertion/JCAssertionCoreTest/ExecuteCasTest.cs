@@ -37,5 +37,23 @@ namespace JCAssertionCoreTest
                 "Attendu:Le fichier existe");    
 
         }
+
+        [TestMethod]
+        public void SubstituerVariablesFichier()
+        {
+            JCACore monCore = new JCACore();
+            XmlDocument monCas = new XmlDocument();
+
+            monCas.InnerXml = "<Assertion><Type>SubstituerVariablesFichier</Type>" +
+                "<FichierModele>{{Chemin}}SQLOK.txt</FichierModele>" +
+                "<FichierSortie>{{Chemin}}SQLOK.txt.sql</FichierSortie>" +
+                "<FichierVariable>{{Chemin}}SQLOK.txt.sql</FichierVariable>" +
+                "</Assertion>";
+            Assert.IsFalse(monCore.ExecuteCas(monCas));
+            Assert.IsTrue(monCore.Message.Contains("La variable Cheminn'a pas eu de valeur fournie"), 
+                "Attendu:La variable Chemin n'a pas eu de valeur fournie. Réel :" + monCore.Message  );
+
+        }
+        
     }
 }

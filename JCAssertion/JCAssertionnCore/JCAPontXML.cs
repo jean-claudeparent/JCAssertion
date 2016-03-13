@@ -46,27 +46,46 @@ namespace JCAssertionCore
             string NomFichierModele = monXMLNode["FichierModele"].InnerText;
             NomFichierModele = JCAVariable.SubstituerVariables(NomFichierModele, Variables);
             Message = Message + Environment.NewLine + "Fichier de modèle:" + NomFichierModele + Environment.NewLine  ;
-            if(File.Exists(NomFichierModele))
-                throw new JCAssertionException("La fichier modèle n'existe pas." + monXMLNode.InnerXml);
+            if(!File.Exists(NomFichierModele))
+                throw new JCAssertionException("Le fichier modèle n'existe pas." + monXMLNode.InnerXml);
             
-            // Valider le fichoer de sortie
+            // Valider le fichier de sortie
             if (monXMLNode["FichierSortie"] == null)
                 throw new JCAssertionException("Le XML ne contient pas la balise FichierSortie." + monXMLNode.InnerXml);
-            if (monXMLNode["FichieSortie"].InnerText == null)
+            
+            if (monXMLNode["FichierSortie"].InnerText == null)
                 throw new JCAssertionException("La balise FichierSortie est vide." + monXMLNode.InnerXml);
-            if (monXMLNode["FichieSortier"].InnerText == "")
+            
+            if (monXMLNode["FichierSortie"].InnerText == "")
                 throw new JCAssertionException("La balise FichierSortie est vide." + monXMLNode.InnerXml);
+            
             string NomFichierSortie = monXMLNode["FichierSortie"].InnerText;
             NomFichierSortie = JCAVariable.SubstituerVariables(NomFichierSortie, Variables);
             Message = Message + Environment.NewLine + "Fichier de sortie:" + NomFichierSortie + Environment.NewLine;
             
+            //Valider le fichier de variable
+            // FichierVariables
 
-            Boolean Resultat = false ;
-            if (Resultat) Message = Message + Environment.NewLine
+            if (monXMLNode["FichierVariables"] == null)
+                throw new JCAssertionException("Le XML ne contient pas la balise FichierVariables." + monXMLNode.InnerXml);
+            if (monXMLNode["FichierVariables"].InnerText == null)
+                throw new JCAssertionException("La balise FichierVariables est vide." + monXMLNode.InnerXml);
+            if (monXMLNode["FichierVariables"].InnerText == "")
+                throw new JCAssertionException("La balise FichierVariables est vide." + monXMLNode.InnerXml);
+            string NomFichierVariables = monXMLNode["FichierVariables"].InnerText;
+            NomFichierVariables = JCAVariable.SubstituerVariables(NomFichierVariables, Variables);
+            Message = Message + Environment.NewLine + "Fichier de variables :" + NomFichierVariables + Environment.NewLine;
+            if (!File.Exists(NomFichierVariables))
+                throw new JCAssertionException("Le fichier de variables n'existe pas." + monXMLNode.InnerXml);
+            
+            
+            JCAUtilitaireFichier UF = new JCAUtilitaireFichier ();
+            
+            UF.SubstituerVariableFichier(NomFichierModele , NomFichierSortie , NomFichierVariables)  ;
+
+            Message = Message + Environment.NewLine
                 + "La substitution des variables dans le fichier a réussie.";
-            else Message = Message + Environment.NewLine +
-                "La substitution des variables dans le fichier a échouée.";
-            return Resultat;
+            return true ;
         }
 
 

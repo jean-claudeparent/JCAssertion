@@ -14,6 +14,9 @@ namespace JCAssertionCore
     {
         public static void ValideBalise(XmlNode monXMLNode, String maBalise)
             {
+                if (monXMLNode == null)
+                    throw new JCAssertionException("Le XML est vide.");
+            
                 if (monXMLNode[maBalise] == null)
                     throw new JCAssertionException("Le XML ne contient pas la balise " + 
                         maBalise  + "." + monXMLNode.InnerXml);

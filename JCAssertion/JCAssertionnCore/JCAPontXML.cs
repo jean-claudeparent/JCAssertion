@@ -85,6 +85,14 @@ namespace JCAssertionCore
             return true ;
         }
 
+        public static bool JCAContenuFichier(XmlNode monXMLNode, ref string Message, ref  Dictionary<String, String> Variables)
+        {
+            Message = Message + Environment.NewLine + "Assertion SubstituerVariablesFichier";
+            if (monXMLNode == null) 
+                throw new JCAssertionException("Le XML est vide.");
+            return false;
+        }
+
 
 
     }

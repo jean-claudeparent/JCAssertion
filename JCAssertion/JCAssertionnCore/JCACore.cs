@@ -122,6 +122,11 @@ namespace JCAssertionCore
                                 Resultat = JCAPontXML.JCASubstituerVariablesFichier(XMLCas, ref  Message, ref  Variables.Variables);
                                 Journalise(Message);
                                 return Resultat;
+
+                            case "ContenuFichier":
+                                Resultat = JCAPontXML.JCAContenuFichier (XMLCas, ref  Message, ref  Variables.Variables);
+                                Journalise(Message);
+                                return Resultat;
                         
                         default:
                             MessageAjoutter("Type inconnu");

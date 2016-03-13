@@ -80,6 +80,24 @@ namespace JCAssertionCoreTest
 
 
         }
+
+        [TestMethod]
+        public void ContenuFichier()
+        {
+            JCACore monCore = new JCACore();
+            XmlDocument monCas = new XmlDocument();
+
+            monCas.InnerXml = "<Assertion><Type>ContenuFichier</Type>" +
+                "<Fichier>{{Chemin}}SQLexec.txt</Fichier>" +
+                "<Contient>{{s}}pool</Contient>" +
+                "<NeContientPas>{{s}}SQLexec.var.xml</NeContientPas>" +
+                "</Assertion>";
+            Assert.IsFalse(monCore.ExecuteCas(monCas));
+            Assert.IsTrue(monCore.Message.Contains("La variable Cheminn'a pas eu de valeur fournie"),
+                "Attendu:La variable Chemin n'a pas eu de valeur fournie. Réel :" + monCore.Message);
+
+            
+        }
         
     }
 }

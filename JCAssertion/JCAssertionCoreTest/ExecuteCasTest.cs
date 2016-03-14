@@ -87,8 +87,11 @@ namespace JCAssertionCoreTest
             JCACore monCore = new JCACore();
             XmlDocument monCas = new XmlDocument();
 
+            System.IO.File.WriteAllText(Chemin + "ContenuFichier.txt", "spool {{SpoolFile}}" +
+                Environment.NewLine + "select '{{Logon}}' from dual;" +
+                Environment.NewLine);
             monCas.InnerXml = "<Assertion><Type>ContenuFichier</Type>" +
-                "<Fichier>{{Chemin}}SQLexec.txt</Fichier>" +
+                "<Fichier>{{Chemin}}ContenuFichier.txt</Fichier>" +
                 "<Contient>{{s}}pool</Contient>" +
                 "<NeContientPas>{{s}}SQLexec.var.xml</NeContientPas>" +
                 "</Assertion>";

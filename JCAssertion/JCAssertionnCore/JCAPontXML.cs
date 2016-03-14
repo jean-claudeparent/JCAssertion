@@ -151,7 +151,12 @@ namespace JCAssertionCore
                     Resultat = Resultat && !Contenu.Contains(NeContientPas);
                 
                 }
-            
+            if (Resultat)
+                Message = Message + Environment.NewLine +
+                    "L'assertion est vraie";
+            else
+                Message = Message + Environment.NewLine +
+                    "L'assertion est fausse";
             return Resultat ;
         }
 

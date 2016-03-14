@@ -12,6 +12,37 @@ namespace JCAssertionCore
 {
     public   class JCAPontXML
     {
+
+
+        public static String  ValeurBalise(XmlNode monXMLNode, String maBalise)
+        {
+            if (monXMLNode == null)
+                return "";
+            if (monXMLNode[maBalise] == null)
+                return "";
+            if (monXMLNode[maBalise].InnerText == null)
+                return "";
+            if (monXMLNode[maBalise].InnerText == "")
+                return "";
+
+            return monXMLNode[maBalise].InnerText;
+        }
+
+        public static Boolean  SiBaliseExiste(XmlNode monXMLNode, String maBalise)
+            {
+                if (monXMLNode == null)
+                    return false;
+                if (monXMLNode[maBalise] == null)
+                    return false;
+                if (monXMLNode[maBalise].InnerText == null)
+                    return false;
+                if (monXMLNode[maBalise].InnerText == "")
+                    return false;
+            
+                return true;
+            }
+        
+
         public static void ValideBalise(XmlNode monXMLNode, String maBalise)
             {
                 if (monXMLNode == null)
@@ -87,10 +118,41 @@ namespace JCAssertionCore
 
         public static bool JCAContenuFichier(XmlNode monXMLNode, ref string Message, ref  Dictionary<String, String> Variables)
         {
-            Message = Message + Environment.NewLine + "Assertion SubstituerVariablesFichier";
+            Message = Message + Environment.NewLine + "Assertion ContenuFichier";
             if (monXMLNode == null) 
                 throw new JCAssertionException("Le XML est vide.");
-            return false;
+            ValideBalise(monXMLNode, "Fichier");
+            if((!SiBaliseExiste(monXMLNode,"Contient")) && 
+                (!SiBaliseExiste(monXMLNode,"NeContientPas")))
+                 throw new JCAssertionException("Le XML doit contenir au moins une balise Contient ouNeContientPas.");
+            String NomFichier = ValeurBalise (monXMLNode,"Fichier");
+            NomFichier = JCAVariable.SubstituerVariables(NomFichier, Variables);
+            Message = Message + Environment.NewLine + "Fichier à tester:" + NomFichier;
+            if (!System.IO.File.Exists(NomFichier))
+                throw new JCAssertionException("Le fichier " + NomFichier + "n'existe pas" );
+            String Contenu = System.IO.File.ReadAllText(NomFichier );
+
+            
+            String Contient = ValeurBalise (monXMLNode,"Contient") ;
+            Contient = JCAVariable.SubstituerVariables(Contient , Variables);
+            
+            String NeContientPas = ValeurBalise (monXMLNode,"NeContientPas");
+            NeContientPas = JCAVariable.SubstituerVariables(NeContientPas, Variables);
+            Boolean Resultat = true;
+
+            if(Contient != "")
+                {
+                    Message= Message + Environment.NewLine + "Vérifier si le fichier contient:" + Contient;
+                    Resultat = Resultat && Contenu.Contains(Contient )  ;
+                }
+            if(NeContientPas != "")
+                {
+                    Message= Message + Environment.NewLine + "Vérifier si le fichier ne contient pas:" + NeContientPas;
+                    Resultat = Resultat && !Contenu.Contains(NeContientPas);
+                
+                }
+            
+            return Resultat ;
         }
 
 

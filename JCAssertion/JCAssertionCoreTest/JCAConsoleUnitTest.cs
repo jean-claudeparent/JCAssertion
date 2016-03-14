@@ -7,6 +7,9 @@ namespace JCAssertionCoreTest
     [TestClass]
     public class JCAConsoleUnitTest
     {
+        String Chemin = JCAssertionCore.JCACore.RepertoireAssembly() +
+                "Ressources\\";
+
         [TestMethod]
         public void ArgumentTest()
         {
@@ -71,6 +74,33 @@ namespace JCAssertionCoreTest
 
 
         }
+
+         [TestMethod]
+        public void ExecuteProgrammeTest()
+        {
+             JCAssertionCore.JCAConsole maConsole = 
+                 new JCAssertionCore.JCAConsole ();
+             String NomProgramme = Chemin + "Exit1.cmd";
+
+             // Créer 1 fichier exécutable
+            System.IO.File.WriteAllText(NomProgramme  ,
+                "echo off" + Environment.NewLine  +
+                 "echo Ligne 1 de 3" + Environment.NewLine  +
+                "echo Ligne 2 de 3" + Environment.NewLine  +
+                "echo Ligne 3 de 3" + Environment.NewLine  +
+                "exit %1" + Environment.NewLine );
+            String Sortie = "";
+
+            Assert.AreEqual(99, maConsole.ExecuteProgramme  (NomProgramme + " 99" , ref Sortie),
+             "L'exécution aurait du retourner 99" );
+            Assert.IsTrue(Sortie.Contains("Ligne 3 de 3"),
+                "Attendu:Ligne 3 de 3");
+            Assert.AreEqual(0, maConsole.ExecuteProgramme(NomProgramme + " 0", ref Sortie),
+             "L'exécution aurait du marcher");
+            Assert.IsTrue(Sortie.Contains("Ligne 1 de 3"),
+                "Attendu:Ligne 1 de 3");
+            
+         }
         
     }
 }

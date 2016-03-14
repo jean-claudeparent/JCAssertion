@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+
 
 namespace JCAssertionCore
 {
     public class JCAConsole
-        // Fonctions pourles apapplications consoles
+        // Fonctions pourles appplications consoles
 
     {
+        public int ExecuteProgramme(String LigneDeCommande, ref String Sortie )
+        {
+            return 99;
+        }
+
+        
+
         public JCAVariable  Arguments(string[] args)
         {
             String Cle;

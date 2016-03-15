@@ -28,7 +28,8 @@ namespace JCAssertionCore
                 String ProchaineVariable = ExtraireVariable(Argument );
                 while (ProchaineVariable != "")
                     {
-                        if (!(Variables.ContainsKey(ProchaineVariable))  ) throw new JCAssertionException("La variable " + ProchaineVariable  + "n'a pas eu de valeur fournie.")  ;
+                        if (!(Variables.ContainsKey(ProchaineVariable))  ) 
+                            throw new JCAssertionException("La variable " + ProchaineVariable  + " n'a pas eu de valeur fournie.")  ;
                         Argument = Argument.Replace("{{" + ProchaineVariable + "}}", Variables[ProchaineVariable]);
                         ProchaineVariable = ExtraireVariable(Argument);
                 }
@@ -158,6 +159,7 @@ namespace JCAssertionCore
             Valeur = "";
             if ((Argument == null ) || (Argument == "")) return "";
             if(Argument.IndexOf("=") < 0 ) Argument = Argument + "=" + Argument;
+            //todo enlever la prochaine ligne pour permettre lesstring vides dan lesarhuments
             if(Argument.IndexOf("=") == (Argument.Length - 1) ) Argument = Argument + "=" + Argument.Substring (0, Argument.Length - 1);
             String Cle = Argument.Substring (0,Argument.IndexOf ("="));
             Valeur = Argument.Substring (Argument.IndexOf("=") + 1 , Argument.Length - 1 - Cle.Length );

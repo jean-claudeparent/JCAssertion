@@ -22,7 +22,7 @@ namespace JCAssertionCoreTest
 
             monCas.InnerXml = "<Assertion><Type>FichierExiste</Type><Fichier>{{Fichier}}</Fichier></Assertion>";
             Assert.IsFalse(monCore.ExecuteCas(monCas ));
-            Assert.IsTrue (monCore.Message.Contains("La variable Fichiern'a pas eu de valeur fournie"), "Attendu:La variable Fichiern'a pas eu de valeur fournie");
+            Assert.IsTrue (monCore.Message.Contains("La variable Fichier n'a pas eu de valeur fournie"), "Attendu:La variable Fichiern'a pas eu de valeur fournie");
 
             // variable fournie mais fichier existe pas
             monCore.Variables.MAJVariable("Fichier",Chemin + "DivideByZeroException:existepas.pasla");
@@ -50,7 +50,7 @@ namespace JCAssertionCoreTest
                 "<FichierVariables>{{Chemin}}SQLexec.var.xml</FichierVariables>" +
                 "</Assertion>";
             Assert.IsFalse(monCore.ExecuteCas(monCas));
-            Assert.IsTrue(monCore.Message.Contains("La variable Cheminn'a pas eu de valeur fournie"), 
+            Assert.IsTrue(monCore.Message.Contains("La variable Chemin n'a pas eu de valeur fournie"), 
                 "Attendu:La variable Chemin n'a pas eu de valeur fournie. Réel :" + monCore.Message  );
 
             // cas qui marche
@@ -96,7 +96,7 @@ namespace JCAssertionCoreTest
                 "<NeContientPas>{{s}}SQLexec.var.xml</NeContientPas>" +
                 "</Assertion>";
             Assert.IsFalse(monCore.ExecuteCas(monCas));
-            Assert.IsTrue(monCore.Message.Contains("La variable Cheminn'a pas eu de valeur fournie"),
+            Assert.IsTrue(monCore.Message.Contains("La variable Chemin n'a pas eu de valeur fournie"),
                 "Attendu:La variable Chemin n'a pas eu de valeur fournie. Réel :" + monCore.Message);
 
             // Cas qyu  marche
@@ -108,6 +108,29 @@ namespace JCAssertionCoreTest
             //TODO unit tester les autres validations
 
             
+        }
+
+        [TestMethod]
+        public void ExecuteProgramme()
+        {
+            JCACore monCore = new JCACore();
+            XmlDocument monCas = new XmlDocument();
+            String NomProgramme = "ExecutePrg.bat";
+
+            System.IO.File.WriteAllText(Chemin + NomProgramme, "echo off" +
+                Environment.NewLine + "Echo Le programme roule %1" + Environment.NewLine +
+                "exit %1" + Environment.NewLine);
+
+                
+            monCas.InnerXml = "<Assertion><Type>ExecuteProgramme</Type>" +
+                "<Programme>{{Chemin}}" + NomProgramme + "</Programme>" +
+                "<Arguments>{{CodeDeRetour}}</Arguments>" +
+                "</Assertion>";
+            Assert.IsFalse(monCore.ExecuteCas(monCas));
+            Assert.IsTrue(monCore.Message.Contains("La variable Chemin n'a pas eu de valeur fournie"),
+                "Attendu:La variable Chemin n'a pas eu de valeur fournie. Réel :" + monCore.Message);
+
+            Assert.Fail ("Implanter le reste des tests");
         }
         
     }

@@ -22,13 +22,15 @@ namespace JCAssertionCore
             monProcessus.StartInfo.FileName = Programme ;
             monProcessus.StartInfo.Arguments = mesArguments;
             monProcessus.Start();
+            monProcessus.WaitForExit();
             Sortie = monProcessus.StandardError.ReadToEnd() ;
             Sortie = Sortie + monProcessus.StandardOutput.ReadToEnd();
-            monProcessus.WaitForExit();
- 
- 
+            monProcessus.Refresh();
+            
 
-            return 99;
+            int CR = monProcessus.ExitCode;
+
+            return CR;
         }
 
         

@@ -12,8 +12,22 @@ namespace JCAssertionCore
         // Fonctions pourles appplications consoles
 
     {
-        public int ExecuteProgramme(String LigneDeCommande, ref String Sortie )
+        public int ExecuteProgramme(String Programme, String mesArguments, ref String Sortie )
         {
+            Process monProcessus = new Process();
+            
+            monProcessus.StartInfo.UseShellExecute = false  ;
+            monProcessus.StartInfo.RedirectStandardOutput = true;
+            monProcessus.StartInfo.RedirectStandardError = true;
+            monProcessus.StartInfo.FileName = Programme ;
+            monProcessus.StartInfo.Arguments = mesArguments;
+            monProcessus.Start();
+            Sortie = monProcessus.StandardError.ReadToEnd() ;
+            Sortie = Sortie + monProcessus.StandardOutput.ReadToEnd();
+            monProcessus.WaitForExit();
+ 
+ 
+
             return 99;
         }
 

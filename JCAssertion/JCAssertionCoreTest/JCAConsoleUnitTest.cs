@@ -91,11 +91,12 @@ namespace JCAssertionCoreTest
                 "exit %1" + Environment.NewLine );
             String Sortie = "";
 
-            Assert.AreEqual(99, maConsole.ExecuteProgramme  (NomProgramme + " 99" , ref Sortie),
+            Assert.AreEqual(99, maConsole.ExecuteProgramme  (NomProgramme ,"99" ,
+                ref Sortie),
              "L'exécution aurait du retourner 99" );
             Assert.IsTrue(Sortie.Contains("Ligne 3 de 3"),
                 "Attendu:Ligne 3 de 3");
-            Assert.AreEqual(0, maConsole.ExecuteProgramme(NomProgramme + " 0", ref Sortie),
+            Assert.AreEqual(0, maConsole.ExecuteProgramme(NomProgramme, " 0", ref Sortie),
              "L'exécution aurait du marcher");
             Assert.IsTrue(Sortie.Contains("Ligne 1 de 3"),
                 "Attendu:Ligne 1 de 3");

@@ -130,7 +130,21 @@ namespace JCAssertionCoreTest
             Assert.IsTrue(monCore.Message.Contains("La variable Chemin n'a pas eu de valeur fournie"),
                 "Attendu:La variable Chemin n'a pas eu de valeur fournie. Réel :" + monCore.Message);
 
-            Assert.Fail ("Implanter le reste des tests");
+            // um cas qui marche et retourne true
+            monCore.Variables.MAJVariable("Chemin", Chemin);
+            monCore.Variables.MAJVariable("CodeDeRetour", "0");
+            Assert.IsTrue(monCore.ExecuteCas(monCas));
+            Assert.IsTrue(monCore.Message.Contains("La variable Chemin n'a pas eu de valeur fournie"),
+                "Attendu:La variable Chemin n'a pas eu de valeur fournie. Réel :" + monCore.Message);
+
+            
+
+            // un cas qui marche et retourne false
+            monCore.Variables.MAJVariable("CodeDeRetour", "45");
+            Assert.IsFalse (monCore.ExecuteCas(monCas));
+            Assert.IsTrue(monCore.Message.Contains("La variable Chemin n'a pas eu de valeur fournie"),
+                "Attendu:La variable Chemin n'a pas eu de valeur fournie. Réel :" + monCore.Message);
+
         }
         
     }

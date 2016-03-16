@@ -14,7 +14,7 @@ namespace JCAssertionCore
 
         public static   String ExtraireVariable(String  Argument)
         {
-            // retournele nom delaprochainevariableou "" si aucune
+            // retourne le nom delaprochainevariableou "" si aucune
             int ouverture = Argument.IndexOf("{{");
             int Fermeture = Argument.IndexOf("}}");
             if ((Fermeture < 1) || (Fermeture < ouverture) || (ouverture < 0)) return "";
@@ -160,7 +160,7 @@ namespace JCAssertionCore
             if ((Argument == null ) || (Argument == "")) return "";
             if(Argument.IndexOf("=") < 0 ) Argument = Argument + "=" + Argument;
             //todo enlever la prochaine ligne pour permettre lesstring vides dan lesarhuments
-            if(Argument.IndexOf("=") == (Argument.Length - 1) ) Argument = Argument + "=" + Argument.Substring (0, Argument.Length - 1);
+            //if(Argument.IndexOf("=") == (Argument.Length - 1) ) Argument = Argument + "=" + Argument.Substring (0, Argument.Length - 1);
             String Cle = Argument.Substring (0,Argument.IndexOf ("="));
             Valeur = Argument.Substring (Argument.IndexOf("=") + 1 , Argument.Length - 1 - Cle.Length );
             return Cle;

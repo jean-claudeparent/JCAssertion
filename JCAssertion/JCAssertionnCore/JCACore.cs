@@ -127,6 +127,10 @@ namespace JCAssertionCore
                                 Resultat = JCAPontXML.JCAContenuFichier (XMLCas, ref  Message, ref  Variables.Variables);
                                 Journalise(Message);
                                 return Resultat;
+                            case "ExecuteProgramme":
+                                Resultat = JCAPontXML.JCAExecuteProgramme(XMLCas, ref  Message, ref  Variables.Variables);
+                                Journalise(Message);
+                                return Resultat;
                         
                         default:
                             MessageAjoutter("Type inconnu");

@@ -160,6 +160,38 @@ namespace JCAssertionCore
             return Resultat ;
         }
 
+        public static bool JCAExecuteProgramme(XmlNode monXMLNode, ref string Message, ref  Dictionary<String, String> Variables)
+        {
+            JCAConsole maConsole = new JCAConsole();
+            String Sortie = "";
+            Message = Message + Environment.NewLine + "Assertion ExecuteProgramme";
+            if (monXMLNode == null) 
+                throw new JCAssertionException("Le XML est vide.");
+            
+            // Valider le fichier de modèle
+
+            ValideBalise(monXMLNode, "Programme");
+            String Programme = ValeurBalise(monXMLNode, "Programme");
+            Programme = JCAVariable.SubstituerVariables(Programme , Variables);
+            
+            String Arguments = ValeurBalise(monXMLNode, "Arguments");
+            Arguments = JCAVariable.SubstituerVariables(Arguments , Variables);
+
+            Boolean Resultat = (maConsole.ExecuteProgramme(Programme, 
+                Arguments, ref Sortie) == 0);
+
+            Message = Message + Environment.NewLine +
+                "Résultat de l'exécution de " + Programme +
+                Environment.NewLine + Sortie +
+                Environment.NewLine + "Fin des résultats de " + Programme ;
+            if (Resultat)
+                Message = Message + Environment.NewLine +
+                    "L'assertion est vraie";
+            else Message = Message +
+                Environment.NewLine + "L'assertion est fausse";
+            return Resultat;
+        }
+
 
 
     }

@@ -20,19 +20,22 @@ namespace JCAssertionTest
             // Créer et configurer l'instance delaclasse qui fait letravail du form load
             JCAssertion.JCAssertion monProgramme = new JCAssertion.JCAssertion();
             monProgramme.Interactif = false;
-            monProgramme.args = new String[2];
+            monProgramme.args = new String[3];
             Assert.IsTrue(monProgramme.gettxbActivite().Contains("Démarrage"));
             // Définir les fichiers
             String FichierVar = Chemin + "EssaiCompletVar.xml";
             String FichierAssertion = Chemin + "EssaiComplet.xml";
             String FichierActivite = Chemin + "\\EssaiCompletActivite.txt";
-           
+            String FichierJournal = Chemin + "JCAssertion_Journal.txt";
+
             // Effacer les fichiers de résultats de l'essai précédent
             UF.EffaceSiExiste(FichierActivite);
+            UF.EffaceSiExiste(FichierJournal);
 
             // Simuler les arguments de ligne de commande du programme
             monProgramme.args[0] = "/FV:" + FichierVar;
             monProgramme.args[1] = "/fa:" + FichierAssertion;
+            monProgramme.args[2] = "/j:" + FichierJournal;
             
             // Créer le fichier de valeurs de variables
             JCAssertionCore.JCAVariable mesVariables =
@@ -56,7 +59,13 @@ namespace JCAssertionTest
             Assert.IsTrue(Activite.Contains("Cas réussis :"), "Cas réussis :");
             Assert.IsTrue(Activite.Contains("Cas en échec :"), "Cas en échec :");
             
-
+            // Fichier de jourmal
+            Assert.IsTrue (System.IO.File.Exists (FichierJournal),
+                "Le fichier de journal devrait exister"   );
+            String ContenuJournal = System.IO.File.ReadAllText(FichierJournal);
+            Assert.IsTrue(ContenuJournal.Contains("Le fichier existe."));
+        
+        
         }
         
 

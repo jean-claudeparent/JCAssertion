@@ -97,7 +97,12 @@ namespace JCAssertion
                 Informer  ("Le fichier de variables . " +
                     FichierVariable + " n'existe pas.", true );
                 return 99;
-            } 
+            }
+
+           if ((mesArguments.GetValeurVariable("J") != null) &&
+               (mesArguments.GetValeurVariable("J") != ""))
+               monJCACore.FichierJournal = mesArguments.GetValeurVariable("J");
+
             //
             // commencer le traitementproprement dit
             tbxFAssertion.Text = FichierAssertion;

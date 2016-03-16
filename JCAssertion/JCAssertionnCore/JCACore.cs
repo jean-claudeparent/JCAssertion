@@ -49,7 +49,8 @@ namespace JCAssertionCore
             // initialise aussi lenom dujournalet lenombre de cas et le cas courant
 
         {
-            FichierJournal = FichierDeCas + ".log.txt";
+            if (FichierJournal == null )
+                FichierJournal = FichierDeCas + ".log.txt";
             JournalInitialise = false;
             ListeDeCasXML = new XmlDocument();
             ListeDeCasXML.Load(FichierDeCas);

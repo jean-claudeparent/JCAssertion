@@ -119,6 +119,7 @@
             this.tbxActivite.Size = new System.Drawing.Size(534, 123);
             this.tbxActivite.TabIndex = 6;
             this.tbxActivite.Text = "Démarrage";
+            this.tbxActivite.TextChanged += new System.EventHandler(this.tbxActivite_TextChanged);
             // 
             // btnAnnuler
             // 

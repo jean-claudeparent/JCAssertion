@@ -74,6 +74,8 @@ namespace JCAssertion
         }
 
         // Methpde pour ajouter du texte dans l'activté
+        
+        
         private void AjouteActivite(String Texte )
         {
             tbxActivite.Text = tbxActivite.Text + Environment.NewLine + Texte;
@@ -86,6 +88,7 @@ namespace JCAssertion
                 } catch (Exception excep)
                 {
                     Message = excep.Message ;
+                    Console.WriteLine("Debug : " + Message ); 
                     AjouteActivite(Message);
                     throw excep;
                 }
@@ -189,11 +192,15 @@ namespace JCAssertion
         {
             
             try {
-                ExecuteAssertion();
+                int Resultat = ExecuteAssertion();
+                if (Resultat != 0)
+                    {
+                        Console.WriteLine(Message );
+                    }
                 Console.WriteLine("Cas réussis : " + NombreReussi.ToString() +
                     " sur " + NombreCas.ToString() + " et " + NombreEchec.ToString() + " échecs."  );
                 if ((NombreEchec > 0) && (!Interactif)) Environment.Exit(1);
-                if (!Interactif) Environment.Exit(0);
+                if (!Interactif) Environment.Exit(Resultat );
              } catch (Exception excep)
                  {
                      Console.WriteLine(excep.Message );

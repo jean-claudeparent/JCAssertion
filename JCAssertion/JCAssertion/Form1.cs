@@ -59,6 +59,8 @@ namespace JCAssertion
         int NombreReussi = 0;
         int NombreEchec = 0;
         int NombreCas = 0;
+        String  JournalActivite = null;
+
 
 
 
@@ -79,6 +81,12 @@ namespace JCAssertion
         private void AjouteActivite(String Texte )
         {
             tbxActivite.Text = tbxActivite.Text + Environment.NewLine + Texte;
+            if (JournalActivite != null )
+            {
+               StreamWriter fileJournal =  File.AppendText(JournalActivite  );
+               fileJournal.WriteLine(Environment.NewLine + Texte );
+               fileJournal.Close();
+            }        
         }
 
         public int ExecuteAssertion()
@@ -135,7 +143,12 @@ namespace JCAssertion
 
            if ((mesArguments.GetValeurVariable("J") != null) &&
                (mesArguments.GetValeurVariable("J") != ""))
-               monJCACore.FichierJournal = mesArguments.GetValeurVariable("J");
+               // Désactiver la journalisation  du core
+               // Le^programme va faire un  journal plus complet
+               monJCACore.Journaliser = false ;
+               JournalActivite =    mesArguments.GetValeurVariable("J");
+               if (System.IO.File.Exists(JournalActivite))
+                   System.IO.File.Delete(JournalActivite);   
 
             //
             // commencer le traitementproprement dit
@@ -196,6 +209,7 @@ namespace JCAssertion
                 if (Resultat != 0)
                     {
                         Console.WriteLine(Message );
+                        AjouteActivite(Message );
                     }
                 Console.WriteLine("Cas réussis : " + NombreReussi.ToString() +
                     " sur " + NombreCas.ToString() + " et " + NombreEchec.ToString() + " échecs."  );

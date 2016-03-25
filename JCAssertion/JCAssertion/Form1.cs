@@ -95,7 +95,8 @@ namespace JCAssertion
                 return Execute();
                 } catch (Exception excep)
                 {
-                    Message = excep.Message ;
+                    Message = "ERREUR==>" + excep.GetType() +
+                        Environment.NewLine   + excep.Message;
                     Console.WriteLine("Debug : " + Message ); 
                     AjouteActivite(Message);
                     throw excep;

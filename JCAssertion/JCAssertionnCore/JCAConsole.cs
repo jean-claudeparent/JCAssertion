@@ -46,21 +46,49 @@ namespace JCAssertionCore
         public int ExecuteProgramme(String Programme, String mesArguments, ref String Sortie )
         {
             Process monProcessus = new Process();
-            
-            monProcessus.StartInfo.UseShellExecute = false  ;
-            monProcessus.StartInfo.RedirectStandardOutput = true;
-            monProcessus.StartInfo.RedirectStandardError = true;
-            monProcessus.StartInfo.FileName = Programme ;
-            monProcessus.StartInfo.Arguments = mesArguments;
-            monProcessus.Start();
-            monProcessus.WaitForExit();
-            Sortie = monProcessus.StandardError.ReadToEnd() ;
-            Sortie = Sortie + monProcessus.StandardOutput.ReadToEnd();
-            monProcessus.Refresh();
-            
+            String InfoErreur = "";
+            int CR = 99;
 
-            int CR = monProcessus.ExitCode;
+            InfoErreur = "Exception lors de la préparation des paramètres de  " +
+                        "l'exécution de " + Programme;    
+            try {
+                monProcessus.StartInfo.UseShellExecute = false  ;
+                monProcessus.StartInfo.RedirectStandardOutput = true;
+                monProcessus.StartInfo.RedirectStandardError = true;
+                monProcessus.StartInfo.FileName = Programme ;
+                monProcessus.StartInfo.Arguments = mesArguments;
+                // lancer
+                InfoErreur = "Exception lors du lancement de " +
+                        "l'exécution de " + Programme;
+                monProcessus.Start();
+                // attendre la fin de l'exécution
+                InfoErreur = "Exception pendant " +
+                        "l'exécution de " + Programme;
+                monProcessus.WaitForExit();
+            // recuperer les résultats
+                InfoErreur = "Exception lors de la récupération des informations après la fin de " +
+                        "l'exécution de " + Programme;
+                Sortie = monProcessus.StandardError.ReadToEnd();
+                Sortie = Sortie + monProcessus.StandardOutput.ReadToEnd();
+                monProcessus.Refresh();
 
+
+               CR = monProcessus.ExitCode;
+
+
+                
+                
+           
+            
+            } catch (Exception excep)
+                {
+                    throw new JCAssertionException(InfoErreur +
+                        Environment.NewLine + excep.GetType() +
+                        Environment.NewLine + excep.Message   ,
+                        excep);
+                }
+
+            
             return CR;
         }
 

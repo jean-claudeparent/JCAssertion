@@ -71,6 +71,11 @@ namespace JCAssertionCoreTest
             Assert.AreEqual("TEST55", maCle);
             Assert.AreEqual("TEST55", maValeur);
 
+            // test avec des guillemets et espaces à enlever à la fin
+            Assert.IsTrue(maConsole.ExtraireParam("/duplex:\"c:/test:a allow\"  ", out maCle, out maValeur));
+            Assert.AreEqual("DUPLEX", maCle);
+            Assert.AreEqual("c:/test:a allow", maValeur);
+
 
 
         }

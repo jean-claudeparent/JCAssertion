@@ -48,6 +48,8 @@ namespace JCAssertionCore
             Process monProcessus = new Process();
             String InfoErreur = "";
             int CR = 99;
+            string User = Environment.UserName; 
+        
 
             InfoErreur = "Exception lors de la préparation des paramètres de  " +
                         "l'exécution de " + Programme;    
@@ -59,7 +61,7 @@ namespace JCAssertionCore
                 monProcessus.StartInfo.Arguments = mesArguments;
                 // lancer
                 InfoErreur = "Exception lors du lancement de " +
-                        "l'exécution de " + Programme;
+                        "l'exécution de " + Programme + " par " + User;
                 monProcessus.Start();
                 // attendre la fin de l'exécution
                 InfoErreur = "Exception pendant " +
@@ -111,10 +113,13 @@ namespace JCAssertionCore
             return Resultat;
         }
 
-        public bool   ExtraireParam(string monParam, out String Cle, out String Valeur)
+        public bool   ExtraireParam(string monParam, out String Cle, out String Valeur, Boolean EnleverGuillement = true )
         {
             Cle = "";
             Valeur = "";
+            if (EnleverGuillement)
+                monParam = monParam.Replace  ("\"","");
+            monParam = monParam.Trim(); 
             if(monParam == null) return false ;
             if (monParam == "") return false;
 

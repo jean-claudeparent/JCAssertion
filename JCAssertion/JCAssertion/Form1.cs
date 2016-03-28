@@ -273,6 +273,7 @@ namespace JCAssertion
             int i = 1;
             foreach (XmlNode monCas in monJCACore.getListeDeCas())
                 {
+                    if (AnnulerExecution) break;
                     Informer ("Exécution du cas " + i.ToString() );
                     if (monJCACore.ExecuteCas(monCas))
                         {
@@ -320,6 +321,8 @@ namespace JCAssertion
         {
             
             try {
+                FormClosed += new FormClosedEventHandler(Form1_FormClosing);
+
                 LancerThread();
                 // configurer et lancer le timer
                 monTimer.AutoReset = true;
@@ -343,9 +346,26 @@ namespace JCAssertion
 
         }
 
+        private void Form1_FormClosing(object sender, EventArgs e)
+        {
+            if (monThread.IsAlive  )
+                {
+                    Informer("Le programme a .t. fermé par l'utilisateur"); 
+                    monThread.Abort();
+                    Environment.Exit(99);  
+                }
+
+        }
+
         private void tbxActivite_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnAnnuler_Click(object sender, EventArgs e)
+        {
+            Informer("Programme annulé par le boutonannuler");
+            AnnulerExecution = true;
         }
     }
 }

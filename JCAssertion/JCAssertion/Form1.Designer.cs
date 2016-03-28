@@ -129,6 +129,7 @@
             this.btnAnnuler.TabIndex = 7;
             this.btnAnnuler.Text = "Annuler";
             this.btnAnnuler.UseVisualStyleBackColor = true;
+            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
             // 
             // JCAssertion
             // 

@@ -121,7 +121,17 @@ namespace JCAssertion
                 }
         }
 
-        // Methpde pour ajouter du texte dans l'activté
+        private void VerifieFini(object source, ElapsedEventArgs e)
+        {
+            if (! monThread.IsAlive)
+            {
+                monTimer.Stop();
+                Console.WriteLine(Message ); 
+                Environment.Exit(CodeDeRetour );
+
+            }
+        }
+
 
         public delegate void NAJtbxFAssertionCallBack(String Texte);
 
@@ -311,6 +321,14 @@ namespace JCAssertion
             
             try {
                 LancerThread();
+                // configurer et lancer le timer
+                monTimer.AutoReset = true;
+                monTimer.Interval = 1000;
+                monTimer.Elapsed += new ElapsedEventHandler(VerifieFini);
+                monTimer.Start(); 
+                // initialiser le handler de fermeture de la fenetre
+
+ 
 
              } catch (Exception excep)
                  {

@@ -123,6 +123,39 @@ namespace JCAssertion
 
         // Methpde pour ajouter du texte dans l'activté
 
+        public delegate void NAJtbxFAssertionCallBack(String Texte);
+
+        private void NAJtbxFAssertion(String Texte)
+          {
+            if (tbxFAssertion.InvokeRequired)
+                {
+                    NAJtbxFAssertionCallBack CB =
+                        new NAJtbxFAssertionCallBack(NAJtbxFAssertion);
+                    this.Invoke(CB, new Object[] { Texte });
+                } else 
+                {
+                    tbxFAssertion.Text = Texte;
+                    tbxFAssertion.Refresh(); 
+                }
+          }
+
+        public delegate void MAJtbxFVariablesCallBack(String Texte);
+
+        private void MAJtbxFVariables(String Texte)
+        {
+            if (tbxFVariables.InvokeRequired)
+            {
+                MAJtbxFVariablesCallBack CB =
+                    new MAJtbxFVariablesCallBack(MAJtbxFVariables);
+                this.Invoke(CB, new Object[] { Texte });
+            }
+            else
+            {
+                tbxFVariables.Text = Texte;
+                tbxFVariables.Refresh();
+            }
+        }
+
         public delegate void AjouteActiviteCallBack(String Texte);
         
         private void AjouteActivite(String Texte )
@@ -138,6 +171,7 @@ namespace JCAssertion
              {
                 tbxActivite.Text = tbxActivite.Text + 
                     Environment.NewLine + Texte;
+                tbxActivite.Refresh(); 
             if (JournalActivite != null )
             {
                StreamWriter fileJournal =  File.AppendText(JournalActivite  );
@@ -212,8 +246,8 @@ namespace JCAssertion
 
             //
             // commencer le traitementproprement dit
-            tbxFAssertion.Text = FichierAssertion;
-            tbxFVariables.Text = FichierVariable ;
+            NAJtbxFAssertion(FichierAssertion);
+            MAJtbxFVariables(FichierVariable) ;
             Informer("Lecture du fichier d'assertion : " 
                 + FichierAssertion );
             monJCACore.Load(FichierAssertion );

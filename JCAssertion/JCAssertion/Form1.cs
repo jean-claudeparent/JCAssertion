@@ -41,6 +41,8 @@ using System.Windows.Forms;
 using JCAssertionCore;
 using System.IO;
 using System.Xml;
+using System.Timers;
+using System.Threading;
 
 
 
@@ -48,21 +50,65 @@ namespace JCAssertion
 {
     public partial class JCAssertion : Form
     {
-        Boolean Annuler = false;
+        
+
+        // Variables modifiées juste par le thread secondaire si il est actif
+        public static Boolean Interactif = false;
+        public static String Message = "";
+        static int NombreReussi = 0;
+        static int NombreEchec = 0;
+        static int NombreCas = 0;
+        static String JournalActivite = null;
+        public static Exception ExceptionGlobale = new Exception();
+        public static Boolean ExceptionRencontree = false;
+        public static int CodeDeRetour = 77;
+
+
+        
+
+
+
+        
+        
+        // Variables en lecture seule par le thread secondaire
+
+        public static  Boolean AnnulerExecution = false ;
+        public string[] args = new string[0];
+        
+
+        // Variables dans chaque thread
+        String Usage = "usage :" + Environment.NewLine + Environment.NewLine + "JCAssertion /FA:fichierassertion /fv:fichierdevariables";
         JCAVariable mesArguments = new JCAssertionCore.JCAVariable();
         JCAConsole maConsole = new JCAssertionCore.JCAConsole();
         JCACore monJCACore = new JCACore();
-        String Usage = "usage :" + Environment.NewLine + Environment.NewLine + "JCAssertion /FA:fichierassertion /fv:fichierdevariables";
-        public string[] args = new string[0];
-        public Boolean Interactif = false ;
-        public String  Message = "";
-        int NombreReussi = 0;
-        int NombreEchec = 0;
-        int NombreCas = 0;
-        String  JournalActivite = null;
+        System.Threading.Thread monThread; 
+        System.Timers.Timer monTimer = new System.Timers.Timer();
+         
 
+        public int getCodeDeRetour()
+            {
+                return CodeDeRetour;
+            }
+        
+        public Exception  getException()
+        {
+            return ExceptionGlobale;
+        }
 
+        public void setInteractif(Boolean Valeur)
+        {
+            Interactif = Valeur;
+        }
 
+        public Boolean monThreadIsAlive()
+        {
+            return monThread.IsAlive; 
+        }
+
+        public String  getMessage()
+        {
+            return Message ;
+        }
 
         private void Informer(String Texte, Boolean Severe = false )
         {
@@ -76,30 +122,43 @@ namespace JCAssertion
         }
 
         // Methpde pour ajouter du texte dans l'activté
-        
+
+        public delegate void AjouteActiviteCallBack(String Texte);
         
         private void AjouteActivite(String Texte )
         {
-            tbxActivite.Text = tbxActivite.Text + Environment.NewLine + Texte;
+            if (tbxActivite.InvokeRequired)
+             {
+                 AjouteActiviteCallBack CB = new 
+                     AjouteActiviteCallBack(AjouteActivite);
+                this.Invoke(CB, new Object[] { Texte } );
+                
+             }
+            else 
+             {
+                tbxActivite.Text = tbxActivite.Text + 
+                    Environment.NewLine + Texte;
             if (JournalActivite != null )
             {
                StreamWriter fileJournal =  File.AppendText(JournalActivite  );
                fileJournal.WriteLine(Environment.NewLine + Texte );
                fileJournal.Close();
-            }        
+            } 
+           }   
         }
 
-        public int ExecuteAssertion()
+        public void  ExecuteAssertion()
         {
+            // ici c'est ce qui va s'exécuter dans le thread secondaire
             try {
-                return Execute();
+                CodeDeRetour = Execute();
                 } catch (Exception excep)
                 {
                     Message = "ERREUR==>" + excep.GetType() +
                         Environment.NewLine   + excep.Message;
-                    Console.WriteLine("Debug : " + Message ); 
                     AjouteActivite(Message);
-                    throw excep;
+                    ExceptionGlobale = excep;
+                    ExceptionRencontree = true;
                 }
         }
 
@@ -196,6 +255,17 @@ namespace JCAssertion
                 return 0;
         }
 
+        public void LancerThread()
+            {
+                monThread = new System.Threading.Thread(
+                    new System.Threading.ThreadStart(ExecuteAssertion));
+                monThread.Start();
+                while (! monThread.IsAlive  )
+                    Thread.Sleep(1);
+  
+
+                
+            }
 
         public JCAssertion()
         {
@@ -206,16 +276,8 @@ namespace JCAssertion
         {
             
             try {
-                int Resultat = ExecuteAssertion();
-                if (Resultat != 0)
-                    {
-                        Console.WriteLine(Message );
-                        AjouteActivite(Message );
-                    }
-                Console.WriteLine("Cas réussis : " + NombreReussi.ToString() +
-                    " sur " + NombreCas.ToString() + " et " + NombreEchec.ToString() + " échecs."  );
-                if ((NombreEchec > 0) && (!Interactif)) Environment.Exit(1);
-                if (!Interactif) Environment.Exit(Resultat );
+                LancerThread();
+
              } catch (Exception excep)
                  {
                      Console.WriteLine(excep.Message );

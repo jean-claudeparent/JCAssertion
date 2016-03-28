@@ -54,6 +54,7 @@
     <Compile Include="JCAExporteUnitTest1.cs" />
     <Compile Include="JCAssertionUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThreadUnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JCAExport\JCAExporte.csproj">

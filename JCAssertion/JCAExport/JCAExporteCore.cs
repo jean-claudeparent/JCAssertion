@@ -63,7 +63,7 @@ namespace JCAExporte
 
             if ((mesArgs.GetValeurVariable("F") == null) || (mesArgs.GetValeurVariable("F") == ""))
                 {
-                    Message = "L'argument /F (Chemin du fichier de sortie nMa oas été spécfié.)" + Environment.NewLine + Usage;
+                    Message = "L'argument /F (Chemin du fichier de sortie n'a pas été spécfié.)" + Environment.NewLine + Usage;
                     return 99;
                 }
 
@@ -86,7 +86,7 @@ namespace JCAExporte
             //Sauvegarder
             mesVariables.EcrireFichier(NomFichier);
             mesArgs.EcrireFichier(NomFichier + ".debug.xml");
-            Message = "Fichier : " + NomFichier + " mis à jour.";
+            Message = Environment.NewLine +  "Fichier : " + NomFichier + " mis à jour.";
             
             return 0;
         }

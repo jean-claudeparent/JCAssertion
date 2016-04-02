@@ -61,7 +61,7 @@ namespace JCAssertion
         static String JournalActivite = null;
         public static Exception ExceptionGlobale = new Exception();
         public static Boolean ExceptionRencontree = false;
-        public static int CodeDeRetour = 77;
+        public static int CodeDeRetour = 99;
 
 
         
@@ -127,7 +127,7 @@ namespace JCAssertion
             {
                 monTimer.Stop();
                 Console.WriteLine(Message ); 
-                Environment.Exit(CodeDeRetour );
+                Environment.Exit(CodeDeRetour);
 
             }
         }
@@ -292,12 +292,10 @@ namespace JCAssertion
             Informer("Fin de l'exécution");
             Informer("Cas réussis : " + NombreReussi.ToString() + " sur " + NombreCas.ToString()  );
             Informer("Cas en échec : " + NombreEchec.ToString() + " sur " + NombreCas.ToString());
-
-
-
-
-
-                return 0;
+            if(NombreEchec > 0) 
+                return 1;
+            else
+              return 0;
         }
 
         public void LancerThread()
@@ -350,9 +348,9 @@ namespace JCAssertion
         {
             if (monThread.IsAlive  )
                 {
-                    Informer("Le programme a .t. fermé par l'utilisateur"); 
+                    Informer("Le programme a été fermé par l'utilisateur"); 
                     monThread.Abort();
-                    Environment.Exit(99);  
+                    Environment.Exit(77);  
                 }
 
         }

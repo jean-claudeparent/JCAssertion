@@ -54,7 +54,7 @@ namespace JCAExporte
                 Environment.Exit(CodeDeRetour );
              } catch  (Exception excep)
                 {
-                    Console.WriteLine(excep.Message);
+                    Console.WriteLine("ERREUR:" + excep.Message);
                     Environment.Exit(99);
             
                 }

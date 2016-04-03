@@ -85,7 +85,6 @@ namespace JCAExporte
                       
             //Sauvegarder
             mesVariables.EcrireFichier(NomFichier);
-            mesArgs.EcrireFichier(NomFichier + ".debug.xml");
             Message = Environment.NewLine +  "Fichier : " + NomFichier + " mis à jour.";
             
             return 0;

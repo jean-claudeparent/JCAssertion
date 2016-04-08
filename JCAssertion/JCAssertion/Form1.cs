@@ -54,6 +54,7 @@ namespace JCAssertion
 
         // Variables modifiées juste par le thread secondaire si il est actif
         public static Boolean Interactif = false;
+        public static Boolean Avertir = false;
         public static String Message = "";
         static int NombreReussi = 0;
         static int NombreEchec = 0;
@@ -116,7 +117,7 @@ namespace JCAssertion
             if (Severe)
                 {
                     Message = Environment.NewLine + Texte;
-                    if (Interactif) System.Windows.Forms.MessageBox.Show(Texte);
+                    if ((Interactif) || (Avertir)) System.Windows.Forms.MessageBox.Show(Texte);
                       
                 }
         }
@@ -218,7 +219,8 @@ namespace JCAssertion
             
             // Vérifier qu'au moins le nom de fichier d'assertion est fourni
             
-            if ((mesArguments.GetValeurVariable("FA") == null) || (mesArguments.GetValeurVariable("FA") == ""))
+            if ((mesArguments.GetValeurVariable("FA") == null) ||
+                (mesArguments.GetValeurVariable("FA") == ""))
                     {
                         Informer("Ce programme doit recevoir des arguments enligne de commande." + Usage, true) ;
                         return 99;
@@ -245,7 +247,13 @@ namespace JCAssertion
                 return 99;
             }
 
-           if ((mesArguments.GetValeurVariable("J") != null) &&
+           if ((mesArguments.GetValeurVariable("AV") != null) &&
+                (mesArguments.GetValeurVariable("AV") != ""))
+                    {
+                        Avertir = true;
+                    }
+            
+            if ((mesArguments.GetValeurVariable("J") != null) &&
                (mesArguments.GetValeurVariable("J") != ""))
                // Désactiver la journalisation  du core
                // Le^programme va faire un  journal plus complet
@@ -283,7 +291,7 @@ namespace JCAssertion
                         }
                     else
                         {
-                            Informer ("Assertion fausse");
+                            Informer ("Assertion fausse", Avertir );
                             Informer (monJCACore.Message);
                             NombreEchec = NombreEchec + 1;
                         }

@@ -50,6 +50,8 @@ namespace JCAssertionCore
         public int NombreCas = 0;
         public int NoCasCourant = 0;
         public String Message = "";
+        public String MessageEchec = "";
+        
         public JCAssertionCore.JCAVariable Variables = new JCAssertionCore.JCAVariable() ;
         
 
@@ -121,7 +123,7 @@ namespace JCAssertionCore
         public bool ExecuteCas(XmlNode XMLCas)
         {
             XmlDocument monDoc = new XmlDocument ();
-
+            MessageEchec = "";
             NoCasCourant = NoCasCourant + 1;
             Message = "Cas numéro : " + NoCasCourant ;
             // vérifier et corriger si On est dans un node xml trop haut
@@ -134,6 +136,8 @@ namespace JCAssertionCore
             if ((XMLCas["Type"] == null) || (XMLCas["Type"].InnerText == null))
                 {
                     MessageAjoutter("La balise type est introuvable ou n'a pas de valeur." + XMLCas.InnerXml  );
+                    MessageEchec = 
+                        "La balise type est introuvable ou n'a pas de valeur." + XMLCas.InnerXml;
                     return false;
                 } else
                 {
@@ -145,7 +149,9 @@ namespace JCAssertionCore
                     switch (monOperateur)
                         {
                             case "FichierExiste":
-                                Resultat =  JCAPontXML.JCAFichierExiste(XMLCas,ref  Message, ref  Variables.Variables );
+                                Resultat =  JCAPontXML.JCAFichierExiste(XMLCas,
+                                    ref  Message, ref  Variables.Variables, 
+                                    ref MessageEchec  );
                                 Journalise(Message);
                                 return Resultat;
 
@@ -165,12 +171,18 @@ namespace JCAssertionCore
                         
                         default:
                             MessageAjoutter("Type inconnu");
+                            MessageEchec =
+                            "Type inconnu : " + monOperateur ;
+                            
                             Journalise(Message);
                             return false;
                         }
                         } catch (JCAssertionException excep)
                         {
                             MessageAjoutter( excep.Message);
+                            MessageEchec = 
+                                "Erreur technique : " + excep.Message;
+                            
                             Journalise(Message);
                             return false;
 

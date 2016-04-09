@@ -63,6 +63,7 @@ namespace JCAssertion
         public static Exception ExceptionGlobale = new Exception();
         public static Boolean ExceptionRencontree = false;
         public static int CodeDeRetour = 99;
+        public static String MessageEchec = ""; 
 
 
         
@@ -291,8 +292,10 @@ namespace JCAssertion
                         }
                     else
                         {
-                            Informer ("Assertion fausse", Avertir );
+                            MessageEchec = monJCACore.MessageEchec  ;    
+                            Informer ("Assertion fausse");
                             Informer (monJCACore.Message);
+                            Informer(MessageEchec,Avertir );
                             NombreEchec = NombreEchec + 1;
                         }
                     i = i++;

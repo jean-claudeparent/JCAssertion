@@ -91,7 +91,9 @@ namespace JCAssertionCore
             }
 
 
-        public static   bool  JCAFichierExiste(XmlNode monXMLNode, ref string   Message,ref  Dictionary<String, String > Variables)
+        public static   bool  JCAFichierExiste(XmlNode monXMLNode,
+            ref string   Message,ref  Dictionary<String, String > Variables,
+            ref String MessageEchec)
             {
                 Message = Message + Environment.NewLine  + "Assertion FichierExiste\n";
                 if (monXMLNode == null) throw new JCAssertionException("Le XML est vide.");
@@ -100,8 +102,22 @@ namespace JCAssertionCore
                 NomFichier = JCAVariable.SubstituerVariables(NomFichier, Variables);
                 Message = Message + Environment.NewLine  +  "Fichier:" + NomFichier  + "\n";
                 Boolean Resultat = File.Exists (NomFichier );
-                if (Resultat) Message = Message + Environment.NewLine  + "Le fichier existe.";
-                else Message = Message + Environment.NewLine  + "Le fichier n'existe pas.";
+                if (Resultat) 
+                    {
+                    Message = Message + Environment.NewLine  +
+                        "Le fichier existe.";
+                    MessageEchec = "";
+                    }
+                else
+                    {
+                    Message = Message + Environment.NewLine  +
+                        "Le fichier n'existe pas.";
+                    if (ValeurBalise (monXMLNode, "MessageEchec") != "")
+                        MessageEchec = ValeurBalise (monXMLNode, "MessageEchec")
+                            + " (Fichier : " + NomFichier + ")";
+                    else
+                        MessageEchec = "Le fichier " + NomFichier + "n'existe pas et il devrait exister.";
+                }
                 return Resultat;
             }
 

@@ -42,12 +42,17 @@ namespace JCAssertionCore
     public class JCAConsole
         // Fonctions pourles appplications consoles
 
+        
+
     {
+        public int DernierCodeDeRetour = 99;
+
         public int ExecuteProgramme(String Programme, String mesArguments, ref String Sortie )
         {
+            
             Process monProcessus = new Process();
             String InfoErreur = "";
-            int CR = 99;
+            DernierCodeDeRetour = 99;
             string User = Environment.UserName; 
         
 
@@ -75,7 +80,7 @@ namespace JCAssertionCore
                 monProcessus.Refresh();
 
 
-               CR = monProcessus.ExitCode;
+               DernierCodeDeRetour  = monProcessus.ExitCode;
 
 
                 
@@ -91,7 +96,7 @@ namespace JCAssertionCore
                 }
 
             
-            return CR;
+            return DernierCodeDeRetour ;
         }
 
         

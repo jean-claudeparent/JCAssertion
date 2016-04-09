@@ -207,10 +207,14 @@ namespace JCAssertionCore
             return Resultat ;
         }
 
-        public static bool JCAExecuteProgramme(XmlNode monXMLNode, ref string Message, ref  Dictionary<String, String> Variables)
+        public static bool JCAExecuteProgramme(XmlNode monXMLNode, 
+            ref string Message, ref  Dictionary<String, String> Variables,
+            ref string MessageEchec)
+            
         {
             JCAConsole maConsole = new JCAConsole();
             String Sortie = "";
+            MessageEchec = "";
             Message = Message + Environment.NewLine + "Assertion ExecuteProgramme";
             if (monXMLNode == null) 
                 throw new JCAssertionException("Le XML est vide.");
@@ -234,8 +238,26 @@ namespace JCAssertionCore
             if (Resultat)
                 Message = Message + Environment.NewLine +
                     "L'assertion est vraie";
-            else Message = Message +
-                Environment.NewLine + "L'assertion est fausse";
+            else
+                {
+                // echec
+                Message = Message +
+                Environment.NewLine +
+                "L'assertion est fausse";
+                // messageechec
+                if (ValeurBalise (monXMLNode, "MessageEchec") != "")
+                        MessageEchec = ValeurBalise (monXMLNode, "MessageEchec")
+                            + " (Code de retour : " + 
+                            maConsole.DernierCodeDeRetour.ToString() +
+                             " )";
+                    else
+                        MessageEchec = 
+                            "Le programme " + Programme  + 
+                            " a terminé avec le code de retour" +
+                            maConsole.DernierCodeDeRetour.ToString();
+                }
+                
+
             return Resultat;
         }
 

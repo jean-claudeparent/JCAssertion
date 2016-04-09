@@ -165,7 +165,8 @@ namespace JCAssertionCore
                                 Journalise(Message);
                                 return Resultat;
                             case "ExecuteProgramme":
-                                Resultat = JCAPontXML.JCAExecuteProgramme(XMLCas, ref  Message, ref  Variables.Variables);
+                                Resultat = JCAPontXML.JCAExecuteProgramme(XMLCas, 
+                                    ref  Message, ref  Variables.Variables , ref  MessageEchec );
                                 Journalise(Message);
                                 return Resultat;
                         

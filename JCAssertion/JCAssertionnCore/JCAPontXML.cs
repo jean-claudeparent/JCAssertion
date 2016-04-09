@@ -116,7 +116,7 @@ namespace JCAssertionCore
                         MessageEchec = ValeurBalise (monXMLNode, "MessageEchec")
                             + " (Fichier : " + NomFichier + ")";
                     else
-                        MessageEchec = "Le fichier " + NomFichier + "n'existe pas et il devrait exister.";
+                        MessageEchec = "Le fichier " + NomFichier + " n'existe pas et il devrait exister.";
                 }
                 return Resultat;
             }

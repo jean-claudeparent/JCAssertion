@@ -23,18 +23,42 @@ namespace JCAssertionCoreTest
             monCas.InnerXml = "<Assertion><Type>FichierExiste</Type><Fichier>{{Fichier}}</Fichier></Assertion>";
             Assert.IsFalse(monCore.ExecuteCas(monCas ));
             Assert.IsTrue (monCore.Message.Contains("La variable Fichier n'a pas eu de valeur fournie"), "Attendu:La variable Fichiern'a pas eu de valeur fournie");
+            // Le MessageEchec est généré par une exception
+            Assert.IsTrue(monCore.MessageEchec.Contains("La variable Fichier n'a pas eu de valeur fournie"), 
+                monCore.MessageEchec  ); 
+            
+            // variable fournie mais fichier existe pas.
+            // MessageEchec générique
 
-            // variable fournie mais fichier existe pas
             monCore.Variables.MAJVariable("Fichier",Chemin + "DivideByZeroException:existepas.pasla");
             Assert.IsFalse(monCore.ExecuteCas (monCas ) );
-            Assert.IsTrue(monCore.Message.Contains("Le fichier n'existe pas"), "Attendu:Le fichier n'existe pas");    
+            Assert.IsTrue(monCore.Message.Contains("Le fichier n'existe pas"), "Attendu:Le fichier n'existe pas");
+            Assert.IsTrue(monCore.MessageEchec.Contains(" n'existe pas et il devrait exister"),
+                monCore.MessageEchec);
+
+            // variable fournie mais fichier existe pas.
+            // MessageEchec spécifique
+
+            monCas.InnerXml = "<Assertion><Type>FichierExiste</Type>" +
+                "<Fichier>{{Fichier}}</Fichier>" +
+                "<MessageEchec>Message d'échec spécifique</MessageEchec></Assertion>";
+            
+
+            monCore.Variables.MAJVariable("Fichier", Chemin + "DivideByZeroException:existepas.pasla");
+            Assert.IsFalse(monCore.ExecuteCas(monCas));
+            Assert.IsTrue(monCore.Message.Contains("Le fichier n'existe pas"), "Attendu:Le fichier n'existe pas");
+            Assert.IsTrue(monCore.MessageEchec.Contains("Message d'échec spécifique ("),
+                monCore.MessageEchec); 
+            
 
             // Valeurs fournies,fichier existe
             monCore.Variables.MAJVariable("Fichier", Chemin +
                 "FichierDeCasOK.xml");
             Assert.IsTrue(monCore.ExecuteCas(monCas));
             Assert.IsTrue(monCore.Message.Contains("Le fichier existe"),
-                "Attendu:Le fichier existe");    
+                "Attendu:Le fichier existe");
+            Assert.AreEqual("",monCore.MessageEchec);
+            
 
         }
 

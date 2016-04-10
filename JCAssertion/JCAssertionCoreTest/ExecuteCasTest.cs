@@ -150,9 +150,15 @@ namespace JCAssertionCoreTest
                 "<Programme>{{Chemin}}" + NomProgramme + "</Programme>" +
                 "<Arguments>{{CodeDeRetour}}</Arguments>" +
                 "</Assertion>";
+            // Echec produit par une exception
+
             Assert.IsFalse(monCore.ExecuteCas(monCas));
             Assert.IsTrue(monCore.Message.Contains("La variable Chemin n'a pas eu de valeur fournie"),
                 "Attendu:La variable Chemin n'a pas eu de valeur fournie. Réel :" + monCore.Message);
+            Assert.IsTrue(monCore.MessageEchec.Contains("La variable Chemin n'a pas eu de valeur fournie"),
+                monCore.MessageEchec); 
+            
+
 
             // um cas qui marche et retourne true
             monCore.Variables.MAJVariable("Chemin", Chemin);
@@ -160,7 +166,8 @@ namespace JCAssertionCoreTest
             Assert.IsTrue(monCore.ExecuteCas(monCas));
             Assert.IsTrue(monCore.Message.Contains("Résultat de l'exécution de "),
                 "Attendu:Résultat de l'exécution de  Réel :" + monCore.Message);
-
+            Assert.AreEqual("",monCore.MessageEchec); 
+            
             
 
             // un cas qui marche et retourne false
@@ -168,6 +175,25 @@ namespace JCAssertionCoreTest
             Assert.IsFalse (monCore.ExecuteCas(monCas));
             Assert.IsTrue(monCore.Message.Contains("Le programme roule 45"),
                 "Attendu:Le programme roule 45. Réel :" + monCore.Message);
+            Assert.IsTrue(monCore.MessageEchec.Contains(" a terminé avec le code de retour 45"),
+                monCore.MessageEchec); 
+            
+            // test retournant faux avec message d'échec spécifique
+
+            monCas.InnerXml = "<Assertion><Type>ExecuteProgramme</Type>" +
+                "<Programme>{{Chemin}}" + NomProgramme + "</Programme>" +
+                "<Arguments>{{CodeDeRetour}}</Arguments>" +
+                "<MessageEchec>Message spécifique 32</MessageEchec>" +
+                "</Assertion>";
+            
+            
+            monCore.Variables.MAJVariable("CodeDeRetour", "45");
+            Assert.IsFalse(monCore.ExecuteCas(monCas));
+            Assert.IsTrue(monCore.Message.Contains("Le programme roule 45"),
+                "Attendu:Le programme roule 45. Réel :" + monCore.Message);
+            Assert.IsTrue(monCore.MessageEchec.Contains("Message spécifique 32 (Code de retour : 45 )"),
+                monCore.MessageEchec); 
+            
 
         }
         

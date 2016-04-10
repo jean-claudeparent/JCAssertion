@@ -253,7 +253,7 @@ namespace JCAssertionCore
                     else
                         MessageEchec = 
                             "Le programme " + Programme  + 
-                            " a terminé avec le code de retour" +
+                            " a terminé avec le code de retour " +
                             maConsole.DernierCodeDeRetour.ToString();
                 }
                 

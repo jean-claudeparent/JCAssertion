@@ -295,7 +295,13 @@ namespace JCAssertion
                             MessageEchec = monJCACore.MessageEchec  ;    
                             Informer ("Assertion fausse");
                             Informer (monJCACore.Message);
+                            Informer("Détail de l'échec de l'assertion" +
+                                Environment.NewLine +
+                                "----");
                             Informer(MessageEchec,Avertir );
+                            Informer("-----" +
+                                Environment.NewLine +
+                                "Fin du détail de l'échec de l'assertion");
                             NombreEchec = NombreEchec + 1;
                         }
                     i = i++;

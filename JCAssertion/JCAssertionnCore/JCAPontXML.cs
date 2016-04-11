@@ -203,7 +203,7 @@ namespace JCAssertionCore
                             MessageEchec = MessageEchec +
                                 Environment.NewLine +
                                 "Le texte '" + Contient + 
-                                "' n'a pas été trouvée et elle devrait y être";
+                                "' n'a pas été trouvé et il devrait être dans le fichier";
                         } //if(!ResultatPartiel) 
                 } // foreach
                 
@@ -228,7 +228,7 @@ namespace JCAssertionCore
                             MessageEchec = MessageEchec +
                                 Environment.NewLine +
                                 "Le texte '" + NeContientPas + 
-                                "' a été trouvée et elle me devrait pas y être";
+                                "' a été trouvée et il me devrait pas être dans le fichier";
                         } // if(!ResultatPartiel)
                 } // foreach 
                 

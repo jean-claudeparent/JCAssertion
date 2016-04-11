@@ -127,7 +127,8 @@ namespace JCAssertionCoreTest
             monCore.Variables.MAJVariable("Chemin",Chemin );
             monCore.Variables.MAJVariable("s", "s");
             Assert.IsTrue(monCore.ExecuteCas(monCas), monCore.Message );
-            Assert.IsTrue(monCore.Message.Contains("L'assertion est vraie"), monCore.Message); 
+            Assert.IsTrue(monCore.Message.Contains("L'assertion est vraie"), 
+                "Attendu:L.assertion estbraie. Réel:" + monCore.Message); 
             
             //TODO unit tester les autres validations
 

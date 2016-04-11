@@ -163,8 +163,11 @@ namespace JCAssertionCore
             return true ;
         }
 
-        public static bool JCAContenuFichier(XmlNode monXMLNode, ref string Message, ref  Dictionary<String, String> Variables)
+        public static bool JCAContenuFichier(XmlNode monXMLNode,
+            ref string Message, ref  Dictionary<String, String> Variables,
+            ref String  MessageEchec)
         {
+            MessageEchec = "";
             Message = Message + Environment.NewLine + "Assertion ContenuFichier";
             if (monXMLNode == null) 
                 throw new JCAssertionException("Le XML est vide.");
@@ -179,31 +182,84 @@ namespace JCAssertionCore
                 throw new JCAssertionException("Le fichier " + NomFichier + "n'existe pas" );
             String Contenu = System.IO.File.ReadAllText(NomFichier );
 
+            // traiter les valeurs multiples
             
-            String Contient = ValeurBalise (monXMLNode,"Contient") ;
-            Contient = JCAVariable.SubstituerVariables(Contient , Variables);
-            
-            String NeContientPas = ValeurBalise (monXMLNode,"NeContientPas");
-            NeContientPas = JCAVariable.SubstituerVariables(NeContientPas, Variables);
             Boolean Resultat = true;
-
-            if(Contient != "")
+            String Contient = "";
+            Boolean ResultatPartiel = true;
+             
+            foreach (XmlElement monFragmentXML in monXMLNode.SelectNodes("Contient"))
                 {
-                    Message= Message + Environment.NewLine + "Vérifier si le fichier contient:" + Contient;
-                    Resultat = Resultat && Contenu.Contains(Contient )  ;
-                }
-            if(NeContientPas != "")
-                {
-                    Message= Message + Environment.NewLine + "Vérifier si le fichier ne contient pas:" + NeContientPas;
-                    Resultat = Resultat && !Contenu.Contains(NeContientPas);
+                    
+                    Contient = monFragmentXML.InnerText;
+                    Contient = JCAVariable.SubstituerVariables(Contient, Variables);
+                    Message= Message + Environment.NewLine + 
+                        "Vérifier si le fichier contient:" +
+                        Contient;
+                    ResultatPartiel = Contenu.Contains(Contient);
+                    if(!ResultatPartiel) 
+                        {
+                            Resultat = false;
+                            MessageEchec = MessageEchec +
+                                Environment.NewLine +
+                                "Le texte '" + Contient + 
+                                "' n'a pas été trouvée et elle devrait y être";
+                        } //if(!ResultatPartiel) 
+                } // foreach
                 
-                }
+
+                    String NeContientPas = "";
+
+
+                foreach (XmlElement  monFragmentXMLCP in monXMLNode.SelectNodes(
+                    "NeContientPas"))
+                {
+                    
+                    NeContientPas = monFragmentXMLCP.InnerText;
+                    NeContientPas = JCAVariable.SubstituerVariables(
+                        NeContientPas, Variables);
+                    Message= Message + Environment.NewLine + 
+                        "Vérifier si le fichier ne contient pas:" +
+                        NeContientPas;
+                    ResultatPartiel = ! Contenu.Contains(NeContientPas);
+                    if(!ResultatPartiel) 
+                        {
+                            Resultat = false;
+                            MessageEchec = MessageEchec +
+                                Environment.NewLine +
+                                "Le texte '" + NeContientPas + 
+                                "' a été trouvée et elle me devrait pas y être";
+                        } // if(!ResultatPartiel)
+                } // foreach 
+                
+
+
             if (Resultat)
                 Message = Message + Environment.NewLine +
                     "L'assertion est vraie";
             else
+                {
                 Message = Message + Environment.NewLine +
                     "L'assertion est fausse";
+                // insérer le message d'échec
+                if (ValeurBalise (monXMLNode,"MessageEchec") != "")
+                    {
+                        MessageEchec = ValeurBalise(monXMLNode, "MessageEchec") +
+                            Environment.NewLine + MessageEchec;
+                        MessageEchec = JCAVariable.SubstituerVariables(
+                            MessageEchec , Variables);
+ 
+                    }
+                else
+                {
+                    MessageEchec = "Assertion fauuse du dichier " + NomFichier  +
+                        Environment.NewLine + MessageEchec;
+                    MessageEchec = JCAVariable.SubstituerVariables(
+                        MessageEchec, Variables);
+
+                }
+
+                }
             return Resultat ;
         }
 

@@ -51,8 +51,11 @@ namespace JCAssertionCoreTest
                 "Attendu:savana Réel :" + monCore.Message);
             Assert.IsTrue(monCore.Message.Contains("siamois"),
                 "Attendu:siamois Réel :" + monCore.Message);
-            Assert.IsTrue(monCore.Message.Contains("froms"),
+            Assert.IsTrue(monCore.Message.Contains("from"),
                 "Attendu:from Réel :" + monCore.Message);
+            Assert.IsTrue(monCore.Message.Contains("select"),
+                "Attendu:select Réel :" + monCore.Message);
+            
             Assert.AreEqual("", monCore.MessageEchec);
 
 

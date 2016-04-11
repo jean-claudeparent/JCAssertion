@@ -156,12 +156,16 @@ namespace JCAssertionCore
                                 return Resultat;
 
                             case "SubstituerVariablesFichier":
-                                Resultat = JCAPontXML.JCASubstituerVariablesFichier(XMLCas, ref  Message, ref  Variables.Variables);
+                                Resultat = JCAPontXML.JCASubstituerVariablesFichier(
+                                    XMLCas, ref  Message, 
+                                    ref  Variables.Variables);
                                 Journalise(Message);
                                 return Resultat;
 
                             case "ContenuFichier":
-                                Resultat = JCAPontXML.JCAContenuFichier (XMLCas, ref  Message, ref  Variables.Variables);
+                                Resultat = JCAPontXML.JCAContenuFichier (XMLCas,
+                                    ref  Message, ref  Variables.Variables,
+                                    ref MessageEchec );
                                 Journalise(Message);
                                 return Resultat;
                             case "ExecuteProgramme":

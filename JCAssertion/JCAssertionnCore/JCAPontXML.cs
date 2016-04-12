@@ -228,7 +228,7 @@ namespace JCAssertionCore
                             MessageEchec = MessageEchec +
                                 Environment.NewLine +
                                 "Le texte '" + NeContientPas + 
-                                "' a été trouvée et il me devrait pas être dans le fichier";
+                                "' a été trouvé et il me devrait pas être dans le fichier";
                         } // if(!ResultatPartiel)
                 } // foreach 
                 

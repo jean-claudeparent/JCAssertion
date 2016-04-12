@@ -121,12 +121,67 @@ namespace JCAssertionCoreTest
 
 
         [TestMethod]
+        public void ContenuFichierMultipleEchecLes2()
+        {
+            // Variables
+            JCACore monCore = new JCACore();
+            XmlDocument monCas = new XmlDocument();
+            String FichierEssai = Chemin +
+                "ContenuFichierMultipleEchecLes2.txt";
+
+
+            // Création du fichier de données
+            CreerFichierTest(FichierEssai);
+
+            // Création du xml de cas
+
+            monCas.InnerXml = "<Assertion><Type>ContenuFichier</Type>" +
+                "<Fichier>{{FichierEssai}}</Fichier>" +
+                "<Contient>introuvable</Contient>" +
+                "<Contient>from</Contient>" +
+                "<NeContientPas>savana</NeContientPas>" +
+                "<NeContientPas>sel</NeContientPas>" +
+                "<MessageEchec>Message d'échech spécifique &gt;</MessageEchec>" +
+                "</Assertion>";
+
+
+            // définit les variables
+            monCore.Variables.MAJVariable("FichierEssai", FichierEssai);
+
+
+
+            // exécution de l'essai
+            Assert.IsFalse (monCore.ExecuteCas(monCas));
+            Assert.IsTrue(monCore.Message.Contains("sel"),
+                "Attendu:sel Réel :" + monCore.Message);
+            Assert.IsTrue(monCore.Message.Contains("introuvable"),
+                "Attendu:introuvable Réel :" + monCore.Message);
+            Assert.IsTrue(monCore.Message.Contains("from"),
+                "Attendu:from Réel :" + monCore.Message);
+
+            Assert.IsTrue(monCore.MessageEchec.Contains("Le texte 'sel' a été trouvé et il me devrait pas être dans le fichier"),
+                "Attendu:Le texte 'sel'...  Réel " + monCore.MessageEchec);
+
+            Assert.IsTrue(monCore.MessageEchec.Contains("Le texte 'introuvable' n'a pas été trouvé et il devrait être dans le fichier"),
+                "Attendu:Le texte 'introuvable'...  Réel " + monCore.MessageEchec);
+
+
+            Assert.IsTrue(monCore.MessageEchec.Contains("Message d'échech spécifique >"),
+                "Attendu: Message d'échech spécifique >  Réel " + monCore.MessageEchec);
+
+
+
+
+        }
+
+
+        [TestMethod]
         public void ContenuFichierMultipleEchecNCP()
         {
             // Variables
             JCACore monCore = new JCACore();
             XmlDocument monCas = new XmlDocument();
-            String FichierEssai = Chemin + 
+            String FichierEssai = Chemin +
                 "ContenuFichierMultipleEchecNCP.txt";
 
 
@@ -151,7 +206,7 @@ namespace JCAssertionCoreTest
 
 
             // exécution de l'essai
-            Assert.IsFalse (monCore.ExecuteCas(monCas));
+            Assert.IsFalse(monCore.ExecuteCas(monCas));
             Assert.IsTrue(monCore.Message.Contains("sel"),
                 "Attendu:sel Réel :" + monCore.Message);
             Assert.IsTrue(monCore.Message.Contains("lect"),
@@ -169,6 +224,5 @@ namespace JCAssertionCoreTest
 
 
         }
-
     }
 }

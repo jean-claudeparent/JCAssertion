@@ -83,6 +83,11 @@ namespace JCAExporte
                     }
                 }
                       
+            // metre les variables par défaut
+            mesVariables.MAJVariable("JCA.FichierDeVariables", NomFichier);
+
+
+
             //Sauvegarder
             mesVariables.EcrireFichier(NomFichier);
             Message = Environment.NewLine +  "Fichier : " + NomFichier + " mis à jour.";

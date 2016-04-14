@@ -128,7 +128,11 @@ namespace JCAssertion
             if (! monThread.IsAlive)
             {
                 monTimer.Stop();
-                Console.WriteLine(Message ); 
+                Console.WriteLine(Message );
+                if (ExceptionRencontree)
+                    Console.Write("Erreur=­" + 
+                        ExceptionGlobale.Message );
+        
                 Environment.Exit(CodeDeRetour);
 
             }

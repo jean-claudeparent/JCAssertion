@@ -39,6 +39,9 @@ namespace JCAssertionTest
             Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test3\" Valeur=\"Valeur3\""));
             Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test4\" Valeur=\"Valeur4\""));
             Assert.IsTrue(Contenu.Contains("Variable Cle=\"Test5\" Valeur=\"Valeur5\""),"Test5 n'est pas dans le fichier");
+            // JCA.FichierDeVariables
+            Assert.IsTrue(Contenu.Contains("Variable Cle=\"JCA.FichierDeVariables\""),
+                "JCA.FichierDeVariables n'est pas dans le fichier");
             
             // maj le fichier existant
             mesArgs = new String[2];

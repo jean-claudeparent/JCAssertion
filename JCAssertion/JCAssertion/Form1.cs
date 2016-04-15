@@ -220,8 +220,21 @@ namespace JCAssertion
             NombreReussi = 0;
 
             Message = "Démarrage";
+            // if (args.Length == 0) Interactif = true;
             mesArguments = maConsole.Arguments(args);
-            
+
+            if ((mesArguments.GetValeurVariable("AV") != null) &&
+                (mesArguments.GetValeurVariable("AV") != ""))
+            {
+                Avertir = true;
+            }
+
+            if ((mesArguments.GetValeurVariable("I") != null) &&
+                (mesArguments.GetValeurVariable("I") != ""))
+            {
+                Interactif  = true;
+            }
+           
             // Vérifier qu'au moins le nom de fichier d'assertion est fourni
             
             if ((mesArguments.GetValeurVariable("FA") == null) ||
@@ -252,11 +265,6 @@ namespace JCAssertion
                 return 99;
             }
 
-           if ((mesArguments.GetValeurVariable("AV") != null) &&
-                (mesArguments.GetValeurVariable("AV") != ""))
-                    {
-                        Avertir = true;
-                    }
             
             if ((mesArguments.GetValeurVariable("J") != null) &&
                (mesArguments.GetValeurVariable("J") != ""))
@@ -385,6 +393,16 @@ namespace JCAssertion
         {
             Informer("Programme annulé par le boutonannuler");
             AnnulerExecution = true;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show  ("JCAssertion 1.0.3"+
+                Environment.NewLine +
+                "(C)opyright 2016 Jean-Claude Parent" +
+                Environment.NewLine +
+                "http://www.noursicain.net");
+
         }
     }
 }

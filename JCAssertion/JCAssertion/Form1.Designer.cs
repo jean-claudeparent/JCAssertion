@@ -44,6 +44,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbxActivite = new System.Windows.Forms.TextBox();
             this.btnAnnuler = new System.Windows.Forms.Button();
+            this.APropos1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -116,14 +117,14 @@
             this.tbxActivite.Location = new System.Drawing.Point(11, 84);
             this.tbxActivite.Multiline = true;
             this.tbxActivite.Name = "tbxActivite";
-            this.tbxActivite.Size = new System.Drawing.Size(534, 123);
+            this.tbxActivite.Size = new System.Drawing.Size(534, 222);
             this.tbxActivite.TabIndex = 6;
             this.tbxActivite.Text = "Démarrage";
             this.tbxActivite.TextChanged += new System.EventHandler(this.tbxActivite_TextChanged);
             // 
             // btnAnnuler
             // 
-            this.btnAnnuler.Location = new System.Drawing.Point(17, 230);
+            this.btnAnnuler.Location = new System.Drawing.Point(8, 335);
             this.btnAnnuler.Name = "btnAnnuler";
             this.btnAnnuler.Size = new System.Drawing.Size(75, 27);
             this.btnAnnuler.TabIndex = 7;
@@ -131,12 +132,23 @@
             this.btnAnnuler.UseVisualStyleBackColor = true;
             this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
             // 
+            // APropos1
+            // 
+            this.APropos1.Location = new System.Drawing.Point(485, 321);
+            this.APropos1.Name = "APropos1";
+            this.APropos1.Size = new System.Drawing.Size(75, 41);
+            this.APropos1.TabIndex = 8;
+            this.APropos1.Text = "À propos de JCAssertion";
+            this.APropos1.UseVisualStyleBackColor = true;
+            this.APropos1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // JCAssertion
             // 
             this.AccessibleName = "JC Assertion";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 398);
+            this.Controls.Add(this.APropos1);
             this.Controls.Add(this.btnAnnuler);
             this.Controls.Add(this.tbxActivite);
             this.Controls.Add(this.label5);
@@ -165,6 +177,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbxActivite;
         private System.Windows.Forms.Button btnAnnuler;
+        private System.Windows.Forms.Button APropos1;
     }
 }
 

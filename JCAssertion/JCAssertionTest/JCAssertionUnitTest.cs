@@ -19,7 +19,10 @@ namespace JCAssertionTest
         {
             // Créer et configurer l'instance delaclasse qui fait letravail du form load
             JCAssertion.JCAssertion monProgramme = new JCAssertion.JCAssertion();
-             
+            monProgramme.setUnitTest();
+ 
+
+ 
             monProgramme.setInteractif  (false);
             monProgramme.args = new String[3];
             Assert.IsTrue(monProgramme.gettxbActivite().Contains("Démarrage"));
@@ -74,6 +77,7 @@ namespace JCAssertionTest
         public void JCAssertionTestInvalide()
         {
             JCAssertion.JCAssertion monProgramme = new JCAssertion.JCAssertion ();
+            monProgramme.setUnitTest(); 
             monProgramme.setInteractif(false);
             Assert.IsTrue(monProgramme.gettxbActivite().Contains ("Démarrage")  );
             // cas sans argument

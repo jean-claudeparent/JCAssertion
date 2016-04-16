@@ -62,9 +62,9 @@ namespace JCAssertion
         static String JournalActivite = null;
         public static Exception ExceptionGlobale = new Exception();
         public static Boolean ExceptionRencontree = false;
-        public static int CodeDeRetour = 99;
-        public static String MessageEchec = ""; 
-
+        public static int CodeDeRetour = 97;
+        public static String MessageEchec = "";
+        private static Boolean UnitTest = false;
 
         
 
@@ -85,7 +85,12 @@ namespace JCAssertion
         JCACore monJCACore = new JCACore();
         System.Threading.Thread monThread; 
         System.Timers.Timer monTimer = new System.Timers.Timer();
-         
+
+
+        public void setUnitTest()
+        {
+            UnitTest = true;
+        }
 
         public int getCodeDeRetour()
             {
@@ -220,7 +225,7 @@ namespace JCAssertion
             NombreReussi = 0;
 
             Message = "Démarrage";
-            // if (args.Length == 0) Interactif = true;
+            if ((args.Length == 0) && (! UnitTest ) ) Interactif = true;
             mesArguments = maConsole.Arguments(args);
 
             if ((mesArguments.GetValeurVariable("AV") != null) &&

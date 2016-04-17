@@ -62,7 +62,7 @@ namespace JCAssertion
         static String JournalActivite = null;
         public static Exception ExceptionGlobale = new Exception();
         public static Boolean ExceptionRencontree = false;
-        public static int CodeDeRetour = 97;
+        private static int CodeDeRetour = 97;
         public static String MessageEchec = "";
         private static Boolean UnitTest = false;
 
@@ -79,12 +79,41 @@ namespace JCAssertion
         
 
         // Variables dans chaque thread
-        String Usage = "usage :" + Environment.NewLine + Environment.NewLine + "JCAssertion /FA:fichierassertion /fv:fichierdevariables";
-        JCAVariable mesArguments = new JCAssertionCore.JCAVariable();
-        JCAConsole maConsole = new JCAssertionCore.JCAConsole();
-        JCACore monJCACore = new JCACore();
+        Boolean Init = false;
+        String Usage = Environment.NewLine  +   "usage :" + Environment.NewLine + Environment.NewLine +
+            "JCAssertion /FA:fichierassertion /fv:fichierdevariables "+
+            "/j:FichierDeJournal.txt /av /i";
+        
+        JCAVariable mesArguments;
+        JCAConsole maConsole;
+        JCACore monJCACore;
         System.Threading.Thread monThread; 
         System.Timers.Timer monTimer = new System.Timers.Timer();
+        // Boolean Debug = true;
+        
+        public void InitJCAssertion()
+            // l'appel aux constructeurs complexes a été mis
+            // ici pour pouvoir faire un try catch
+        {
+          if (! Init)
+              {
+            try {
+                Init = true ;
+                mesArguments = new JCAssertionCore.JCAVariable();
+                maConsole = new JCAssertionCore.JCAConsole();
+                monJCACore = new JCACore();
+
+                }
+            catch (Exception excep)
+                {
+                    ExceptionGlobale = excep ;
+                    ExceptionRencontree = true;
+                    CodeDeRetour = 99;
+                    throw excep;
+                }
+              } // ! init
+            
+        }
 
 
         public void setUnitTest()
@@ -130,16 +159,19 @@ namespace JCAssertion
 
         private void VerifieFini(object source, ElapsedEventArgs e)
         {
+            
             if (! monThread.IsAlive)
             {
                 monTimer.Stop();
-                Console.WriteLine(Message );
-                if (ExceptionRencontree)
-                    Console.Write("Erreur=­" + 
-                        ExceptionGlobale.Message );
-        
-                Environment.Exit(CodeDeRetour);
-
+                Console.WriteLine(Message);
+                if(ExceptionRencontree )
+                    {
+                        Console.WriteLine("Erreur:" + ExceptionGlobale.GetType()+
+                            Environment.NewLine + ExceptionGlobale.Message   ); 
+                    }
+                if(! Interactif && ! (Avertir && ExceptionRencontree ))
+                    Environment.Exit(CodeDeRetour )  ;
+                
             }
         }
 
@@ -206,20 +238,26 @@ namespace JCAssertion
         {
             // ici c'est ce qui va s'exécuter dans le thread secondaire
             try {
+                 
                 CodeDeRetour = Execute();
                 } catch (Exception excep)
                 {
+                    Console.WriteLine("Erreur : " + excep.Message);
+                     
                     Message = "ERREUR==>" + excep.GetType() +
                         Environment.NewLine   + excep.Message;
-                    AjouteActivite(Message);
+                    Console.WriteLine(Message); 
+                    Informer (Message, Avertir );
                     ExceptionGlobale = excep;
                     ExceptionRencontree = true;
+                    CodeDeRetour = 99;
                 }
         }
 
         // Methode utilisé  par le load et qui peutêtreunittestée
         public int Execute()
         {
+            InitJCAssertion();
             NombreCas = 0;
             NombreEchec = 0;
             NombreReussi = 0;
@@ -238,6 +276,15 @@ namespace JCAssertion
                 (mesArguments.GetValeurVariable("I") != ""))
             {
                 Interactif  = true;
+            }
+
+            // l'argument d0 provoque une exceptions
+
+            if ((mesArguments.GetValeurVariable("D0") != null) &&
+                (mesArguments.GetValeurVariable("D0") != ""))
+            {
+                throw new Exception(
+                    "Exception déclenchée volontairement par l'argument /D0 ");
             }
            
             // Vérifier qu'au moins le nom de fichier d'assertion est fourni
@@ -353,6 +400,7 @@ namespace JCAssertion
         {
             
             try {
+                InitJCAssertion (); 
                 FormClosed += new FormClosedEventHandler(Form1_FormClosing);
 
                 LancerThread();
@@ -367,7 +415,11 @@ namespace JCAssertion
 
              } catch (Exception excep)
                  {
-                     Console.WriteLine(excep.Message );
+                     Console.WriteLine("Erreur : " + excep.Message );
+                     Informer(excep.Message, true );
+                     ExceptionRencontree = true;
+                     ExceptionGlobale = excep;
+                     CodeDeRetour = 99;
                     if(! Interactif ) 
                         Environment.Exit(99);
                 }
@@ -378,6 +430,7 @@ namespace JCAssertion
 
         }
 
+        
         private void Form1_FormClosing(object sender, EventArgs e)
         {
             if (monThread.IsAlive  )
@@ -385,7 +438,10 @@ namespace JCAssertion
                     Informer("Le programme a été fermé par l'utilisateur"); 
                     monThread.Abort();
                     Environment.Exit(77);  
-                }
+                } else
+                {
+                    Environment.Exit(CodeDeRetour ); 
+                };
 
         }
 

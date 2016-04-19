@@ -11,13 +11,26 @@ namespace JCAssertionCoreTest
         [TestMethod]
         public void EventLogErreur()
         {
+            String IDunique = Guid.NewGuid().ToString ();
+            JCAUtilitaires U = new JCAUtilitaires();
+
             Assert.IsFalse(JCAUtilitaires.EVSourceExiste("Sourceindexistante"),
                 "Sourceindexistante ne devrait pas exister commesource de event log"); 
             Assert.IsTrue (JCAUtilitaires.EVSourceExiste(),
-                "JCAssertion devrait exister comme source de event log"); 
-            JCAssertionCore.JCAUtilitaires.EventLogErreur("JCAssertionCoreUnitTest",
-                "Message dans le vent log");
+                "JCAssertion devrait exister comme source de event log");
+            // RechercheJournalEve
+            Assert.IsFalse(
+                U.RechercheJournalEve("JCAssertion", IDunique ).Contains(IDunique ) );
+ 
             
+            JCAssertionCore.JCAUtilitaires.EventLogErreur(" ID unique = " + IDunique );
+
+            Assert.IsTrue(
+                U.RechercheJournalEve("JCAssertion", 
+                IDunique).Contains(IDunique),
+                "Identifiant unique non trouvé");
+ 
+
         }
     }
 }

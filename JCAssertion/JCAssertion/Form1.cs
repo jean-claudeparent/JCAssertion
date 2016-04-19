@@ -43,6 +43,7 @@ using System.IO;
 using System.Xml;
 using System.Timers;
 using System.Threading;
+using JCAssertionCore;
 
 
 
@@ -277,6 +278,14 @@ namespace JCAssertion
             {
                 Interactif  = true;
             }
+
+            if (!JCAUtilitaires.EVSourceExiste())
+                Informer(Environment.NewLine +
+                    "Avertissement : La source de journal d'événement 'JCAssertion' " +
+                    "doit être définie pour avoir accès à "+
+                    "tous les messahe d'erreurs. Consultez www.noursicain.net " +
+                    "plus de détails.");
+
 
             // l'argument d0 provoque une exceptions
 

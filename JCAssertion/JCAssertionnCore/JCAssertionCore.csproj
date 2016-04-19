@@ -44,6 +44,7 @@
     <Compile Include="JCAPontXML.cs" />
     <Compile Include="JCAssertionException.cs" />
     <Compile Include="JCAUtilitaireFichier.cs" />
+    <Compile Include="JCAUtilitaires.cs" />
     <Compile Include="JCAVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

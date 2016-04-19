@@ -9,6 +9,7 @@ using JCAssertionCore;
 namespace JCAssertionCore
 {
     public class JCAUtilitaireFichier
+        
     {
         public void SubstituerVariableFichier(String FichierModele, String FichierResultat, String FichierDeVariables)
         {

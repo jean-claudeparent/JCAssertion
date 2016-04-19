@@ -56,6 +56,7 @@
     <Compile Include="ExtraireVariableUnitTest.cs" />
     <Compile Include="JCAConsoleUnitTest.cs" />
     <Compile Include="JCAUtilitaireFichierUnitTest.cs" />
+    <Compile Include="JCAUtilitaireUnitTest1.cs" />
     <Compile Include="JCAVariableUnitTest1.cs" />
     <Compile Include="ExecuteCasTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

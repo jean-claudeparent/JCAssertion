@@ -247,6 +247,8 @@ namespace JCAssertion
                      
                     Message = "ERREUR==>" + excep.GetType() +
                         Environment.NewLine   + excep.Message;
+                    JCAUtilitaires.EventLogErreur(Message );
+ 
                     Console.WriteLine(Message); 
                     Informer (Message, Avertir );
                     ExceptionGlobale = excep;

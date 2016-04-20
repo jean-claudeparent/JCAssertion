@@ -24,11 +24,14 @@ namespace JCAssertionCoreTest
  
             
             JCAssertionCore.JCAUtilitaires.EventLogErreur(" ID unique = " + IDunique );
+            
+            String Journal = U.RechercheJournalEve("JCAssertion", 
+                IDunique);
 
             Assert.IsTrue(
-                U.RechercheJournalEve("JCAssertion", 
-                IDunique).Contains(IDunique),
-                "Identifiant unique non trouvé");
+                Journal.Contains(IDunique),
+                "Identifiant unique non trouvé dans " +
+                Journal );
  
 
         }

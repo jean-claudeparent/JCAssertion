@@ -41,6 +41,14 @@ namespace JCAssertionCore
 {
     public  class JCAUtilitaires
     {
+
+        public Boolean  EntreeRetenue(EventLogEntry monEE,
+            String Source, 
+            String TexteRecherche, int Depuis = 600)
+            {
+                return true;
+            }
+
         public String RechercheJournalEve(String Source, 
             String TexteRecherche, int Depuis = 600)
             // retourne les entrées du event log
@@ -48,7 +56,23 @@ namespace JCAssertionCore
             // recherché si spécifié et pour les entrées
             // créer dans les x dernières secondes
             {
-                return "Pas encore implémenté";
+                String Resultat = "";
+                int i = 0;
+
+                EventLog monEV = new EventLog();
+                monEV.Log = "Application"; 
+                foreach (EventLogEntry monLE in monEV.Entries  )
+                    {
+                        if (!(i < 20)) break;
+                            Resultat = Resultat +
+                            "Entrée:" +
+                            i.ToString() +
+                            monLE.Message +
+                            Environment.NewLine  ;
+                            i = i + 1;
+                    }
+
+                return Resultat ;
             }
 
 

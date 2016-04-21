@@ -14,19 +14,24 @@ namespace JCAssertionCoreTest
             String IDunique = Guid.NewGuid().ToString ();
             JCAUtilitaires U = new JCAUtilitaires();
 
+            U.JournalEveSource = "JCAssertion";
+            U.JournalEveNombreMax = 15;
+
+
+
+
             Assert.IsFalse(JCAUtilitaires.EVSourceExiste("Sourceindexistante"),
                 "Sourceindexistante ne devrait pas exister commesource de event log"); 
             Assert.IsTrue (JCAUtilitaires.EVSourceExiste(),
                 "JCAssertion devrait exister comme source de event log");
             // RechercheJournalEve
             Assert.IsFalse(
-                U.RechercheJournalEve("JCAssertion", IDunique ).Contains(IDunique ) );
+                U.RechercheJournalEve(IDunique).Contains(IDunique ) );
  
             
             JCAssertionCore.JCAUtilitaires.EventLogErreur(" ID unique = " + IDunique );
             
-            String Journal = U.RechercheJournalEve("JCAssertion", 
-                IDunique);
+            String Journal = U.RechercheJournalEve(IDunique);
 
             Assert.IsTrue(
                 Journal.Contains(IDunique),

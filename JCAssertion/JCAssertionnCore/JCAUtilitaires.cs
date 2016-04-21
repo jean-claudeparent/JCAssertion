@@ -42,15 +42,57 @@ namespace JCAssertionCore
     public  class JCAUtilitaires
     {
 
+        public Int64 JournalEveDelai = 600; // delai de recherche dans le journal des événements en secondes
+        public String JournalEveSource = ""; // source recherchée
+        public Boolean JournalApplication = true;
+        public Boolean JournalEveSysteme = false;
+        public Boolean JournalEveSecurite = false;
+        public int JournalEveNombreMax = 1000;
+        private Int64 JournalEVeMombreTrouve = 0;
+        private Boolean JournalEveMaxAtteint = false;
+
+        public Int64 getJournalEVeMombreTrouve()
+        {
+          return JournalEVeMombreTrouve;
+         }
+
+        public bool getJournalEveMaxAtteint()
+        {
+            return JournalEveMaxAtteint;
+        }
+
+        public String  EntreeeFormattee(EventLogEntry EJ)
+        {
+            String nl = Environment.NewLine;
+ 
+            String Resultat = "";
+            Resultat = nl + "Type d'emtrée:" + EJ.EntryType.ToString() + nl;
+            Resultat = Resultat +  "Source:" + EJ.Source + nl ;
+            Resultat = Resultat + "Message:" + nl + "===" + nl ;
+            Resultat = Resultat + EJ.Message + nl;
+            Resultat = Resultat + "===" + nl;
+
+            return Resultat;
+        }
+
+
+        
+
+           
+
+
+        // Journal personnalisé pas encore implémenté
+
+
+
         public Boolean  EntreeRetenue(EventLogEntry monEE,
-            String Source, 
-            String TexteRecherche, int Depuis = 600)
+            String TexteRecherche)
             {
                 return true;
             }
 
-        public String RechercheJournalEve(String Source, 
-            String TexteRecherche, int Depuis = 600)
+        public String RechercheJournalEve(String TexteRecherche)
+
             // retourne les entrées du event log
             // pour la source, si spécifiée, pour le texte
             // recherché si spécifié et pour les entrées
@@ -67,8 +109,7 @@ namespace JCAssertionCore
                             Resultat = Resultat +
                             "Entrée:" +
                             i.ToString() +
-                            monLE.Message +
-                            Environment.NewLine  ;
+                            EntreeeFormattee(monLE);
                             i = i + 1;
                     }
 

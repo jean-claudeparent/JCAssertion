@@ -86,6 +86,7 @@ namespace JCAssertion
         
         JCAVariable mesArguments;
         JCAConsole maConsole;
+        JCAUtilitaires Utilitaire;
         JCACore monJCACore;
         System.Threading.Thread monThread; 
         System.Timers.Timer monTimer = new System.Timers.Timer();
@@ -98,6 +99,7 @@ namespace JCAssertion
           if (! Init)
               {
             try {
+                Utilitaire = new JCAUtilitaires();
                 Init = true ;
                 mesArguments = new JCAssertionCore.JCAVariable();
                 maConsole = new JCAssertionCore.JCAConsole();
@@ -236,8 +238,11 @@ namespace JCAssertion
 
         public void  ExecuteAssertion()
         {
+            
+
             // ici c'est ce qui va s'exécuter dans le thread secondaire
             try {
+
                  
                 CodeDeRetour = Execute();
                 } catch (Exception excep)
@@ -246,7 +251,7 @@ namespace JCAssertion
                      
                     Message = "ERREUR==>" + excep.GetType() +
                         Environment.NewLine   + excep.Message;
-                    JCAUtilitaires.EventLogErreur(Message );
+                    Utilitaire.EventLogErreur(Message );
  
                     Console.WriteLine(Message); 
                     Informer (Message, Avertir );

@@ -16,6 +16,7 @@ namespace JCAssertionCoreTest
 
             U.JournalEveSource = "JCAssertion";
             U.JournalEveNombreMax = 15;
+            U.LancerExceptionJE = true;
 
 
 
@@ -29,9 +30,14 @@ namespace JCAssertionCoreTest
                 U.RechercheJournalEve(IDunique).Contains(IDunique ) );
  
             
-            JCAssertionCore.JCAUtilitaires.EventLogErreur(" ID unique = " + IDunique );
+             U.EventLogErreur(" ID unique = " + IDunique );
             
             String Journal = U.RechercheJournalEve(IDunique);
+
+            // code d'exploration
+            Journal = U.LogExplore();
+
+
 
             Assert.IsTrue(
                 Journal.Contains(IDunique),

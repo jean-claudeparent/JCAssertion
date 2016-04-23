@@ -35,6 +35,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
+ 
 
 
 namespace JCAssertionCore
@@ -50,6 +52,8 @@ namespace JCAssertionCore
         public int JournalEveNombreMax = 1000;
         private Int64 JournalEVeMombreTrouve = 0;
         private Boolean JournalEveMaxAtteint = false;
+        public Boolean LancerExceptionJE = false;
+
 
         public Int64 getJournalEVeMombreTrouve()
         {
@@ -66,7 +70,10 @@ namespace JCAssertionCore
             String nl = Environment.NewLine;
  
             String Resultat = "";
-            Resultat = nl + "Type d'emtrée:" + EJ.EntryType.ToString() + nl;
+
+            Resultat = nl + "Date:" + EJ.TimeGenerated.ToString() + nl ;
+
+            Resultat = Resultat  + "Type d'emtrée:" + EJ.EntryType.ToString() + nl;
             Resultat = Resultat +  "Source:" + EJ.Source + nl ;
             Resultat = Resultat + "Message:" + nl + "===" + nl ;
             Resultat = Resultat + EJ.Message + nl;
@@ -81,7 +88,43 @@ namespace JCAssertionCore
            
 
 
-        // Journal personnalisé pas encore implémenté
+        private String FormatterEventRecord(EventRecord monER)
+            {
+                String Resultat = Environment.NewLine + "===" +
+                    Environment.NewLine  ;
+                Resultat = Resultat + "Quand:" +
+                    monER.TimeCreated.ToString() + Environment.NewLine  ;
+                Resultat = Resultat + monER.Properties; 
+                
+                Resultat = Resultat + monER.FormatDescription();
+ 
+                return Resultat ;
+            }
+        
+        // methode de r&d
+        public String LogExplore()
+            {
+                String Resultat = "";
+                EventLogQuery monELQ = new EventLogQuery("Application", PathType.LogName  );
+                monELQ.ReverseDirection = true;
+
+                EventLogReader monELReader = new EventLogReader(monELQ);
+                monELReader.BatchSize = 1;
+
+
+                EventRecord monER;
+                int i = 0;
+                while ((monER = monELReader.ReadEvent()) != null )
+                    {
+                        Resultat = Resultat + 
+                            FormatterEventRecord(monER);
+                        
+                        i = i + 1;
+                        if (i > 20) break ;
+                    }
+
+                return Resultat;
+            }
 
 
 
@@ -133,21 +176,27 @@ namespace JCAssertionCore
             }
 
 
-        public static void EventLogErreur(String Texte, 
+        public void EventLogErreur(String Texte, 
             String Source = "JCAssertion")
             {
                 EventLog(Texte, Source, EventLogEntryType.Error);
             }
 
-        public static void EventLog(String Source, 
+        public void EventLog(String Source, 
             String Texte, EventLogEntryType monType)
         {
             if (EVSourceExiste(Source))
                 {
-                    EventLog monLog = new EventLog();
-                    monLog.Source = Source;
-                    monLog.WriteEntry(Texte, monType);
-                } 
+                  try {
+                        EventLog monLog = new EventLog();
+                        monLog.Source = Source;
+                        monLog.WriteEntry(Texte, monType);
+                    } catch (Exception excep)
+                      {
+                          if (LancerExceptionJE) throw excep;
+                          else return;
+                      }
+                } // if
         } 
             
 

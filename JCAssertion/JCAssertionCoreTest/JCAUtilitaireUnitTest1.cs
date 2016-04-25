@@ -14,7 +14,6 @@ namespace JCAssertionCoreTest
             String IDunique = Guid.NewGuid().ToString ();
             JCAUtilitaires U = new JCAUtilitaires();
 
-            U.JournalEveSource = "JCAssertion";
             U.JournalEveNombreMax = 15;
             U.LancerExceptionJE = true;
 
@@ -27,15 +26,12 @@ namespace JCAssertionCoreTest
                 "JCAssertion devrait exister comme source de event log");
             // RechercheJournalEve
             Assert.IsFalse(
-                U.RechercheJournalEve(IDunique).Contains(IDunique ) );
+                U.LogExplore().Contains(IDunique ) );
  
             
              U.EventLogErreur(" ID unique = " + IDunique );
             
-            String Journal = U.RechercheJournalEve(IDunique);
-
-            // code d'exploration
-            Journal = U.LogExplore();
+            String Journal = U.LogExplore();
 
 
 

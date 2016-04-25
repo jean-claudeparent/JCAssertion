@@ -44,43 +44,15 @@ namespace JCAssertionCore
     public  class JCAUtilitaires
     {
 
-        public Int64 JournalEveDelai = 600; // delai de recherche dans le journal des événements en secondes
-        public String JournalEveSource = ""; // source recherchée
-        public Boolean JournalApplication = true;
-        public Boolean JournalEveSysteme = false;
-        public Boolean JournalEveSecurite = false;
-        public int JournalEveNombreMax = 1000;
-        private Int64 JournalEVeMombreTrouve = 0;
-        private Boolean JournalEveMaxAtteint = false;
+        public int JournalEveNombreMax = 20;
         public Boolean LancerExceptionJE = false;
 
 
-        public Int64 getJournalEVeMombreTrouve()
-        {
-          return JournalEVeMombreTrouve;
-         }
+        
 
-        public bool getJournalEveMaxAtteint()
-        {
-            return JournalEveMaxAtteint;
-        }
+        
 
-        public String  EntreeeFormattee(EventLogEntry EJ)
-        {
-            String nl = Environment.NewLine;
- 
-            String Resultat = "";
-
-            Resultat = nl + "Date:" + EJ.TimeGenerated.ToString() + nl ;
-
-            Resultat = Resultat  + "Type d'emtrée:" + EJ.EntryType.ToString() + nl;
-            Resultat = Resultat +  "Source:" + EJ.Source + nl ;
-            Resultat = Resultat + "Message:" + nl + "===" + nl ;
-            Resultat = Resultat + EJ.Message + nl;
-            Resultat = Resultat + "===" + nl;
-
-            return Resultat;
-        }
+        
 
 
         
@@ -88,20 +60,34 @@ namespace JCAssertionCore
            
 
 
+        private String FormatterPropriete(IList<EventProperty> Liste )
+            // methode de r&d
+            {
+                String Resultat = "";
+                foreach (EventProperty maProp in Liste)
+                    {
+                        Resultat = Resultat + Environment.NewLine +
+                            maProp.Value; 
+                    }
+                return Resultat ;
+            }
+
         private String FormatterEventRecord(EventRecord monER)
             {
                 String Resultat = Environment.NewLine + "===" +
                     Environment.NewLine  ;
                 Resultat = Resultat + "Quand:" +
                     monER.TimeCreated.ToString() + Environment.NewLine  ;
-                Resultat = Resultat + monER.Properties; 
-                
                 Resultat = Resultat + monER.FormatDescription();
+                
+                
  
+            Resultat = Resultat +
+                    FormatterPropriete(monER.Properties);
                 return Resultat ;
             }
         
-        // methode de r&d
+        
         public String LogExplore()
             {
                 String Resultat = "";
@@ -120,7 +106,7 @@ namespace JCAssertionCore
                             FormatterEventRecord(monER);
                         
                         i = i + 1;
-                        if (i > 20) break ;
+                        if (i > JournalEveNombreMax) break;
                     }
 
                 return Resultat;
@@ -128,36 +114,9 @@ namespace JCAssertionCore
 
 
 
-        public Boolean  EntreeRetenue(EventLogEntry monEE,
-            String TexteRecherche)
-            {
-                return true;
-            }
+        
 
-        public String RechercheJournalEve(String TexteRecherche)
-
-            // retourne les entrées du event log
-            // pour la source, si spécifiée, pour le texte
-            // recherché si spécifié et pour les entrées
-            // créer dans les x dernières secondes
-            {
-                String Resultat = "";
-                int i = 0;
-
-                EventLog monEV = new EventLog();
-                monEV.Log = "Application"; 
-                foreach (EventLogEntry monLE in monEV.Entries  )
-                    {
-                        if (!(i < 20)) break;
-                            Resultat = Resultat +
-                            "Entrée:" +
-                            i.ToString() +
-                            EntreeeFormattee(monLE);
-                            i = i + 1;
-                    }
-
-                return Resultat ;
-            }
+       
 
 
         public static Boolean EVSourceExiste(String Source = "JCAssertion")
@@ -182,21 +141,24 @@ namespace JCAssertionCore
                 EventLog(Texte, Source, EventLogEntryType.Error);
             }
 
-        public void EventLog(String Source, 
-            String Texte, EventLogEntryType monType)
+        public void EventLog(String Texte,String Source, 
+            EventLogEntryType monType)
         {
             if (EVSourceExiste(Source))
+            {
+                try
                 {
-                  try {
-                        EventLog monLog = new EventLog();
-                        monLog.Source = Source;
-                        monLog.WriteEntry(Texte, monType);
-                    } catch (Exception excep)
-                      {
-                          if (LancerExceptionJE) throw excep;
-                          else return;
-                      }
-                } // if
+                    EventLog monLog = new EventLog();
+                    monLog.Source = Source;
+                    monLog.WriteEntry(Texte, monType);
+                }
+                catch (Exception excep)
+                {
+                    if (LancerExceptionJE) throw excep;
+                    else return;
+                }
+            } // if
+            else if (LancerExceptionJE) throw new Exception("Source non définie : " + Source );
         } 
             
 

@@ -58,7 +58,10 @@ namespace JCAssertionCoreTest
             mesVariablesAvant.MAJVariable("Test<3>", "Valeur\" de la variable Test3");
             mesVariablesAvant.MAJVariable("Test\"1\"", "Valeur de <la> variable Test1");
             mesVariablesAvant.MAJVariable("AATest2", "Valeur de la variable Test2");
+            mesVariablesAvant.MAJVariable("JCA.FichierDeVariables", NomFichier);
+            
             mesVariablesAvant.EcrireFichier(NomFichier);
+            
             String Contenu = System.IO.File.ReadAllText(NomFichier);
             Assert.IsTrue(Contenu.Contains("Test&lt;3&gt;"));
             Assert.IsTrue(Contenu.Contains("Valeur&quot; de la variable Test3"));

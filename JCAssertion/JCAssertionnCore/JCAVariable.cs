@@ -139,6 +139,8 @@ namespace JCAssertionCore
                         if ((maVariable.Attributes["Cle"].Value != null) && (maVariable.Attributes["Valeur"].Value != null))
                             MAJVariable(maVariable.Attributes["Cle"].Value    , maVariable.Attributes["Valeur"].Value );
                  }
+                    // maj de JCA.FichierDeVariables
+                    MAJVariable("JCA.FichierDeVariables", NomFichier);
                     Trier();
                 }
 

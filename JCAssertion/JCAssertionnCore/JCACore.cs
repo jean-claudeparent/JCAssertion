@@ -108,6 +108,7 @@ namespace JCAssertionCore
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\";
         }
+        
         public XmlNodeList getListeDeCas()
         {
             return ListeDeCas;
@@ -171,6 +172,12 @@ namespace JCAssertionCore
                             case "ExecuteProgramme":
                                 Resultat = JCAPontXML.JCAExecuteProgramme(XMLCas, 
                                     ref  Message, ref  Variables.Variables , ref  MessageEchec );
+                                Journalise(Message);
+                                return Resultat;
+
+                            case "MAJVariables":
+                                Resultat = JCAPontXML.JCAMAJVariables(XMLCas,
+                                    ref  Message, ref  Variables.Variables, ref  MessageEchec);
                                 Journalise(Message);
                                 return Resultat;
                         

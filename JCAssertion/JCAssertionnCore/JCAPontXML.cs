@@ -317,6 +317,44 @@ namespace JCAssertionCore
             return Resultat;
         }
 
+        public static bool JCAMAJVariables(XmlNode monXMLNode,
+            ref string Message, 
+            ref  Dictionary<String, String> Variables,
+            ref String MessageEchec)
+        {
+            Message = Message + Environment.NewLine + 
+                "Assertion MAJVariables" + Environment.NewLine  ;
+            if (monXMLNode == null) throw new JCAssertionException("Le XML est vide.");
+            ValideBalise(monXMLNode, "Cle");
+            string MaCle = ValeurBalise (monXMLNode,"Cle");
+            MaCle = JCAVariable.SubstituerVariables(MaCle, Variables);
+            Message = Message + "Clé:" + MaCle + Environment.NewLine  ;
+            string MaValeur = ValeurBalise (monXMLNode,"Valeur");
+            MaValeur = JCAVariable.SubstituerVariables(MaValeur, Variables);
+            Message = Message + "Valeur:" + MaValeur + Environment.NewLine;
+            
+            JCAVariable VariableTemp = new JCAVariable() ;
+            VariableTemp.Variables  = Variables;
+            VariableTemp.MAJVariable (MaCle, MaValeur  );
+            Variables = VariableTemp.Variables;
+            if(ValeurBalise (monXMLNode,"JCA.FichierDeVariables") != "")
+                {
+                    VariableTemp.EcrireFichier (ValeurBalise
+                        (monXMLNode,"JCA.FichierDeVariables")); 
+                }
+
+
+
+            Message = Message + Environment.NewLine +
+                    "Valeur de variable mise à jour.";
+            MessageEchec = "";
+            
+            
+            return true ;
+        }
+
+     
+
 
 
     }

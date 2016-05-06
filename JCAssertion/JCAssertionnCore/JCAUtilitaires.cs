@@ -130,6 +130,7 @@ namespace JCAssertionCore
                      
                 } catch (Exception excep) 
                     {
+                        if (excep != null) return false;
                         return false ;
                     }
             }

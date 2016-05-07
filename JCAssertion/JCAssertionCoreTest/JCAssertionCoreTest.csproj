@@ -59,6 +59,7 @@
     <Compile Include="JCAUtilitaireUnitTest1.cs" />
     <Compile Include="JCAVariableUnitTest1.cs" />
     <Compile Include="ExecuteCasTest.cs" />
+    <Compile Include="JCAMAJVariablesUnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

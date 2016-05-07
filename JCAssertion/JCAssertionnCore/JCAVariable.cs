@@ -40,12 +40,21 @@ namespace JCAssertionCore
 {
     public class JCAVariable
     {
+        
+        // ^propriétés et attributs
         public Dictionary<String, String> Variables = new Dictionary<String, String>();
         
 
+    
+        public class Constantes
+            {
+            public const String JCA_FichierDeVariables = "JCA.FichierDeVariables";
+        
+            }
+
         public static   String ExtraireVariable(String  Argument)
         {
-            // retourne le nom delaprochainevariableou "" si aucune
+            // retourne le nom dela prochaine variable ou "" si aucune
             int ouverture = Argument.IndexOf("{{");
             int Fermeture = Argument.IndexOf("}}");
             if ((Fermeture < 1) || (Fermeture < ouverture) || (ouverture < 0)) return "";
@@ -81,12 +90,19 @@ namespace JCAssertionCore
         {
             return Variables.Count;
         }
-
+        
+        
+        /// <summary>
+        /// GetValeurVariable : retourne la valeur d'une clé identifiant une variable 
+        /// </summary>
         public String  GetValeurVariable(String Cle)
+        /// <returns>Retourne la valeur asociée à ka cké dans le dictionnaire des variables. Retourne null si la lcé n'existe pas.</returns>
+
         {
             
             String valeur;
-            if (Variables.TryGetValue(Cle,   out valeur )) return valeur;
+            if (Variables.TryGetValue(Cle,
+                out valeur )) return valeur;
             else return null;
         }
 
@@ -140,7 +156,7 @@ namespace JCAssertionCore
                             MAJVariable(maVariable.Attributes["Cle"].Value    , maVariable.Attributes["Valeur"].Value );
                  }
                     // maj de JCA.FichierDeVariables
-                    MAJVariable("JCA.FichierDeVariables", NomFichier);
+                    MAJVariable(Constantes.JCA_FichierDeVariables, NomFichier);
                     Trier();
                 }
 

@@ -337,10 +337,12 @@ namespace JCAssertionCore
             VariableTemp.Variables  = Variables;
             VariableTemp.MAJVariable (MaCle, MaValeur  );
             Variables = VariableTemp.Variables;
-            if(ValeurBalise (monXMLNode,"JCA.FichierDeVariables") != "")
+            if(VariableTemp.GetValeurVariable(
+                JCAVariable.Constantes.JCA_FichierDeVariables) != null )
                 {
-                    VariableTemp.EcrireFichier (ValeurBalise
-                        (monXMLNode,"JCA.FichierDeVariables")); 
+                    VariableTemp.EcrireFichier (VariableTemp.GetValeurVariable(
+                        JCAVariable.Constantes.JCA_FichierDeVariables));
+                         
                 }
 
 

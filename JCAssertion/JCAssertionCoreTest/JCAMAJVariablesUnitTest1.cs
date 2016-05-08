@@ -107,9 +107,48 @@ namespace JCAssertionCoreTest
                 monCore.MessageEchec  ); 
 
             // Il manque la balise de valeur
+
+            monCas.InnerXml = "<Assertion><Type>MAJVariables</Type>" +
+                "<Cle>test</Cle>" +
+                "</Assertion>";
+
+
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "L'éxécution du cas aurait dû échouer : " +
+                monCore.Message + Environment.NewLine +
+                monCore.MessageEchec);
+
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "Le XML ne contient pas la balise Valeur"),
+                "Mauvais contenu du message d'échec:" +
+                monCore.MessageEchec);
+
             // Le nom de fichier de variable cause une exception
 
-            Assert.Fail("Pas encore implémenté");
+            monCas.InnerXml = "<Assertion><Type>MAJVariables</Type>" +
+                "<Cle>test</Cle>" +
+                "<Valeur>test</Valeur>" +
+                "</Assertion>";
+
+            monCore.Variables.MAJVariable(
+                JCAVariable.Constantes.JCA_FichierDeVariables,
+                ":d:d:");
+            Boolean ExceptionRencontree = false;
+
+            try {
+                monCore.ExecuteCas(monCas);
+            } catch (Exception excep)
+                {
+                    if (excep != null)
+                        ExceptionRencontree = true;
+                }
+
+            Assert.IsTrue(ExceptionRencontree); 
+
+            
+
+            
+            
         }
 
     }

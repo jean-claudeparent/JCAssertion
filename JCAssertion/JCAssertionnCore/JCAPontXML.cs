@@ -329,6 +329,8 @@ namespace JCAssertionCore
             string MaCle = ValeurBalise (monXMLNode,"Cle");
             MaCle = JCAVariable.SubstituerVariables(MaCle, Variables);
             Message = Message + "Clé:" + MaCle + Environment.NewLine  ;
+            ValideBalise(monXMLNode, "Valeur");
+            
             string MaValeur = ValeurBalise (monXMLNode,"Valeur");
             MaValeur = JCAVariable.SubstituerVariables(MaValeur, Variables);
             Message = Message + "Valeur:" + MaValeur + Environment.NewLine;

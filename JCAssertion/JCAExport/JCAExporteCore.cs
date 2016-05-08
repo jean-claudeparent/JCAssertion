@@ -84,7 +84,8 @@ namespace JCAExporte
                 }
                       
             // metre les variables par défaut
-            mesVariables.MAJVariable("JCA.FichierDeVariables", NomFichier);
+            mesVariables.MAJVariable(JCAVariable.Constantes.JCA_FichierDeVariables   ,
+                NomFichier);
 
 
 

@@ -26,11 +26,12 @@ namespace JCAssertionCoreTest
             mesVariables.MAJVariable("Autre", "Autres");
             mesVariables.MAJVariable("R", "Résultat");
             
-            Assert.IsTrue(mesVariables.GetValeurVariable("JCA.FichierDeVariables")
+            Assert.IsTrue(mesVariables.GetValeurVariable(
+                JCAVariable.Constantes.JCA_FichierDeVariables)
                 == null,
                 "La variable JCA.FichierDeVariables ne devrait pas exister."); 
 
-            // Défiir le noued xml qui contient le test
+            // Défnir le noued xml qui contient le test
             JCACore monCore = new JCACore();
             monCore.Variables = mesVariables; 
                 
@@ -85,7 +86,26 @@ namespace JCAssertionCoreTest
         [TestMethod]
         public void MAJVariablesPasOKTest()
         {
+            JCACore monCore = new JCACore ();
+
             // Il manque la balise de clé
+            XmlDocument monCas = new XmlDocument();
+
+            monCas.InnerXml = "<Assertion><Type>MAJVariables</Type>" +
+                "<Valeur>{{p}}te{{Autre}}st{{s}}</Valeur>" +
+                "</Assertion>";
+
+
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "L'éxécution du cas aurait dû échouer : " +
+                monCore.Message + Environment.NewLine +
+                monCore.MessageEchec);
+
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "Le XML ne contient pas la balise Cle"),
+                "Mauvais contenu du message d'échec:" +
+                monCore.MessageEchec  ); 
+
             // Il manque la balise de valeur
             // Le nom de fichier de variable cause une exception
 

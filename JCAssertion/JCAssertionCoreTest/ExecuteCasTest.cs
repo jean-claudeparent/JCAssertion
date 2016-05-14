@@ -20,7 +20,10 @@ namespace JCAssertionCoreTest
             JCACore monCore = new JCACore();
             XmlDocument monCas = new XmlDocument () ;
 
-            monCas.InnerXml = "<Assertion><Type>FichierExiste</Type><Fichier>{{Fichier}}</Fichier></Assertion>";
+            monCas.InnerXml = "<Assertion>"+
+                "<Type>FichierExiste</Type>"+
+                "<Fichier>{{Fichier}}</Fichier>"+
+                "</Assertion>";
             Assert.IsFalse(monCore.ExecuteCas(monCas ));
             Assert.IsTrue (monCore.Message.Contains("La variable Fichier n'a pas eu de valeur fournie"), "Attendu:La variable Fichiern'a pas eu de valeur fournie");
             // Le MessageEchec est généré par une exception
@@ -39,7 +42,8 @@ namespace JCAssertionCoreTest
             // variable fournie mais fichier existe pas.
             // MessageEchec spécifique
 
-            monCas.InnerXml = "<Assertion><Type>FichierExiste</Type>" +
+            monCas.InnerXml = "<Assertion>"+
+                "<Type>FichierExiste</Type>" +
                 "<Fichier>{{Fichier}}</Fichier>" +
                 "<MessageEchec>Message d'échec spécifique</MessageEchec></Assertion>";
             
@@ -58,6 +62,15 @@ namespace JCAssertionCoreTest
             Assert.IsTrue(monCore.Message.Contains("Le fichier existe"),
                 "Attendu:Le fichier existe");
             Assert.AreEqual("",monCore.MessageEchec);
+
+            // Valeurs fournies,fichier existe mais est un répetoire
+
+            monCore.Variables.MAJVariable("Fichier", Chemin);
+            Assert.IsTrue(monCore.ExecuteCas(monCas),"Execute n.a pas retourné tru pour un répertoire");
+            Assert.IsTrue(monCore.Message.Contains("Le fichier existe"),
+                "Attendu:Le fichier existe");
+            Assert.AreEqual("", monCore.MessageEchec,
+                "Le message d'échec devrait être vide");
             
 
         }

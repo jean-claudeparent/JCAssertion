@@ -102,6 +102,7 @@ namespace JCAssertionCore
                 NomFichier = JCAVariable.SubstituerVariables(NomFichier, Variables);
                 Message = Message + Environment.NewLine  +  "Fichier:" + NomFichier  + "\n";
                 Boolean Resultat = File.Exists (NomFichier );
+                if (!Resultat) Resultat = System.IO.Directory.Exists(NomFichier);  
                 if (Resultat) 
                     {
                     Message = Message + Environment.NewLine  +

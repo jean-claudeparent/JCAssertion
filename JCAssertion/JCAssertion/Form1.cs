@@ -473,7 +473,8 @@ namespace JCAssertion
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show  ("JCAssertion 1.0.4"+
+            MessageBox.Show  ("JCAssertion "+
+                JCAssertionCore.JCACore.Constantes.Version +
                 Environment.NewLine +
                 "(C)opyright 2016 Jean-Claude Parent" +
                 Environment.NewLine +

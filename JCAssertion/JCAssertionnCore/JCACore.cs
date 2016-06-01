@@ -58,7 +58,12 @@ namespace JCAssertionCore
         private XmlDocument ListeDeCasXML;
         private XmlNodeList ListeDeCas;
         private Boolean JournalInitialise = false;
+        
+        public class Constantes
+        {
+            public const String Version = "1.0.5";
 
+        }
         public void MessageAjoutter(String Texte)
             {
                 Message = Message + Environment.NewLine  + Texte;

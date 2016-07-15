@@ -7,7 +7,7 @@
 //
 //  Copyright 2016 Jean-Claude Parent 
 // 
-//  Informations : www.noursicain.net
+//  Informations : www.jcassertion.org
 //
 // Ce fichier fait partie de JCAssertion.
 //
@@ -289,7 +289,7 @@ namespace JCAssertion
                 Informer(Environment.NewLine +
                     "Avertissement : La source de journal d'événement 'JCAssertion' " +
                     "doit être définie pour avoir accès à "+
-                    "tous les messages d'erreurs. Consultez www.noursicain.net Configuration requise " +
+                    "tous les messages d'erreurs. Consultez www.jcassertion.org Configuration requise " +
                     "^pour plus de détails.");
 
 

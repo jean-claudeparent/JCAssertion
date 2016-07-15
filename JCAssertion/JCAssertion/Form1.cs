@@ -478,7 +478,7 @@ namespace JCAssertion
                 Environment.NewLine +
                 "(C)opyright 2016 Jean-Claude Parent" +
                 Environment.NewLine +
-                "http://www.noursicain.net");
+                "http://www.jcassertion.org");
 
         }
     }

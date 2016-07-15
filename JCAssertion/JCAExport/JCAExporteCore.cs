@@ -7,7 +7,7 @@
 //
 //  Copyright 2016 Jean-Claude Parent 
 // 
-//  Informations : www.noursicain.net
+//  Informations : www.jcassertion.org
 //
 // Ce fichier fait partie de JCAssertion.
 //

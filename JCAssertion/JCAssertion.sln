@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAExporte", "JCAExport\JCA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAssertionTest", "JCAssertionTest\JCAssertionTest.csproj", "{A801F64A-3E10-41D5-8EA9-45048ADDF5FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCASQLODPCore", "SQLODPCore\JCASQLODPCore.csproj", "{3E6DA294-1737-4EAA-AFFE-85FC3E1CB136}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCASQLODPCore", "JCASQLODPCore\JCASQLODPCore.csproj", "{3E6DA294-1737-4EAA-AFFE-85FC3E1CB136}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCASQLODPCoreTest", "JCASQLODPCoreTest\JCASQLODPCoreTest.csproj", "{5AD46F88-FBD7-46EE-BD8E-5382E07893DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{3E6DA294-1737-4EAA-AFFE-85FC3E1CB136}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E6DA294-1737-4EAA-AFFE-85FC3E1CB136}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E6DA294-1737-4EAA-AFFE-85FC3E1CB136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AD46F88-FBD7-46EE-BD8E-5382E07893DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AD46F88-FBD7-46EE-BD8E-5382E07893DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AD46F88-FBD7-46EE-BD8E-5382E07893DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AD46F88-FBD7-46EE-BD8E-5382E07893DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

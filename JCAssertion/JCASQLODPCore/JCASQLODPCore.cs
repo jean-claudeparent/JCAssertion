@@ -56,7 +56,13 @@ namespace JCASQLODPCore
         /// </summary>
         public String CreerConnectionString()
             {
-                
+                String  monResultat = "Data Source=";
+                if (Serveur == null)
+                    monResultat = monResultat + "localhost";
+                else
+                    monResultat = monResultat + Serveur;
+
+                    
                 return "Pas encore implémenté";
             }
 

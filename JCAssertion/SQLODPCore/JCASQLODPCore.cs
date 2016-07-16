@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Oracle.DataAccess;
 
 namespace JCASQLODPCore
 {
@@ -55,6 +56,7 @@ namespace JCASQLODPCore
         /// </summary>
         public String CreerConnectionString()
             {
+                
                 return "Pas encore implémenté";
             }
 

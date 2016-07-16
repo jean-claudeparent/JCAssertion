@@ -42,7 +42,7 @@ namespace JCASQLODPCore
     /// JCASQLODPCore : Classe définissant les proriétés et méthodes
     /// pour accéder une base de données oracle aec le oracle data provider.
     /// </summary>
-    public class JCASQLODPCore
+    public class JCASQLODPClient
     {
         public String Serveur;
         public String User;
@@ -63,7 +63,7 @@ namespace JCASQLODPCore
                     monResultat = monResultat + Serveur;
 
                     
-                return "Pas encore implémenté";
+                return monResultat ;
             }
 
     }

@@ -35,6 +35,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oracle.DataAccess;
+using JCAssertionCore;
+
 
 namespace JCASQLODPCore
 {
@@ -57,12 +59,25 @@ namespace JCASQLODPCore
         public String CreerConnectionString()
             {
                 String  monResultat = "Data Source=";
-                if (Serveur == null)
+                if ((Serveur == null) || (Serveur == ""))
                     monResultat = monResultat + "localhost";
                 else
                     monResultat = monResultat + Serveur;
 
-                    
+                // traiter le user
+                if ((User == null) || (User == ""))
+                    throw new JCAssertionException("Pour une connection à la base de données le user est obligatoire");
+                else
+                    monResultat = monResultat + ";User=" + User;
+
+                // traiter le passwird
+                if ((Password  == null) || (Password  == ""))
+                    throw new JCAssertionException(
+                        "Pour une connection à la base de données le mot de passe est obligatoire");
+                else
+                    monResultat = monResultat + ";Password=" + Password ;
+
+                
                 return monResultat ;
             }
 

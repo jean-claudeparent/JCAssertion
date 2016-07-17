@@ -25,6 +25,17 @@ namespace JCASQLODPCoreTest
                 maCS);
 
             /// <testsummary>
+            /// Créer la connection string de ODP avec le serveur à "".
+            /// </testsummary>
+            monSQLCliemt.User = "JCAUser";
+            monSQLCliemt.Password = "JCAPassword";
+            monSQLCliemt.Serveur = ""; 
+            maCS = monSQLCliemt.CreerConnectionString();
+            Assert.AreEqual(
+                "Data Source=localhost;User=JCAUser;Password=JCAPassword",
+                maCS);
+
+            /// <testsummary>
             /// Créer la connection string de ODP avec un nom de  serveur.
             /// </testsummary>
             monSQLCliemt.Serveur = "MonServeur";

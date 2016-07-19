@@ -58,6 +58,10 @@
       <Project>{3e6da294-1737-4eaa-affe-85fc3e1cb136}</Project>
       <Name>JCASQLODPCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JCAssertionnCore\JCAssertionCore.csproj">
+      <Project>{2591a9de-e6ec-4be0-afbe-175ae508ad8e}</Project>
+      <Name>JCAssertionCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

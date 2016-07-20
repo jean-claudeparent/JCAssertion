@@ -50,7 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="JCASQLODPCoreUT1.cs" />
+    <Compile Include="CreerConnectionStringTest.cs" />
+    <Compile Include="OuvrirConnectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

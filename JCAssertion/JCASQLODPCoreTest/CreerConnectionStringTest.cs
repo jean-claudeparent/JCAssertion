@@ -10,7 +10,7 @@ using JCAssertionCore;
 namespace JCASQLODPCoreTest
 {
     [TestClass]
-    public class JCASQLODPCoreUT1
+    public class CreerConnectionStringTest
     {
         [TestMethod]
         public void CreerConnectionStringOK()
@@ -116,6 +116,9 @@ namespace JCASQLODPCoreTest
                 Assert.IsTrue(excep.Message.Contains("Pour une connection à la base de données le mot de passe est obligatoire"),
                     "Maucvais message d'exception :" + excep.Message);
             }
+
+
+
 
             
         }

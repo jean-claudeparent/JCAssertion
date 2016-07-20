@@ -35,13 +35,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Oracle.DataAccess;
+using Oracle.ManagedDataAccess;
 using JCAssertionCore;
 
 
 namespace JCASQLODPCore
 {
     /// <summary>
-    /// JCASQLODPCore : Classe définissant les proriétés et méthodes
+    /// JCASQLODPCore : Classe définissant les propriétés et méthodes
     /// pour accéder une base de données oracle aec le oracle data provider.
     /// </summary>
     public class JCASQLODPClient
@@ -49,7 +50,9 @@ namespace JCASQLODPCore
         public String Serveur;
         public String User;
         public String Password;
-        private String ConnectionString;
+        private Boolean ConnectionOuverte = false ; // Indique si la connection est instanciée et ouverte
+        private Oracle.ManagedDataAccess.Client.OracleConnection maConnection;
+
 
         /// <summary>
         /// CreerConnectionString : retourne la chaîne de conntextion
@@ -81,5 +84,19 @@ namespace JCASQLODPCore
                 return monResultat ;
             }
 
+        /// <summary>
+        /// OuvrirConnection: Ouvre la connection à ka vase de dibb.es
+        /// en utilisant ODP. Peut retourner des exceptions.
+        /// </summary>
+        public void OuvrirConnection()
+        {
+            if (maConnection == null )
+                maConnection = new Oracle.ManagedDataAccess.Client.OracleConnection(CreerConnectionString());
+            maConnection.Open();
+
+        }
+         
+ 
+        
     }
 }

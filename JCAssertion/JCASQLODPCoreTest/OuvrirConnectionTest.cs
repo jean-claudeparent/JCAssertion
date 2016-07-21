@@ -1,5 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JCASQLODPCore;
+using JCAssertionCore;
+
 
 namespace JCASQLODPCoreTest
 {
@@ -9,7 +12,38 @@ namespace JCASQLODPCoreTest
         [TestMethod]
         public void ConnectionOK()
         {
-            Assert.Fail("Pas encore implémenté."); 
+            /// <testsummary>
+            /// Ouvrir une connection valide.
+            /// </testsummary>
+            JCASQLODPClient monSQLCliemt = new JCASQLODPClient();
+            monSQLCliemt.User = "JCA";
+            monSQLCliemt.Password = "JCA";
+            monSQLCliemt.OuvrirConnection();
+  
+
+           
+        }
+
+        [TestMethod]
+        public void ConnectionPasOK()
+        {
+            /// <testsummary>
+            /// Ouvrir une connection valide.
+            /// </testsummary>
+            JCASQLODPClient monSQLCliemt = new JCASQLODPClient();
+            monSQLCliemt.User = "JCA";
+            monSQLCliemt.Password = "JCA";
+            monSQLCliemt.Serveur = "serveurnexistepas"; 
+            try {
+                    monSQLCliemt.OuvrirConnection();
+                } catch (Exception excep)
+                {
+                    Assert.IsTrue(excep.Message.Contains("ORA-"),
+                        "Mauvais message d'exception : " + excep.Message  ); 
+                }
+  
+
+             
         }
     }
 }

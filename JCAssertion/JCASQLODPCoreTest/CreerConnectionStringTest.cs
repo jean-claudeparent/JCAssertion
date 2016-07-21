@@ -23,7 +23,7 @@ namespace JCASQLODPCoreTest
             monSQLCliemt.Password = "JCAPassword";
             String maCS = monSQLCliemt.CreerConnectionString();
             Assert.AreEqual(
-                "Data Source=localhost;User=JCAUser;Password=JCAPassword",
+                "Data Source=localhost;User Id=JCAUser;Password=JCAPassword",
                 maCS);
 
             /// <testsummary>
@@ -34,7 +34,7 @@ namespace JCASQLODPCoreTest
             monSQLCliemt.Serveur = ""; 
             maCS = monSQLCliemt.CreerConnectionString();
             Assert.AreEqual(
-                "Data Source=localhost;User=JCAUser;Password=JCAPassword",
+                "Data Source=localhost;User Id=JCAUser;Password=JCAPassword",
                 maCS);
 
             /// <testsummary>
@@ -43,7 +43,7 @@ namespace JCASQLODPCoreTest
             monSQLCliemt.Serveur = "MonServeur";
             maCS = monSQLCliemt.CreerConnectionString();
             Assert.AreEqual(
-                "Data Source=MonServeur;User=JCAUser;Password=JCAPassword",
+                "Data Source=MonServeur;User Id=JCAUser;Password=JCAPassword",
                 maCS);
 
         }

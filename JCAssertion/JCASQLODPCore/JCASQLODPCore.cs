@@ -71,7 +71,7 @@ namespace JCASQLODPCore
                 if ((User == null) || (User == ""))
                     throw new JCAssertionException("Pour une connection à la base de données le user est obligatoire");
                 else
-                    monResultat = monResultat + ";User=" + User;
+                    monResultat = monResultat + ";User Id=" + User;
 
                 // traiter le passwird
                 if ((Password  == null) || (Password  == ""))

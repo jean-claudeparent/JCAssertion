@@ -95,6 +95,17 @@ namespace JCASQLODPCore
             maConnection.Open();
 
         }
+
+        /// <summary>
+        /// FermerConnection: Ferme la connection à ka vase de dibb.es
+        /// en utilisant ODP. Peut retourner des exceptions.
+        /// </summary>
+        public void FermerConnection()
+        {
+            if (maConnection != null)
+                maConnection.Close()  ;
+
+        }
          
  
         

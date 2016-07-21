@@ -19,6 +19,7 @@ namespace JCASQLODPCoreTest
             monSQLCliemt.User = "JCA";
             monSQLCliemt.Password = "JCA";
             monSQLCliemt.OuvrirConnection();
+            monSQLCliemt.FermerConnection();
   
 
            

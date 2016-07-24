@@ -43,7 +43,7 @@ namespace JCASQLODPCore
 {
     /// <summary>
     /// JCASQLODPCore : Classe définissant les propriétés et méthodes
-    /// pour accéder une base de données oracle aec le oracle data provider.
+    /// pour accéder une base de données oracle avec le oracle data provider.
     /// </summary>
     public class JCASQLODPClient
     {
@@ -51,7 +51,12 @@ namespace JCASQLODPCore
         public String User;
         public String Password;
         private Boolean ConnectionOuverte = false ; // Indique si la connection est instanciée et ouverte
+        
         private Oracle.ManagedDataAccess.Client.OracleConnection maConnection;
+        private Oracle.ManagedDataAccess.Client.OracleDataReader monReader;
+        private Oracle.ManagedDataAccess.Client.OracleCommand maCommandeSQL =
+            new Oracle.ManagedDataAccess.Client.OracleCommand();
+
 
 
         /// <summary>
@@ -105,6 +110,22 @@ namespace JCASQLODPCore
             if (maConnection != null)
                 maConnection.Close()  ;
 
+        }
+
+        /// <summary>
+        /// SQLSelect: Fait un select sur la connection courante
+        /// et met le resultat dans monReader. La commande
+        /// est passé en paramètre.
+        /// </summary>
+        public void SQLSelect (String maCommandeSQLString)
+        {
+            if ((maCommandeSQLString == null) ||
+                (maCommandeSQLString == ""))
+                {
+                    throw new JCAssertionException(
+                        "Aucune commande SQL n'a été fournie.");
+                }
+            throw new Exception("Pas encore implémenté");
         }
          
  

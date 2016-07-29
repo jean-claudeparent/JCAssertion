@@ -37,6 +37,8 @@ using System.Threading.Tasks;
 using Oracle.DataAccess;
 using Oracle.ManagedDataAccess;
 using JCAssertionCore;
+using System.Data;
+
 
 
 namespace JCASQLODPCore
@@ -125,7 +127,13 @@ namespace JCASQLODPCore
                     throw new JCAssertionException(
                         "Aucune commande SQL n'a été fournie.");
                 }
-            throw new Exception("Pas encore implémenté");
+            maCommandeSQL.Connection = maConnection;
+            maCommandeSQL.CommandText = maCommandeSQLString;
+            maCommandeSQL.CommandType = CommandType.Text;
+            monReader = maCommandeSQL.ExecuteReader();
+             
+
+           
         }
          
  

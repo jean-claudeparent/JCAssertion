@@ -135,8 +135,21 @@ namespace JCASQLODPCore
 
            
         }
-         
- 
+
+        /// <summary>
+        /// AssertSQLVrai: Fait un select retournant un booleen  
+        /// sur la connection courante et retourne la valeur
+        /// </summary>
+        public Boolean AssertSQLVrai(String CommandeSQL)
+        {
+          SQLSelect(CommandeSQL);
+          if (monReader.GetType().Equals("null"))
+              throw new JCAssertionException("La connabde SQL :" +
+            CommandeSQL + ": ne retourne pas un réultat du type " +
+            monReader.GetType().ToString() );
+
+          return false ;
+        }
         
     }
 }

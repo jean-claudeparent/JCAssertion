@@ -143,12 +143,12 @@ namespace JCASQLODPCore
         public Boolean AssertSQLVrai(String CommandeSQL)
         {
           SQLSelect(CommandeSQL);
-          if (monReader.GetType().Equals("null"))
+          if (monReader.GetType().Equals("nu"))
               throw new JCAssertionException("La connabde SQL :" +
             CommandeSQL + ": ne retourne pas un réultat du type " +
             monReader.GetType().ToString() );
 
-          return false ;
+          return monReader.GetBoolean(0)  ;
         }
         
     }

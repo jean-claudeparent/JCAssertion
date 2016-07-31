@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AssertSQLUT1.cs" />
     <Compile Include="CreerConnectionStringTest.cs" />
     <Compile Include="OuvrirConnectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

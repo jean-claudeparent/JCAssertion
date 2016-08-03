@@ -30,9 +30,31 @@ namespace JCASQLODPCoreTest
     
 
         [TestMethod]
-        public void AssertSQLVraiOK()
+        public void AssertSQLOK()
         {
-            Assert.IsTrue(monSQLClient.AssertSQLVrai ("select count(*)  from dual") );  
+            Assert.IsTrue(monSQLClient.AssertSQL (
+                "select count(*)  as R  from dual",1),
+                "fail cas 1 de AssertSQLOK()");
+
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select count(*) / 4  as R  from dual", 1 / 4),
+                "fail cas 2 de AssertSQLOK()");
+            Assert.IsFalse(monSQLClient.AssertSQL(
+                "select count(*)  as R  from dual", 12),
+                "fail cas 3 de AssertSQLOK()");
+            Assert.IsFalse(monSQLClient.AssertSQL(
+                "select count(*) / 2 as R  from dual", 1.11),
+                "fail cas 1 de AssertSQLOK()");  
+        
+        
+        
+        }
+
+        [TestMethod]
+        public void AssertSQLPasOK()
+        {
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select count(*)  from dual",2));
         }
     }
 }

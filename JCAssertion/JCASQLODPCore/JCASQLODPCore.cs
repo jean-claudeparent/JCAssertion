@@ -131,25 +131,47 @@ namespace JCASQLODPCore
             maCommandeSQL.CommandText = maCommandeSQLString;
             maCommandeSQL.CommandType = CommandType.Text;
             monReader = maCommandeSQL.ExecuteReader();
+            monReader.Read(); 
              
 
            
         }
 
         /// <summary>
-        /// AssertSQLVrai: Fait un select retournant un booleen  
-        /// sur la connection courante et retourne la valeur
+        /// AssertSQL (CommandeSQL,ResultatAttendu): Fait un select 
+        /// retournant un entier  
+        /// sur la connection courante et retourne si
+        /// la valeur esy égale au Resultat attendu.
+        /// Si aucune rangée m'est retournée par le select on retourne false
         /// </summary>
-        public Boolean AssertSQLVrai(String CommandeSQL)
+        public Boolean AssertSQL(String CommandeSQL, 
+            Double  ResultatAttendu)
         {
           SQLSelect(CommandeSQL);
-          if (monReader.GetType().Equals("nu"))
-              throw new JCAssertionException("La connabde SQL :" +
-            CommandeSQL + ": ne retourne pas un réultat du type " +
-            monReader.GetType().ToString() );
+          if (!monReader.HasRows)
+              return false;
+          Double monResultat = 0;
+          try 
+          {
+              monResultat =
+                  monReader.GetInt32(0); 
+          } catch (Exception excep)
+          {
+              throw new JCAssertionException("La connande SQL :" +
+            CommandeSQL + ": ne retourne pas un résultat de type numérique", excep );
+          }
 
-          return monReader.GetBoolean(0)  ;
+          return (ResultatAttendu == monResultat);
         }
+
+        // Méthode de surcharge
+        public Boolean AssertSQL(String CommandeSQL, 
+            Int32   ResultatAttendu)
+        {
+            Double ResultatDouble = Convert.ToDouble ( ResultatAttendu);
+            return AssertSQL(CommandeSQL, ResultatDouble); 
+        }
+        
         
     }
 }

@@ -53,8 +53,31 @@ namespace JCASQLODPCoreTest
         [TestMethod]
         public void AssertSQLPasOK()
         {
-            Assert.IsTrue(monSQLClient.AssertSQL(
-                "select count(*)  from dual",2));
+            // SQL retourne un résultat de tyê incompatible
+            try {
+              Assert.IsTrue(monSQLClient.AssertSQL(
+                "select 'string' from dual",2));
+                } catch (JCAssertionException excep)
+                {
+                    Assert.IsTrue(excep.Message.Contains (
+                        "La connande SQL :select 'string' from dual: ne retourne pas un résultat de type numérique"),
+                        "Mauvais message d'exception " +
+                        excep.Message  ); 
+                }
+
+            // erreur oracle
+            try
+            {
+                Assert.IsTrue(monSQLClient.AssertSQL(
+                  "select 'string'  dual", 2));
+            }
+            catch (Exception excep)
+            {
+                Assert.IsTrue(excep.Message.Contains(
+                    "ORA-"),
+                    "Mauvais message d'exception " +
+                    excep.Message);
+            }
         }
     }
 }

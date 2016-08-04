@@ -139,10 +139,10 @@ namespace JCASQLODPCore
 
         /// <summary>
         /// AssertSQL (CommandeSQL,ResultatAttendu): Fait un select 
-        /// retournant un entier  
+        /// retournant un nombre  
         /// sur la connection courante et retourne si
-        /// la valeur esy égale au Resultat attendu.
-        /// Si aucune rangée m'est retournée par le select on retourne false
+        /// la valeur est égale au Resultat attendu.
+        /// Si aucune rangée n'est retournée par le select on retourne false
         /// </summary>
         public Boolean AssertSQL(String CommandeSQL, 
             Double  ResultatAttendu)
@@ -164,13 +164,47 @@ namespace JCASQLODPCore
           return (ResultatAttendu == monResultat);
         }
 
-        // Méthode de surcharge
+        /// <summary>
+        /// AssertSQL (CommandeSQL,ResultatAttendu):
+        /// Surcharge de la méthode qui accepte
+        /// un entier comme résultat attendu.
+        /// </summary>
+         
         public Boolean AssertSQL(String CommandeSQL, 
             Int32   ResultatAttendu)
         {
             Double ResultatDouble = Convert.ToDouble ( ResultatAttendu);
             return AssertSQL(CommandeSQL, ResultatDouble); 
         }
+
+        /// <summary>
+        /// AssertSQL (CommandeSQL,ResultatAttendu): Fait un select 
+        /// retournant un texte  
+        /// sur la connection courante et retourne si
+        /// la valeur est égale au Resultat attendu.
+        /// Si aucune rangée n'est retournée par le select on retourne false
+        /// </summary>
+        public Boolean AssertSQL(String CommandeSQL,
+            String  ResultatAttendu)
+        {
+            SQLSelect(CommandeSQL);
+            if (!monReader.HasRows)
+                return false;
+            String  monResultat = "";
+            try
+            {
+                monResultat =
+                    monReader.GetString(0);
+            }
+            catch (Exception excep)
+            {
+                throw new JCAssertionException("La connande SQL :" +
+              CommandeSQL + ": ne retourne pas un résultat de type chaîne de caractère", excep);
+            }
+
+            return (ResultatAttendu == monResultat);
+        }
+        
         
         
     }

@@ -53,7 +53,7 @@ namespace JCASQLODPCoreTest
         [TestMethod]
         public void AssertSQLPasOK()
         {
-            // SQL retourne un résultat de tyê incompatible
+            // SQL retourne un résultat de type incompatible
             try {
               Assert.IsTrue(monSQLClient.AssertSQL(
                 "select 'string' from dual",2));

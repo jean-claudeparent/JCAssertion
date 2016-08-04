@@ -191,6 +191,7 @@ namespace JCASQLODPCore
             if (!monReader.HasRows)
                 return false;
             String  monResultat = "";
+            
             try
             {
                 monResultat =

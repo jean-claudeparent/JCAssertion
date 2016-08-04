@@ -44,7 +44,18 @@ namespace JCASQLODPCoreTest
                 "fail cas 3 de AssertSQLOK()");
             Assert.IsFalse(monSQLClient.AssertSQL(
                 "select count(*) / 2 as R  from dual", 1.11),
-                "fail cas 1 de AssertSQLOK()");  
+                "fail cas 4 de AssertSQLOK()");
+  
+            // Tester surcharge string
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select 'Mon résultat'  as R  from dual",
+                "Mon résultat"),
+                "fail cas 5 de AssertSQLOK()");
+            Assert.IsFalse(monSQLClient.AssertSQL(
+                "select 'pas ça' as R  from dual", 
+                "pas vraiment cela"),
+                "fail cas 6 de AssertSQLOK()");  
+        
         
         
         
@@ -53,7 +64,7 @@ namespace JCASQLODPCoreTest
         [TestMethod]
         public void AssertSQLPasOK()
         {
-            // SQL retourne un résultat de type incompatible
+            // SQL retourne un résultat de type incompatible avec un nombre
             try {
               Assert.IsTrue(monSQLClient.AssertSQL(
                 "select 'string' from dual",2));
@@ -64,6 +75,21 @@ namespace JCASQLODPCoreTest
                         "Mauvais message d'exception " +
                         excep.Message  ); 
                 }
+
+            // type incompatible abec ime syting
+            try
+            {
+                Assert.IsTrue(monSQLClient.AssertSQL(
+                  "select count(*) from dual", "1"));
+            }
+            catch (JCAssertionException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains(
+                    "La connande SQL :select count(*) from dual: ne retourne pas un résultat de type chaîne de caractère"),
+                    "Mauvais message d'exception " +
+                    excep.Message);
+            }
+
 
             // erreur oracle
             try

@@ -19,9 +19,17 @@ namespace JCASQLODPCoreTest
             JCASQLODPClient monSQLCliemt = new JCASQLODPClient();
             monSQLCliemt.User = "JCA";
             monSQLCliemt.Password = "JCA";
-            monSQLCliemt.OuvrirConnection(); 
+            Assert.IsFalse(monSQLCliemt.SiConnectionOuverte (),
+              "La connection devrait être fermée"); 
+            monSQLCliemt.OuvrirConnection();
+            Assert.IsTrue(monSQLCliemt.SiConnectionOuverte(),
+              "La connection ne devrait pas  être fermée"); 
+            
             monSQLCliemt.SQLSelect("select count(*) from dual");
-            monSQLCliemt.FermerConnection(); 
+            monSQLCliemt.FermerConnection();
+            Assert.IsFalse(monSQLCliemt.SiConnectionOuverte(),
+              "La connection devrait être fermée"); 
+            
         }
 
 

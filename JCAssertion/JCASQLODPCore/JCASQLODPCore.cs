@@ -38,7 +38,7 @@ using Oracle.DataAccess;
 using Oracle.ManagedDataAccess;
 using JCAssertionCore;
 using System.Data;
-
+using System.Xml; 
 
 
 namespace JCASQLODPCore
@@ -100,6 +100,7 @@ namespace JCASQLODPCore
             if (maConnection == null )
                 maConnection = new Oracle.ManagedDataAccess.Client.OracleConnection(CreerConnectionString());
             maConnection.Open();
+            ConnectionOuverte = true;
 
         }
 
@@ -111,6 +112,7 @@ namespace JCASQLODPCore
         {
             if (maConnection != null)
                 maConnection.Close()  ;
+            ConnectionOuverte = false;
 
         }
 
@@ -121,6 +123,7 @@ namespace JCASQLODPCore
         /// </summary>
         public void SQLSelect (String maCommandeSQLString)
         {
+            
             if ((maCommandeSQLString == null) ||
                 (maCommandeSQLString == ""))
                 {
@@ -205,8 +208,15 @@ namespace JCASQLODPCore
 
             return (ResultatAttendu == monResultat);
         }
+
+        /// <summary>
+        /// SiConnectionOuverte retourne si la connection est ouverte
+        /// </summary>
+        public Boolean SiConnectionOuverte()
+        {
+            return ConnectionOuverte;
+        }
+
         
-        
-        
-    }
-}
+    } // class
+} // namespace

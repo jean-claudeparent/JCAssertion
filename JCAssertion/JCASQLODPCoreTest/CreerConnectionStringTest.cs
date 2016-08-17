@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JCASQLODPCore;
-using JCAssertionCore;
 
 
 
@@ -60,7 +59,7 @@ namespace JCASQLODPCoreTest
                 {
                     String maCs = "";
                     maCs = monSQLCliemt.CreerConnectionString();
-                } catch (JCAssertionException excep)
+                } catch (JCASQLODPException excep)
                 {
                     Assert.IsTrue(excep.Message.Contains("Pour une connection à la base de données le user est obligatoire"),
                         "Maucvais message d'exception :" + excep.Message);  
@@ -77,7 +76,7 @@ namespace JCASQLODPCoreTest
                 String maCs = "";
                 maCs = monSQLCliemt.CreerConnectionString();
             }
-            catch (JCAssertionException excep)
+            catch (JCASQLODPException excep)
             {
                 Assert.IsTrue(excep.Message.Contains("Pour une connection à la base de données le user est obligatoire"),
                     "Maucvais message d'exception :" + excep.Message);
@@ -93,10 +92,10 @@ namespace JCASQLODPCoreTest
                 String maCs = "";
                 maCs = monSQLCliemt.CreerConnectionString();
             }
-            catch (JCAssertionException excep)
+            catch (JCASQLODPException  excep)
             {
                 Assert.IsTrue(excep.Message.Contains("Pour une connection à la base de données le mot de passe est obligatoire"),
-                    "Maucvais message d'exception :" + excep.Message);
+                    "Mauvais message d'exception :" + excep.Message);
             }
 
             /// <testsummary>
@@ -111,7 +110,7 @@ namespace JCASQLODPCoreTest
                 String maCs = "";
                 maCs = monSQLCliemt.CreerConnectionString();
             }
-            catch (JCAssertionException excep)
+            catch (JCASQLODPException  excep)
             {
                 Assert.IsTrue(excep.Message.Contains("Pour une connection à la base de données le mot de passe est obligatoire"),
                     "Maucvais message d'exception :" + excep.Message);

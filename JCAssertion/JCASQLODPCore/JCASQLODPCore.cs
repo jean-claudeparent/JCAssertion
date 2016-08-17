@@ -36,9 +36,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Oracle.DataAccess;
 using Oracle.ManagedDataAccess;
-using JCAssertionCore;
 using System.Data;
-using System.Xml; 
+using System.Xml;
+using JCASQLODPCore;
+
 
 
 namespace JCASQLODPCore
@@ -76,13 +77,13 @@ namespace JCASQLODPCore
 
                 // traiter le user
                 if ((User == null) || (User == ""))
-                    throw new JCAssertionException("Pour une connection à la base de données le user est obligatoire");
+                    throw new JCASQLODPException("Pour une connection à la base de données le user est obligatoire");
                 else
                     monResultat = monResultat + ";User Id=" + User;
 
                 // traiter le passwird
                 if ((Password  == null) || (Password  == ""))
-                    throw new JCAssertionException(
+                    throw new JCASQLODPException(
                         "Pour une connection à la base de données le mot de passe est obligatoire");
                 else
                     monResultat = monResultat + ";Password=" + Password ;
@@ -127,7 +128,7 @@ namespace JCASQLODPCore
             if ((maCommandeSQLString == null) ||
                 (maCommandeSQLString == ""))
                 {
-                    throw new JCAssertionException(
+                    throw new JCASQLODPException(
                         "Aucune commande SQL n'a été fournie.");
                 }
             maCommandeSQL.Connection = maConnection;
@@ -160,7 +161,7 @@ namespace JCASQLODPCore
                   monReader.GetInt32(0); 
           } catch (Exception excep)
           {
-              throw new JCAssertionException("La connande SQL :" +
+              throw new JCASQLODPException("La connande SQL :" +
             CommandeSQL + ": ne retourne pas un résultat de type numérique", excep );
           }
 
@@ -202,7 +203,7 @@ namespace JCASQLODPCore
             }
             catch (Exception excep)
             {
-                throw new JCAssertionException("La connande SQL :" +
+                throw new JCASQLODPException("La connande SQL :" +
               CommandeSQL + ": ne retourne pas un résultat de type chaîne de caractère", excep);
             }
 

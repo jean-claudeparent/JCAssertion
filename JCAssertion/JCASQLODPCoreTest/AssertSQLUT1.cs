@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JCAssertionCore;
+//using JCAssertionCore;
 using JCASQLODPCore;
 
 namespace JCASQLODPCoreTest
@@ -68,7 +68,7 @@ namespace JCASQLODPCoreTest
             try {
               Assert.IsTrue(monSQLClient.AssertSQL(
                 "select 'string' from dual",2));
-                } catch (JCAssertionException excep)
+                } catch (JCASQLODPException excep)
                 {
                     Assert.IsTrue(excep.Message.Contains (
                         "La connande SQL :select 'string' from dual: ne retourne pas un résultat de type numérique"),
@@ -82,7 +82,7 @@ namespace JCASQLODPCoreTest
                 Assert.IsTrue(monSQLClient.AssertSQL(
                   "select count(*) from dual", "1"));
             }
-            catch (JCAssertionException excep)
+            catch (JCASQLODPException  excep)
             {
                 Assert.IsTrue(excep.Message.Contains(
                     "La connande SQL :select count(*) from dual: ne retourne pas un résultat de type chaîne de caractère"),

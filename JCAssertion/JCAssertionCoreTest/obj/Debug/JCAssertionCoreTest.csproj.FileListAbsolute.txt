@@ -14,3 +14,6 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debu
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.dll
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.pdb
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\SQLOK.txt
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCASQLODPCore.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Oracle.ManagedDataAccess.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCASQLODPCore.pdb

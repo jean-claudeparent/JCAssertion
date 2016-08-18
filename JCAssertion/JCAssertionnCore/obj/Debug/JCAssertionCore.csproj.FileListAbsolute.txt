@@ -7,3 +7,6 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\J
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.dll
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.pdb
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionCore.csprojResolveAssemblyReference.cache
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCASQLODPCore.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\Oracle.ManagedDataAccess.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCASQLODPCore.pdb

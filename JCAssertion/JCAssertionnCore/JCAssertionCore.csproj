@@ -49,6 +49,12 @@
     <Compile Include="JCAVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JCASQLODPCore\JCASQLODPCore.csproj">
+      <Project>{3e6da294-1737-4eaa-affe-85fc3e1cb136}</Project>
+      <Name>JCASQLODPCore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

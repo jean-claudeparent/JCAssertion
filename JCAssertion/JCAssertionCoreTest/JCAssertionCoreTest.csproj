@@ -55,6 +55,7 @@
     <Compile Include="CoreUnitTest.cs" />
     <Compile Include="ExtraireVariableUnitTest.cs" />
     <Compile Include="JCAConsoleUnitTest.cs" />
+    <Compile Include="JCAODPSQLClientUT1.cs" />
     <Compile Include="JCAUtilitaireFichierUnitTest.cs" />
     <Compile Include="JCAUtilitaireUnitTest1.cs" />
     <Compile Include="JCAVariableUnitTest1.cs" />

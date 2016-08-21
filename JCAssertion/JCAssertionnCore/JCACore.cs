@@ -58,6 +58,8 @@ namespace JCAssertionCore
         private XmlDocument ListeDeCasXML;
         private XmlNodeList ListeDeCas;
         private Boolean JournalInitialise = false;
+        private JCAPontXML monPontXML = new JCAPontXML();
+
         
         public class Constantes
         {
@@ -182,6 +184,12 @@ namespace JCAssertionCore
 
                             case "MAJVariables":
                                 Resultat = JCAPontXML.JCAMAJVariables(XMLCas,
+                                    ref  Message, ref  Variables.Variables, ref  MessageEchec);
+                                Journalise(Message);
+                                return Resultat;
+
+                            case "ConnectionOracle":
+                                Resultat = monPontXML.JCAConnectionOracle(XMLCas,
                                     ref  Message, ref  Variables.Variables, ref  MessageEchec);
                                 Journalise(Message);
                                 return Resultat;

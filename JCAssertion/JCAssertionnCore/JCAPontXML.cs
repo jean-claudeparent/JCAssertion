@@ -360,6 +360,13 @@ namespace JCAssertionCore
             return true ;
         }
 
+        public bool JCAConnectionOracle(XmlNode monXMLNode, 
+            ref string Message, ref  Dictionary<String, String> Variables,
+            ref string MessageEchec)
+            {
+                return false;
+            }
+
      
 
 

@@ -48,7 +48,7 @@ namespace JCAssertionCore
         private JCASQLODPClient monSQLClient = new JCASQLODPClient();
         public enum Action {Aucune, Ouvrir, Fermer };
 
-        public Boolean SiConnectionOuverte()
+        public Boolean ConnectionOuverte()
         {
             return monSQLClient.SiConnectionOuverte(); 
         }

@@ -35,6 +35,8 @@ namespace JCAssertionCoreTest
                 "L'éxécution du cas a échoué : " +
                 monCore.Message + Environment.NewLine +
                 monCore.MessageEchec);
+            // code les test d'action
+            Assert.Fail("Pas ebcire implémenté"); 
             
 
 
@@ -54,31 +56,26 @@ namespace JCAssertionCoreTest
                 "<Password>{{monPassword}}</Password>" +
                 "<Serveur>{{monServeur}}</Serveur>" +
                 "</Assertion>";
-            try 
-            {
-                monCore.ExecuteCas(monCas);
-                Assert.Fail ("Une exception aurait du se produire"); 
-            } catch (JCAssertionException excep)
-            {
-                Assert.IsTrue(excep.Message.Contains("ccc"),
-                    "Mauvais libellé d'exception : " + excep.Message); 
-            }
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "Cas User non fourni aurait du retourner False");
+            Assert.IsTrue(monCore.Message.Contains(
+                "Le XML ne contient pas la balise User"),
+                "Cas User non fourni: Le message me contient pas le texte attendu " +
+                monCore.Message  );
 
+             
             // password non fourni
             monCas.InnerXml = "<Assertion><Type>ConnectionOracle</Type>" +
                 "<User>{{monPassword}}</User>" +
                 "<Serveur>{{monServeur}}</Serveur>" +
                 "</Assertion>";
-            try
-            {
-                monCore.ExecuteCas(monCas);
-                Assert.Fail("Une exception aurait du se produire");
-            }
-            catch (JCAssertionException excep)
-            {
-                Assert.IsTrue(excep.Message.Contains("ccc"),
-                    "Mauvais libellé d'exception : " + excep.Message);
-            }
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "Le cas Password non fourni aurait du retourner false ");
+            Assert.IsTrue(monCore.Message.Contains(
+                "Le XML ne contient pas la balise Password"),
+                "Cas Password non fourni : Le message me contient pas le texte attendu " +
+                monCore.Message);
+            
 
             // pas de variables fournies
             monCas.InnerXml = "<Assertion><Type>ConnectionOracle</Type>" +
@@ -86,33 +83,28 @@ namespace JCAssertionCoreTest
                 "<Password>{{monPassword}}</Password>" +
                 "<Serveur>{{monServeur}}</Serveur>" +
                 "</Assertion>";
-            try
-            {
-                monCore.ExecuteCas(monCas);
-                Assert.Fail("Une exception aurait du se produire");
-            }
-            catch (JCAssertionException excep)
-            {
-                Assert.IsTrue(excep.Message.Contains("ccc"),
-                    "Mauvais libellé d'exception : " + excep.Message);
-            }
-
-            // xml invalide
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "Cas variables non fournmies aurait du retourner false");
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "La variable monPassword n'a pas eu de valeur fournie"),
+                "Cas variables non fournieLe message me contient pas le texte attendu " +
+                monCore.MessageEchec);
+            
+            // Action Ouvrir qui provoqie une exception oracle
             monCas.InnerXml = "<Assertion><Type>ConnectionOracle</Type>" +
-                "<User>{{monPassword}}" +
-                "<Password>{{monPassword}}</Password>" +
-                "<Serveur>{{monServeur}}</Serveur>" +
+                "<User>JCA</User>" +
+                "<Password>JCA</Password>" +
+                "<Action>Ouvrir</Action>" +
+                "<Serveur>ServeurInexistant</Serveur>" +
                 "</Assertion>";
-            try
-            {
-                monCore.ExecuteCas(monCas);
-                Assert.Fail("Une exception aurait du se produire");
-            }
-            catch (JCAssertionException excep)
-            {
-                Assert.IsTrue(excep.Message.Contains("ccc"),
-                    "Mauvais libellé d'exception : " + excep.Message);
-            }
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "Le cas action Ouvrir invalide  aurair du retourner false");
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "Le XML ne contient pas la balise Password"),
+                "Cas action ouvrir invalide  : Le message me contient pas le texte attendu " +
+                monCore.MessageEchec);
+            
+             
 
             
         }

@@ -64,7 +64,57 @@ namespace JCAssertionCoreTest
                     "Mauvais libellé d'exception : " + excep.Message); 
             }
 
-            Assert.Fail("pas de password Pas encore implémenté");
+            // password non fourni
+            monCas.InnerXml = "<Assertion><Type>ConnectionOracle</Type>" +
+                "<User>{{monPassword}}</User>" +
+                "<Serveur>{{monServeur}}</Serveur>" +
+                "</Assertion>";
+            try
+            {
+                monCore.ExecuteCas(monCas);
+                Assert.Fail("Une exception aurait du se produire");
+            }
+            catch (JCAssertionException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains("ccc"),
+                    "Mauvais libellé d'exception : " + excep.Message);
+            }
+
+            // pas de variables fournies
+            monCas.InnerXml = "<Assertion><Type>ConnectionOracle</Type>" +
+                "<User>{{monPassword}}</User>" +
+                "<Password>{{monPassword}}</Password>" +
+                "<Serveur>{{monServeur}}</Serveur>" +
+                "</Assertion>";
+            try
+            {
+                monCore.ExecuteCas(monCas);
+                Assert.Fail("Une exception aurait du se produire");
+            }
+            catch (JCAssertionException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains("ccc"),
+                    "Mauvais libellé d'exception : " + excep.Message);
+            }
+
+            // xml invalide
+            monCas.InnerXml = "<Assertion><Type>ConnectionOracle</Type>" +
+                "<User>{{monPassword}}" +
+                "<Password>{{monPassword}}</Password>" +
+                "<Serveur>{{monServeur}}</Serveur>" +
+                "</Assertion>";
+            try
+            {
+                monCore.ExecuteCas(monCas);
+                Assert.Fail("Une exception aurait du se produire");
+            }
+            catch (JCAssertionException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains("ccc"),
+                    "Mauvais libellé d'exception : " + excep.Message);
+            }
+
+            
         }
 
     }

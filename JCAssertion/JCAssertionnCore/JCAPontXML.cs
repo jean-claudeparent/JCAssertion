@@ -36,6 +36,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
+using JCAssertionCore;
 
 
 
@@ -362,9 +363,29 @@ namespace JCAssertionCore
 
         public bool JCAConnectionOracle(XmlNode monXMLNode, 
             ref string Message, ref  Dictionary<String, String> Variables,
-            ref string MessageEchec)
+            ref string MessageEchec,
+            ref JCAODPSQLClient monODPSQLClient)
             {
-                return false;
+                Message = Message + Environment.NewLine +
+                "Assertion ConnectionOracle" + Environment.NewLine;
+                if (monXMLNode == null) 
+                    throw new JCAssertionException("Le XML est vide.");
+                ValideBalise(monXMLNode, "User");
+                ValideBalise(monXMLNode, "Password");
+                string MonUser = ValeurBalise(monXMLNode, "User");
+                string MonPassword = ValeurBalise(monXMLNode, "Password");
+                string MonServeur = ValeurBalise(monXMLNode, "Serveur");
+                // remplacer les variables
+                MonUser = JCAVariable.SubstituerVariables(
+                    MonUser, Variables);
+                MonPassword = JCAVariable.SubstituerVariables(
+                    MonPassword, Variables);
+                MonServeur = JCAVariable.SubstituerVariables(
+                    MonServeur, Variables);
+                monODPSQLClient.InitConnection(MonUser,
+                    MonPassword,
+                    MonServeur );
+                return true;
             }
 
      

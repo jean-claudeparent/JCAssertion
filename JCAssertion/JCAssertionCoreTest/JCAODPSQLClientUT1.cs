@@ -40,7 +40,7 @@ namespace JCAssertionCoreTest
 
 
   
-            Assert.Fail("Pas encore implémenté");
+            
         }
 
         [TestMethod]

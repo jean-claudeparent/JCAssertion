@@ -59,6 +59,8 @@ namespace JCAssertionCore
         private XmlNodeList ListeDeCas;
         private Boolean JournalInitialise = false;
         private JCAPontXML monPontXML = new JCAPontXML();
+        private JCAODPSQLClient monODPSQLClient = new JCAODPSQLClient();
+
 
         
         public class Constantes
@@ -192,7 +194,10 @@ namespace JCAssertionCore
 
                             case "ConnectionOracle":
                                 Resultat = monPontXML.JCAConnectionOracle(XMLCas,
-                                    ref  Message, ref  Variables.Variables, ref  MessageEchec);
+                                    ref  Message, 
+                                    ref  Variables.Variables, 
+                                    ref  MessageEchec,
+                                    ref monODPSQLClient);
                                 Journalise(Message);
                                 return Resultat;
                         

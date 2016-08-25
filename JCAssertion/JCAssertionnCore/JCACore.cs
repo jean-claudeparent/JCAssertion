@@ -188,6 +188,8 @@ namespace JCAssertionCore
                                 Journalise(Message);
                                 return Resultat;
 
+
+
                             case "ConnectionOracle":
                                 Resultat = monPontXML.JCAConnectionOracle(XMLCas,
                                     ref  Message, ref  Variables.Variables, ref  MessageEchec);

@@ -375,6 +375,8 @@ namespace JCAssertionCore
                 string MonUser = ValeurBalise(monXMLNode, "User");
                 string MonPassword = ValeurBalise(monXMLNode, "Password");
                 string MonServeur = ValeurBalise(monXMLNode, "Serveur");
+                string MonActionTexte = ValeurBalise(monXMLNode, "Action");
+                
                 // remplacer les variables
                 MonUser = JCAVariable.SubstituerVariables(
                     MonUser, Variables);
@@ -382,9 +384,30 @@ namespace JCAssertionCore
                     MonPassword, Variables);
                 MonServeur = JCAVariable.SubstituerVariables(
                     MonServeur, Variables);
-                monODPSQLClient.InitConnection(MonUser,
+                MonActionTexte = JCAVariable.SubstituerVariables(
+                    MonActionTexte, Variables).ToUpper() ;
+                JCAODPSQLClient.Action monAction =
+                    JCAODPSQLClient.Action.Aucune;
+                if (MonActionTexte.Contains("OUVRIR"))
+                    monAction =
+                    JCAODPSQLClient.Action.Ouvrir ;
+                if (MonActionTexte.Contains("FERMER"))
+                    monAction =
+                    JCAODPSQLClient.Action.Fermer ;
+                try 
+                {
+                   monODPSQLClient.InitConnection(MonUser,
                     MonPassword,
-                    MonServeur );
+                    MonServeur,
+                    monAction);
+                } catch (Exception excep) 
+                {
+                    throw new JCAssertionException(
+                        "Erreur technique lors de la connection au serveur Oracle " +
+                    excep.Message , excep  );
+                }
+            // La seule facon que cette assertion retourne false
+            // c'est qu'une exception se produise
                 return true;
             }
 

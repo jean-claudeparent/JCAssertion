@@ -100,7 +100,7 @@ namespace JCAssertionCoreTest
             Assert.IsFalse(monCore.ExecuteCas(monCas),
                 "Le cas action Ouvrir invalide  aurair du retourner false");
             Assert.IsTrue(monCore.MessageEchec.Contains(
-                "Le XML ne contient pas la balise Password"),
+                "Erreur technique lors de la connection au serveur Oracle ORA-"),
                 "Cas action ouvrir invalide  : Le message me contient pas le texte attendu " +
                 monCore.MessageEchec);
             

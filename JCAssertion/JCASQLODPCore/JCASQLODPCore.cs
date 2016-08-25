@@ -111,8 +111,9 @@ namespace JCASQLODPCore
         /// </summary>
         public void FermerConnection()
         {
-            if (maConnection != null)
-                maConnection.Close()  ;
+            if ((maConnection != null) &&
+                (ConnectionOuverte))
+                    maConnection.Close();
             ConnectionOuverte = false;
 
         }

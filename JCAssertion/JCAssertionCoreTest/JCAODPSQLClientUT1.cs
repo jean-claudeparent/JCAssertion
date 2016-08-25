@@ -18,6 +18,8 @@ namespace JCAssertionCoreTest
             mesVariables.MAJVariable("monUser","JCA");
             mesVariables.MAJVariable("monPassword", "JCA");
             mesVariables.MAJVariable("monServeur", "localhost");
+            mesVariables.MAJVariable("O", "Ouvrir");
+            mesVariables.MAJVariable("F", "Fermer");
 
             JCACore monCore = new JCACore();
             monCore.Variables = mesVariables;
@@ -31,12 +33,52 @@ namespace JCAssertionCoreTest
                 "<Serveur>{{monServeur}}</Serveur>" +
                 "</Assertion>";
 
+            Assert.IsFalse(monCore.ODPSQLConnectionOuverte(),
+                "Avant de commencer la connection devrait être fermée");
             Assert.IsTrue(monCore.ExecuteCas(monCas),
                 "L'éxécution du cas a échoué : " +
                 monCore.Message + Environment.NewLine +
                 monCore.MessageEchec);
-            // code les test d'action
-            Assert.Fail("Pas ebcire implémenté"); 
+            Assert.IsFalse(monCore.ODPSQLConnectionOuverte(),
+                "Sans code d'action  la connection devrait être fermée");
+            
+            
+            // test d'action Ouvrir
+            Assert.IsFalse(monCore.ODPSQLConnectionOuverte(),
+                "Avant de commencer la connection devrait être fermée");
+
+            monCas.InnerXml = "<Assertion><Type>ConnectionOracle</Type>" +
+                "<User>{{monUser}}</User>" +
+                "<Password>{{monPassword}}</Password>" +
+                "<Serveur>{{monServeur}}</Serveur>" +
+                "<Action>{{O}}</Action>" +
+                "</Assertion>";
+
+            Assert.IsTrue(monCore.ExecuteCas(monCas),
+                "L'éxécution du cas action ouvrir a échoué : " +
+                monCore.Message + Environment.NewLine +
+                monCore.MessageEchec);
+            Assert.IsTrue(monCore.ODPSQLConnectionOuverte(),
+                "L'action  aurait du ouvrir la connection");
+            
+
+            // Test d'action fermer
+            Assert.IsTrue(monCore.ODPSQLConnectionOuverte(),
+                "La connection devrait être ouverte");
+            monCas.InnerXml = "<Assertion><Type>ConnectionOracle</Type>" +
+                "<User>{{monUser}}</User>" +
+                "<Password>{{monPassword}}</Password>" +
+                "<Serveur>{{monServeur}}</Serveur>" +
+                "<Action>{{F}}</Action>" +
+                "</Assertion>";
+            Assert.IsTrue(monCore.ExecuteCas(monCas),
+                "L'éxécution du cas action fermer a échoué : " +
+                monCore.Message + Environment.NewLine +
+                monCore.MessageEchec);
+            
+            Assert.IsFalse(monCore.ODPSQLConnectionOuverte(),
+                "L'action aurait du fermer la connection");
+ 
             
 
 

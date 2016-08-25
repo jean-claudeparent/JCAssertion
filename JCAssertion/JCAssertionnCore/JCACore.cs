@@ -241,6 +241,10 @@ namespace JCAssertionCore
         
 
         
+        public Boolean ODPSQLConnectionOuverte()
+        {
+            return monODPSQLClient.ConnectionOuverte();
+        }
 
 
     }

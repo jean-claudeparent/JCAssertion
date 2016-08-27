@@ -54,7 +54,8 @@ namespace JCASQLODPCore
         public String User;
         public String Password;
         private Boolean ConnectionOuverte = false ; // Indique si la connection est instanciée et ouverte
-        
+        public String Resume = "";
+        public Boolean ActiverResume = false;
         private Oracle.ManagedDataAccess.Client.OracleConnection maConnection;
         private Oracle.ManagedDataAccess.Client.OracleDataReader monReader;
         private Oracle.ManagedDataAccess.Client.OracleCommand maCommandeSQL =
@@ -136,7 +137,8 @@ namespace JCASQLODPCore
             maCommandeSQL.CommandText = maCommandeSQLString;
             maCommandeSQL.CommandType = CommandType.Text;
             monReader = maCommandeSQL.ExecuteReader();
-            monReader.Read(); 
+            monReader.Read();
+            if (ActiverResume) Resumer();
              
 
            
@@ -146,50 +148,84 @@ namespace JCASQLODPCore
         /// AssertSQL (CommandeSQL,ResultatAttendu): Fait un select 
         /// retournant un nombre  
         /// sur la connection courante et retourne si
-        /// la valeur est égale au Resultat attendu.
+        /// la valeur est égale (ou est évaluée avec un autre operateur) au Resultat attendu.
         /// Si aucune rangée n'est retournée par le select on retourne false
         /// </summary>
         public Boolean AssertSQL(String CommandeSQL, 
-            Double  ResultatAttendu)
+            Double  ResultatAttendu,
+            String Operateur = "=")
         {
+            Decimal TypeDecimal = 0;
+            String TypeString = "";
+            Boolean TypeTrouve = false;
+            
+          Boolean ResultatAssertion = false;
+          Operateur = Operateur.ToUpper(); 
           SQLSelect(CommandeSQL);
+          if (ActiverResume)
+              Resume = Resume +
+                  "Valeur attendue : " +
+                  ResultatAttendu.ToString() +
+                  Environment.NewLine; 
           if (!monReader.HasRows)
               return false;
           Double monResultat = 0;
-          try 
+          
+          
+          if (monReader.GetFieldType(0) == TypeDecimal.GetType())
+                  {
+                    monResultat = Convert.ToDouble(monReader.GetDecimal(0));
+                    TypeTrouve = true;
+                  }
+              // TypeString
+              if (monReader.GetFieldType(0) == TypeString.GetType())
+              {
+                  throw new JCASQLODPException("La commande SQL retourne une chaîne de caractère et le résultat attendu est un nombre, commande = " +
+                  CommandeSQL);
+              }
+              if (!TypeTrouve)
+              {
+                  throw new JCASQLODPException("La commande SQL retourne un type de données non supporté, commande = " +
+                  CommandeSQL +
+                  "Type non supporté : " +
+                  monReader.GetFieldType(0).ToString ());
+              }
+
+          switch (Operateur)
           {
-              monResultat =
-                  monReader.GetInt32(0); 
-          } catch (Exception excep)
-          {
-              throw new JCASQLODPException("La connande SQL :" +
-            CommandeSQL + ": ne retourne pas un résultat de type numérique", excep );
+              case "!=":
+                  ResultatAssertion = (!(ResultatAttendu == monResultat));
+                  break;
+              case "PG":
+                  ResultatAssertion = (monResultat > ResultatAttendu);
+                  break;
+              case "PP":
+                  ResultatAssertion = (monResultat < ResultatAttendu);
+                  break;
+              case "PG=":
+                  ResultatAssertion = (monResultat >= ResultatAttendu);
+                  break;
+              case "PP=":
+                  ResultatAssertion = (monResultat <= ResultatAttendu);
+                  break; 
+              default:
+                  ResultatAssertion = (ResultatAttendu == monResultat);
+                  break;
           }
 
-          return (ResultatAttendu == monResultat);
+          return ResultatAssertion;
         }
 
-        /// <summary>
-        /// AssertSQL (CommandeSQL,ResultatAttendu):
-        /// Surcharge de la méthode qui accepte
-        /// un entier comme résultat attendu.
-        /// </summary>
-         
-        public Boolean AssertSQL(String CommandeSQL, 
-            Int32   ResultatAttendu)
-        {
-            Double ResultatDouble = Convert.ToDouble ( ResultatAttendu);
-            return AssertSQL(CommandeSQL, ResultatDouble); 
-        }
+        
 
         /// <summary>
-        /// AssertSQL (CommandeSQL,ResultatAttendu): Fait un select 
+        /// AssertSQLString (CommandeSQL,ResultatAttendu): Fait un select 
         /// retournant un texte  
         /// sur la connection courante et retourne si
         /// la valeur est égale au Resultat attendu.
         /// Si aucune rangée n'est retournée par le select on retourne false
         /// </summary>
-        public Boolean AssertSQL(String CommandeSQL,
+        public Boolean AssertSQLString(String CommandeSQL,
             String  ResultatAttendu)
         {
             SQLSelect(CommandeSQL);
@@ -218,6 +254,53 @@ namespace JCASQLODPCore
         {
             return ConnectionOuverte;
         }
+
+        /// <summary>
+        /// Resumer : Resume le datareader dans la propriété Resume
+        /// </summary>
+        private void  Resumer()
+        {
+            String Resultat = "";
+            if (monReader == null )
+                {
+                    Resume = "Le datereader est null";
+                    return;
+                }
+            Resultat = "Nombre de colonnes du résultat : " + 
+                monReader.FieldCount.ToString() +
+                Environment.NewLine  ; 
+            for (int i = 0; i < monReader.FieldCount ; i++)
+                {
+                    Resultat = Resultat +
+                        "Nom : " +
+                        monReader.GetName(i) +
+                        Environment.NewLine +
+                        "Type : " +
+                        monReader.GetFieldType(i) +
+                        Environment.NewLine +
+                        "Valeur : ";
+                switch (monReader.GetFieldType(i).ToString() )
+                {
+                    case "System.Decimal":
+                        Resultat = Resultat +
+                            monReader.GetDecimal(i).ToString()  +
+                            Environment.NewLine; 
+                        break;
+                    default:
+                        Resultat = Resultat +
+                            "Type non implémenté : " +
+                            monReader.GetFieldType(i).ToString() +
+                            Environment.NewLine  ;
+                        break; 
+
+
+                } // end sWitch
+
+                        
+                } // end for
+            Resume = Resultat ;
+        }
+
 
         
     } // class

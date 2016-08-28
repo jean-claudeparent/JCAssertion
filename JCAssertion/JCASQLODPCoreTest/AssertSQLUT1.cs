@@ -161,6 +161,13 @@ namespace JCASQLODPCoreTest
                 45, "="),
                 "fail cas 22 de AssertSQLOK() " +
                 monSQLClient.Resume);
+
+            // Cas 23  Test sql retourne reel = truee
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select TYPENUMBERDEC from JCATest where IDTEST = 'Cas2'",
+                15.345, "="),
+                "fail cas 23 de AssertSQLOK() " +
+                monSQLClient.Resume);
         
         
         

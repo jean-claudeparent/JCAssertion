@@ -158,6 +158,7 @@ namespace JCASQLODPCore
             Decimal TypeDecimal = 0;
             Int64 TypeInt64 = 0;
             String TypeString = "";
+            Double TypeDouble = 0;
             Boolean TypeTrouve = false;
             
           Boolean ResultatAssertion = false;
@@ -170,9 +171,10 @@ namespace JCASQLODPCore
                   Environment.NewLine; 
           if (!monReader.HasRows)
               return false;
-          // Si la colonne est null retrouner false
+          // Si la colonne est null retourner false
           if (monReader.IsDBNull(0))
               return false;
+
           Double monResultat = 0;
           
           // peu importe ConformanceLevel type numérique ramener cela en double
@@ -189,6 +191,12 @@ namespace JCASQLODPCore
                     monResultat = Convert.ToDouble(monReader.GetDecimal(0));
                     TypeTrouve = true;
                   }
+            // TypeDouble
+            if (monReader.GetFieldType(0) == TypeDouble.GetType())
+            {
+                monResultat = monReader.GetDouble(0);
+                TypeTrouve = true;
+            }
               // TypeString
               if (monReader.GetFieldType(0) == TypeString.GetType())
               {
@@ -272,6 +280,7 @@ namespace JCASQLODPCore
         /// </summary>
         private void  Resumer()
         {
+            //TODO Supporter tous les types de données
             String Resultat = "";
             if (monReader == null )
                 {

@@ -104,6 +104,36 @@ namespace JCASQLODPCoreTest
                 "select count(*) - .5  as R  from dual", 1, "pg="),
                 "fail cas 14 de AssertSQLOK() " +
                 monSQLClient.Resume);
+
+            // Cas 15  Test de sql plus petit numérique = true
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select count(*) - .5  as R  from dual", 1, "pp"),
+                "fail cas 15 de AssertSQLOK() " +
+                monSQLClient.Resume);
+
+            // Cas 16  Test de sql plus petit numérique = false
+            Assert.IsFalse(monSQLClient.AssertSQL(
+                "select count(*) + .5  as R  from dual", 1, "pp"),
+                "fail cas 16 de AssertSQLOK() " +
+                monSQLClient.Resume);
+
+            // Cas 17  Test de sql plus petit ou égal ou égal  numérique = true
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select count(*)   as R  from dual", 1, "pp="),
+                "fail cas 17 de AssertSQLOK() " +
+                monSQLClient.Resume);
+
+            // Cas 18  Test de sql plus petit ou égal  numérique = false
+            Assert.IsFalse(monSQLClient.AssertSQL(
+                "select count(*) + .5  as R  from dual", 1, "pp="),
+                "fail cas 18 de AssertSQLOK() " +
+                monSQLClient.Resume);
+
+            // Cas 19  Test sql ne retourne aucunerangée = false
+            Assert.IsFalse(monSQLClient.AssertSQL(
+                "select * from dual where rownum = 5", 1, "pp="),
+                "fail cas 19 de AssertSQLOK() " +
+                monSQLClient.Resume);
         
         
         

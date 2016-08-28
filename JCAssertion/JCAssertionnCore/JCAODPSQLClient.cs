@@ -82,7 +82,7 @@ namespace JCAssertionCore
             Boolean Fermer = (!monSQLClient.SiConnectionOuverte());
             if (!monSQLClient.SiConnectionOuverte())
                 monSQLClient.OuvrirConnection();
-            Resultat = monSQLClient.AssertSQLString(SQL, ResultatAttendu); 
+            Resultat = monSQLClient.AssertSQL(SQL, ResultatAttendu); 
             if (Fermer)
                 monSQLClient.FermerConnection();
 

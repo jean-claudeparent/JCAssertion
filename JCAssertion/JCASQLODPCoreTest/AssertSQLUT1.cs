@@ -59,13 +59,13 @@ namespace JCASQLODPCoreTest
                 "fail cas 4 de AssertSQLOK()");
   
             // Cas 5 Tester surcharge string = true
-            Assert.IsTrue(monSQLClient.AssertSQLString(
+            Assert.IsTrue(monSQLClient.AssertSQL(
                 "select 'Mon résultat'  as R  from dual",
                 "Mon résultat"),
                 "fail cas 5 de AssertSQLOK()");
 
             // Cas 6 Tester surcharge string = false
-            Assert.IsFalse(monSQLClient.AssertSQLString(
+            Assert.IsFalse(monSQLClient.AssertSQL(
                 "select 'pas ça' as R  from dual", 
                 "pas vraiment cela"),
                 "fail cas 6 de AssertSQLOK()");
@@ -76,11 +76,34 @@ namespace JCASQLODPCoreTest
                 "fail cas 9 de AssertSQLOK()");
 
             // Cas 10  Test de non égalité numérique = false
-            monSQLClient.ActiverResume = true; 
             Assert.IsFalse(monSQLClient.AssertSQL(
                 "select count(*) / 2  as R  from dual", 0.50, "!="),
                 "fail cas 10 de AssertSQLOK() " +
                 monSQLClient.Resume  );
+
+            // Cas 11  Test de sql plus grand numérique = true
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select count(*) + .5  as R  from dual", 1, "pg"),
+                "fail cas 11 de AssertSQLOK() " +
+                monSQLClient.Resume);
+
+            // Cas 12  Test de sql plus grand numérique = false
+            Assert.IsFalse(monSQLClient.AssertSQL(
+                "select count(*) - .5  as R  from dual", 1, "pg"),
+                "fail cas 12 de AssertSQLOK() " +
+                monSQLClient.Resume);
+
+            // Cas 13  Test de sql plus grand ou égal  numérique = true
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select count(*)   as R  from dual", 1, "pg="),
+                "fail cas 13 de AssertSQLOK() " +
+                monSQLClient.Resume);
+
+            // Cas 14  Test de sql plus grand ou égal  numérique = false
+            Assert.IsFalse(monSQLClient.AssertSQL(
+                "select count(*) - .5  as R  from dual", 1, "pg="),
+                "fail cas 14 de AssertSQLOK() " +
+                monSQLClient.Resume);
         
         
         
@@ -105,7 +128,7 @@ namespace JCASQLODPCoreTest
             // type incompatible abec une string
             try
             {
-                Assert.IsTrue(monSQLClient.AssertSQLString(
+                Assert.IsTrue(monSQLClient.AssertSQL(
                   "select count(*) from dual", "1"));
             }
             catch (JCASQLODPException  excep)

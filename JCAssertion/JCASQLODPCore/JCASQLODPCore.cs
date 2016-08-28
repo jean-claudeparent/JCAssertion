@@ -225,7 +225,7 @@ namespace JCASQLODPCore
         /// la valeur est égale au Resultat attendu.
         /// Si aucune rangée n'est retournée par le select on retourne false
         /// </summary>
-        public Boolean AssertSQLString(String CommandeSQL,
+        public Boolean AssertSQL(String CommandeSQL,
             String  ResultatAttendu)
         {
             SQLSelect(CommandeSQL);

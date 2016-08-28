@@ -156,6 +156,7 @@ namespace JCASQLODPCore
             String Operateur = "=")
         {
             Decimal TypeDecimal = 0;
+            Int64 TypeInt64 = 0;
             String TypeString = "";
             Boolean TypeTrouve = false;
             
@@ -169,10 +170,21 @@ namespace JCASQLODPCore
                   Environment.NewLine; 
           if (!monReader.HasRows)
               return false;
+          // Si la colonne est null retrouner false
+          if (monReader.IsDBNull(0))
+              return false;
           Double monResultat = 0;
           
-          
-          if (monReader.GetFieldType(0) == TypeDecimal.GetType())
+          // peu importe ConformanceLevel type numérique ramener cela en double
+          // TypeInt64
+          if (monReader.GetFieldType(0) == TypeInt64.GetType())
+          {
+              monResultat = Convert.ToDouble(monReader.GetInt64(0));
+              TypeTrouve = true;
+          }
+
+          // TypeDecimal
+            if (monReader.GetFieldType(0) == TypeDecimal.GetType())
                   {
                     monResultat = Convert.ToDouble(monReader.GetDecimal(0));
                     TypeTrouve = true;

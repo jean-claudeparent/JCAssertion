@@ -134,6 +134,34 @@ namespace JCASQLODPCoreTest
                 "select * from dual where rownum = 5", 1, "pp="),
                 "fail cas 19 de AssertSQLOK() " +
                 monSQLClient.Resume);
+
+            // Cas 20 vérifier si le cas de tst est dans la banque oracle = false
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select count(*)  from JCATest where IDTEST = 'Cas1'", 1, "="),
+                "fail cas 20 sous cas 1 de AssertSQLOK(). Le cas de test LogonCas1 n'est pas dans la table JCAUser " +
+                monSQLClient.Resume);
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select count(*)  from JCATest where IDTEST = 'Cas2'", 1, "="),
+                "fail cas 20 sous cas 2 de AssertSQLOK(). Le cas de test LogonCas1 n'est pas dans la table JCAUser " +
+                monSQLClient.Resume); Assert.IsTrue(monSQLClient.AssertSQL(
+                 "select count(*)  from JCATest where IDTEST = 'Cas3'", 1, "="),
+                 "fail cas 20 sous cas 3 de AssertSQLOK(). Le cas de test LogonCas1 n'est pas dans la table JCAUser " +
+                 monSQLClient.Resume);
+
+            // Cas 21  Test pour un sql de résultat number entiere = truee
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select TYPENUMBERINT from JCATest where IDTEST = 'Cas2'",
+                45, "="),
+                "fail cas 21 de AssertSQLOK() " +
+                monSQLClient.Resume);
+
+            // Cas 22 sql retourne colonne null = truee
+            Assert.IsFalse(monSQLClient.AssertSQL(
+                "select TYPENUMBERINT from JCATest where IDTEST = 'Cas1'",
+                45, "="),
+                "fail cas 22 de AssertSQLOK() " +
+                monSQLClient.Resume);
+        
         
         
         

@@ -368,6 +368,7 @@ namespace JCAssertionCore
             {
                 Message = Message + Environment.NewLine +
                 "Assertion ConnectionOracle" + Environment.NewLine;
+                MessageEchec = "";
                 if (monXMLNode == null) 
                     throw new JCAssertionException("Le XML est vide.");
                 ValideBalise(monXMLNode, "User");
@@ -412,7 +413,65 @@ namespace JCAssertionCore
             }
 
      
+        public bool JCAAssertSQL(XmlNode monXMLNode, 
+            ref string Message, ref  Dictionary<String, String> Variables,
+            ref string MessageEchec,
+            ref JCASQLClient monODPSQLClient)
+            {
+                Message = Message + Environment.NewLine +
+                "Assertion AssertSQL" + Environment.NewLine;
+                MessageEchec = "";
+                if (monXMLNode == null) 
+                    throw new JCAssertionException("Le XML est vide.");
+                ValideBalise(monXMLNode, "SQL");
+            if ((! SiBaliseExiste(monXMLNode ,"AttenduNombre")) &&
+                (!SiBaliseExiste(monXMLNode, "AttenduTexte")))
+                throw new JCAssertionException(
+                    "Une des deux balises suivantes doit exister :AttenduNombre ou AttenduTexte ");
+            if ((SiBaliseExiste(monXMLNode, "AttenduNombre")) &&
+                (SiBaliseExiste(monXMLNode, "AttenduTexte")))
+                throw new JCAssertionException(
+                    "Une seule des deux balises suivantes doit exister dans le xml :AttenduNombre ou AttenduTexte ");
+            String monSQL = ValeurBalise (monXMLNode,"SQL" );
+            Message = Message + monSQL + Environment .NewLine ;
+            Boolean Resultat = false;
+            String monOperateur = "";
+            if (SiBaliseExiste(monXMLNode, "AttenduNombre"))
+                {
+                    monOperateur = ValeurBalise(monXMLNode,"Operateur");
+                    if (monOperateur == "")
+                        monOperateur = "=";
+                    Message = Message + "Opérateur : " +
+                        monOperateur + Environment.NewLine;
+                    Double ResultatAttendu = 0;
+                try 
+                    {
+                        ResultatAttendu = Convert.ToDouble ( 
+                            ValeurBalise(monXMLNode,"ResultatNombre"));
+                    } catch (FormatException excep)
+                    {
+                        throw new JCAssertionException(
+                            "La balise AttenduNombre comporte une valeur ne pouvant pas être convertie en nombre" +
+                            monXMLNode.InnerXml +
+                            Environment.NewLine +
+                            excep.Message, excep); 
+                    } catch (Exception excep)
+                    {
+                        throw excep;
+                    }
+                Message = Message +
+                    "Valeur attendue : " +
+                    ResultatAttendu.ToString() +
+                    Environment.NewLine; 
+                Resultat = monODPSQLClient.SQLAssert(monSQL , 
+                        ResultatAttendu, monOperateur);
+ 
 
+                }
+                
+
+                return Resultat ;
+            }
 
 
     }

@@ -92,7 +92,8 @@ namespace JCAssertionCore
         }
 
         public Boolean SQLAssert(String SQL,
-            Double  ResultatAttendu)
+            Double  ResultatAttendu,
+            String Operateur = "=")
         {
             return false;
         }

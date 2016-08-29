@@ -59,7 +59,7 @@ namespace JCAssertionCore
         private XmlNodeList ListeDeCas;
         private Boolean JournalInitialise = false;
         private JCAPontXML monPontXML = new JCAPontXML();
-        private JCASQLClient monODPSQLClient = new JCASQLClient();
+        private JCASQLClient monSQLClient = new JCASQLClient();
 
 
         
@@ -197,7 +197,15 @@ namespace JCAssertionCore
                                     ref  Message, 
                                     ref  Variables.Variables, 
                                     ref  MessageEchec,
-                                    ref monODPSQLClient);
+                                    ref monSQLClient);
+                                Journalise(Message);
+                                return Resultat;
+                            case "AssertSQL":
+                                Resultat = monPontXML.JCAAssertSQL(XMLCas,
+                                    ref  Message,
+                                    ref  Variables.Variables,
+                                    ref  MessageEchec,
+                                    ref monSQLClient);
                                 Journalise(Message);
                                 return Resultat;
                         
@@ -243,7 +251,7 @@ namespace JCAssertionCore
         
         public Boolean ODPSQLConnectionOuverte()
         {
-            return monODPSQLClient.ConnectionOuverte();
+            return monSQLClient.ConnectionOuverte();
         }
 
 

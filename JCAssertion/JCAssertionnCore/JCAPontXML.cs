@@ -364,7 +364,7 @@ namespace JCAssertionCore
         public bool JCAConnectionOracle(XmlNode monXMLNode, 
             ref string Message, ref  Dictionary<String, String> Variables,
             ref string MessageEchec,
-            ref JCAODPSQLClient monODPSQLClient)
+            ref JCASQLClient monODPSQLClient)
             {
                 Message = Message + Environment.NewLine +
                 "Assertion ConnectionOracle" + Environment.NewLine;
@@ -386,14 +386,14 @@ namespace JCAssertionCore
                     MonServeur, Variables);
                 MonActionTexte = JCAVariable.SubstituerVariables(
                     MonActionTexte, Variables).ToUpper() ;
-                JCAODPSQLClient.Action monAction =
-                    JCAODPSQLClient.Action.Aucune;
+                JCASQLClient.Action monAction =
+                    JCASQLClient.Action.Aucune;
                 if (MonActionTexte.Contains("OUVRIR"))
                     monAction =
-                    JCAODPSQLClient.Action.Ouvrir ;
+                    JCASQLClient.Action.Ouvrir ;
                 if (MonActionTexte.Contains("FERMER"))
                     monAction =
-                    JCAODPSQLClient.Action.Fermer ;
+                    JCASQLClient.Action.Fermer ;
                 try 
                 {
                    monODPSQLClient.InitConnection(MonUser,

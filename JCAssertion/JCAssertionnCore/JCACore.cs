@@ -59,7 +59,7 @@ namespace JCAssertionCore
         private XmlNodeList ListeDeCas;
         private Boolean JournalInitialise = false;
         private JCAPontXML monPontXML = new JCAPontXML();
-        private JCAODPSQLClient monODPSQLClient = new JCAODPSQLClient();
+        private JCASQLClient monODPSQLClient = new JCASQLClient();
 
 
         

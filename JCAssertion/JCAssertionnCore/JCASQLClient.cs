@@ -38,11 +38,13 @@ using JCASQLODPCore;
 namespace JCAssertionCore
 {
     /// <summary>
-    /// JCAODPSQLClient : Classe définissant les propriétés et méthodes
+    /// JCASQLClient : Classe définissant les propriétés et méthodes
     /// de plus haut niveau pour le pont xml
-    /// pour accéder une base de données oracle avec le oracle data provider.
+    /// pour accéder une base de données.
+    /// Actuellement implanté oracle avec le oracle data provider.
+    /// À venir coder les appels a oledb ici aussi
     /// </summary>
-    public class JCAODPSQLClient
+    public class JCASQLClient
     {
 
         private JCASQLODPClient monSQLClient = new JCASQLODPClient();

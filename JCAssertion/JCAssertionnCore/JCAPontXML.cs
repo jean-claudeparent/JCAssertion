@@ -485,7 +485,26 @@ namespace JCAssertionCore
                         
  
 
-                }
+                } // if
+            else
+                {
+                    String ResultatnAttenduTexte = ValeurBalise(
+                            monXMLNode, "AttenduTexte");
+                    ResultatnAttenduTexte = JCAVariable.SubstituerVariables(
+                        ResultatnAttenduTexte, Variables);
+                    Message = Message +
+                    "Valeur attendue : " +
+                    ResultatnAttenduTexte +
+                    Environment.NewLine;
+                    Resultat = monODPSQLClient.SQLAssert(monSQL,
+                            ResultatnAttenduTexte);
+                    if (!(Resultat))
+                        MessageEchec = JCAVariable.SubstituerVariables(
+                            ValeurBalise(
+                            monXMLNode, "MessageEchec"), Variables);
+                       
+                
+                } // end else
                 
 
                 return Resultat ;

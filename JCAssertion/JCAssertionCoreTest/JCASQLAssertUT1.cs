@@ -147,10 +147,103 @@ namespace JCAssertionCoreTest
 
 
 
-            // Ajouter 2 cas de cp,âraospm stromg
-
-            Assert.Fail ("Pas encore implémenté eceptions de Assertsql " + 
-                monCore.Message ); 
+            
+           
         }
+
+        [TestMethod]
+        public void ODPSQLAssertPasOK()
+        {
+            // Cas 1 Aucun résultat attendu spécifié
+            monCas.InnerXml = "<Assertion>" +
+               "<Type>AssertSQL</Type>" +
+               "<SQL>{{dual}}</SQL>" +
+                "<Operateur>pg</Operateur>" +
+               "<MessageEchec>{{echec}}</MessageEchec>" +
+               "</Assertion>";
+            
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "Échec du cas 1 de de ODPSQLAssertPasOK(). true attendu " +
+                monCore.Message +
+                " " + monCore.MessageEchec);
+
+            Assert.IsTrue(
+                monCore.MessageEchec.Contains(
+                "Une des deux balises suivantes doit exister :AttenduNombre ou AttenduTexte"),
+                "Cas 1 Le MessageEchec ne contient pas le message atttendu : " +
+                monCore.MessageEchec  );
+
+            // Cas 2 deux résultat attendu spécifiés
+            monCas.InnerXml = "<Assertion>" +
+               "<Type>AssertSQL</Type>" +
+               "<SQL>{{dual}}</SQL>" +
+               "<AttenduNombre>12</AttenduNombre>" +
+               "<AttenduTexte>pg</AttenduTexte>" +
+               "<Operateur>pg</Operateur>" +
+               "<MessageEchec>{{echec}}</MessageEchec>" +
+               "</Assertion>";
+
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "Échec du cas 2 de de ODPSQLAssertPasOK(). true attendu " +
+                monCore.Message +
+                " " + monCore.MessageEchec);
+
+
+
+            Assert.IsTrue(
+                monCore.MessageEchec.Contains(
+                "Une seule des deux balises suivantes doit exister dans le xml :AttenduNombre ou AttenduTexte"),
+                "Cas 2 Le MessageEchec ne contient pas le message atttendu : " +
+                monCore.MessageEchec);
+
+            // Cas 3 Pas de balise sql
+            monCas.InnerXml = "<Assertion>" +
+               "<Type>AssertSQL</Type>" +
+               "<AttenduNombre>12</AttenduNombre>" +
+               "<Operateur>pg</Operateur>" +
+               "<MessageEchec>{{echec}}</MessageEchec>" +
+               "</Assertion>";
+
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "Échec du cas 3 de de ODPSQLAssertPasOK(). true attendu " +
+                monCore.Message +
+                " " + monCore.MessageEchec);
+
+
+
+            Assert.IsTrue(
+                monCore.MessageEchec.Contains(
+                "Le XML ne contient pas la balise SQL"),
+                "Cas 3 Le MessageEchec ne contient pas le message atttendu : " +
+                monCore.MessageEchec);
+
+            // Cas 4 sql invalide
+            monCas.InnerXml = "<Assertion>" +
+               "<Type>AssertSQL</Type>" +
+               "<AttenduNombre>12</AttenduNombre>" +
+               "<Operateur>pg</Operateur>" +
+               "<SQL>select pg where true</SQL>" +
+               "<MessageEchec>{{echec}}</MessageEchec>" +
+               "</Assertion>";
+
+            try 
+            { 
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "Échec du cas 3 de de ODPSQLAssertPasOK(). true attendu " +
+                monCore.Message +
+                " " + monCore.MessageEchec);
+            } catch (Exception excep)
+            {
+                Assert.IsTrue(excep.Message.Contains("ORA-"),
+                    "Cas 4 un erreur oracle aurait du seproduire.");     
+            }
+
+
+
+            
+            
+             
+        }
+        
     }
 }

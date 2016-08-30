@@ -95,7 +95,16 @@ namespace JCAssertionCore
             Double  ResultatAttendu,
             String Operateur = "=")
         {
-            return false;
+
+            Boolean Resultat = false;
+            Boolean Fermer = (!monSQLClient.SiConnectionOuverte());
+            if (!monSQLClient.SiConnectionOuverte())
+                monSQLClient.OuvrirConnection();
+            Resultat = monSQLClient.AssertSQL(SQL, ResultatAttendu, Operateur );
+            if (Fermer)
+                monSQLClient.FermerConnection();
+
+            return Resultat; 
         }
 
 

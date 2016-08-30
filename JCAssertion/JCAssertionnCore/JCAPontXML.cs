@@ -433,6 +433,9 @@ namespace JCAssertionCore
                 throw new JCAssertionException(
                     "Une seule des deux balises suivantes doit exister dans le xml :AttenduNombre ou AttenduTexte ");
             String monSQL = ValeurBalise (monXMLNode,"SQL" );
+            monSQL = JCAVariable.SubstituerVariables(
+                    monSQL , Variables);
+                
             Message = Message + monSQL + Environment .NewLine ;
             Boolean Resultat = false;
             String monOperateur = "";
@@ -441,17 +444,27 @@ namespace JCAssertionCore
                     monOperateur = ValeurBalise(monXMLNode,"Operateur");
                     if (monOperateur == "")
                         monOperateur = "=";
+                    monOperateur  = JCAVariable.SubstituerVariables(
+                    monOperateur , Variables);
+            
                     Message = Message + "Opérateur : " +
                         monOperateur + Environment.NewLine;
                     Double ResultatAttendu = 0;
+                    String monANString = "";
                 try 
                     {
-                        ResultatAttendu = Convert.ToDouble ( 
-                            ValeurBalise(monXMLNode,"ResultatNombre"));
+                        monANString = ValeurBalise(
+                            monXMLNode,"AttenduNombre");
+                    monANString = JCAVariable.SubstituerVariables(
+                    monANString , Variables);
+
+                    ResultatAttendu = Convert.ToDouble(monANString); 
+                            
                     } catch (FormatException excep)
                     {
                         throw new JCAssertionException(
-                            "La balise AttenduNombre comporte une valeur ne pouvant pas être convertie en nombre" +
+                            "La balise AttenduNombre comporte une valeur (" +
+                            monANString + ") ne pouvant pas être convertie en nombre" +
                             monXMLNode.InnerXml +
                             Environment.NewLine +
                             excep.Message, excep); 
@@ -465,6 +478,11 @@ namespace JCAssertionCore
                     Environment.NewLine; 
                 Resultat = monODPSQLClient.SQLAssert(monSQL , 
                         ResultatAttendu, monOperateur);
+                if (! (Resultat))
+                    MessageEchec =  JCAVariable.SubstituerVariables(
+                        ValeurBalise(
+                        monXMLNode,"MessageEchec"), Variables );
+                        
  
 
                 }

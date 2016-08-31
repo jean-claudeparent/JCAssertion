@@ -157,6 +157,10 @@ namespace JCASQLODPCore
         {
             Decimal TypeDecimal = 0;
             Int64 TypeInt64 = 0;
+            Int32 TypeInt32 = 0;
+            Int16 TypeInt16 = 0;
+            int TypeInt = 0;
+            
             String TypeString = "";
             Double TypeDouble = 0;
             Boolean TypeTrouve = false;
@@ -177,11 +181,32 @@ namespace JCASQLODPCore
 
           Double monResultat = 0;
           
-          // peu importe ConformanceLevel type numérique ramener cela en double
+          // peu importe le type numérique ramener cela en type double
           // TypeInt64
           if (monReader.GetFieldType(0) == TypeInt64.GetType())
           {
               monResultat = Convert.ToDouble(monReader.GetInt64(0));
+              TypeTrouve = true;
+          }
+
+          // TypeInt32
+          if (monReader.GetFieldType(0) == TypeInt32.GetType())
+          {
+              monResultat = Convert.ToDouble(monReader.GetInt32(0));
+              TypeTrouve = true;
+          }
+
+          // TypeInt16
+          if (monReader.GetFieldType(0) == TypeInt16.GetType())
+          {
+              monResultat = Convert.ToDouble(monReader.GetInt16(0));
+              TypeTrouve = true;
+          }
+
+          // TypeInt
+          if (monReader.GetFieldType(0) == TypeInt.GetType())
+          {
+              monResultat = Convert.ToDouble(monReader.GetInt16(0));
               TypeTrouve = true;
           }
 

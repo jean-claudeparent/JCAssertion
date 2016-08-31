@@ -148,14 +148,30 @@ namespace JCASQLODPCoreTest
                  "fail cas 20 sous cas 3 de AssertSQLOK(). Le cas de test LogonCas1 n'est pas dans la table JCAUser " +
                  monSQLClient.Resume);
 
-            // Cas 21  Test pour un sql de résultat number entiere = truee
+            // Cas 21  Test pour un sql de résultat number entiere = true
             Assert.IsTrue(monSQLClient.AssertSQL(
                 "select TYPENUMBERINT from JCATest where IDTEST = 'Cas2'",
                 45, "="),
-                "fail cas 21 de AssertSQLOK() " +
+                "fail cas 21 INT de AssertSQLOK() " +
+                monSQLClient.Resume);
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select TYPENUMBERINT16 from JCATest where IDTEST = 'Cas2'",
+                45, "="),
+                "fail cas 21 INT16 de AssertSQLOK() " +
+                monSQLClient.Resume);
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select TYPENUMBERINT32 from JCATest where IDTEST = 'Cas2'",
+                45, "="),
+                "fail cas 21 INT32 de AssertSQLOK() " +
                 monSQLClient.Resume);
 
-            // Cas 22 sql retourne colonne null = truee
+            Assert.IsTrue(monSQLClient.AssertSQL(
+                "select TYPENUMBERINT64 from JCATest where IDTEST = 'Cas2'",
+                45, "="),
+                "fail cas 21 INT64 de AssertSQLOK() " +
+                monSQLClient.Resume);
+
+            // Cas 22 sql retourne colonne null = true
             Assert.IsFalse(monSQLClient.AssertSQL(
                 "select TYPENUMBERINT from JCATest where IDTEST = 'Cas1'",
                 45, "="),

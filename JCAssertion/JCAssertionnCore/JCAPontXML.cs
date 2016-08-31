@@ -385,16 +385,33 @@ namespace JCAssertionCore
                     MonPassword, Variables);
                 MonServeur = JCAVariable.SubstituerVariables(
                     MonServeur, Variables);
+                // Donner du feedback
+                Message = Message + Environment.NewLine +
+                    "User : " + MonUser + Environment.NewLine +
+                    "Password : " + MonPassword + Environment.NewLine +
+                    "Serveur/instance : " + MonServeur + Environment.NewLine  ;
+
+                // Traiter l'action
                 MonActionTexte = JCAVariable.SubstituerVariables(
                     MonActionTexte, Variables).ToUpper() ;
                 JCASQLClient.Action monAction =
                     JCASQLClient.Action.Aucune;
                 if (MonActionTexte.Contains("OUVRIR"))
-                    monAction =
-                    JCASQLClient.Action.Ouvrir ;
+                    {
+                        monAction =
+                            JCASQLClient.Action.Ouvrir ;
+                        Message = Message +
+                            "Ouvrir la connection à la base de données" +
+                            Environment.NewLine; 
+                    }
                 if (MonActionTexte.Contains("FERMER"))
-                    monAction =
-                    JCASQLClient.Action.Fermer ;
+                    {
+                        monAction =
+                            JCASQLClient.Action.Fermer ;
+                        Message = Message +
+                                "Fermer la connection à la base de données" +
+                                Environment.NewLine; 
+                    }
                 try 
                 {
                    monODPSQLClient.InitConnection(MonUser,
@@ -505,8 +522,17 @@ namespace JCAssertionCore
                        
                 
                 } // end else
-                
 
+            if (Resultat)
+                Message = Message +
+                    "L'expression évaluée est vraie" +
+                    Environment.NewLine;
+            else
+                Message = Message +
+                    "L'expression évaluée est fausse" +
+                    Environment.NewLine;
+
+ 
                 return Resultat ;
             }
 

@@ -64,7 +64,7 @@ namespace JCASQLODPCore
 
 
         /// <summary>
-        /// CreerConnectionString : retourne la chaîne de conntextion
+        /// CreerConnectionString : retourne la chaîne de connection
         /// crée à partir des propriétés de la classe. Peut
         /// lever une exception.
         /// </summary>
@@ -348,6 +348,16 @@ namespace JCASQLODPCore
         }
 
 
-        
+        /// <summary>
+        /// SQLExecute: Execute une command SQL qui modifie la base de données
+        /// sur la connection courante
+        /// La commande
+        /// est passé en paramètre.
+        /// Retourne le nombre de rangées modifiées.
+        /// </summary>
+        public Int64 SQLExecute(String SQL)
+            {
+                return 0;
+            }
     } // class
 } // namespace

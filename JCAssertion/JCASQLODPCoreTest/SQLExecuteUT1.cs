@@ -115,8 +115,21 @@ namespace JCASQLODPCoreTest
                
 
             // produire une exception oracle
+            // en insérant deux rangées avec la même clé unique
 
-            Assert.Fail ("Pas encore implémenté.");
+            monSQLClient.SQLExecute(monSQLInsert ); 
+            try 
+            {
+                Resultat = monSQLClient.SQLExecute(monSQLInsert);
+                Assert.Fail("Une exception d'insert en double aurait du se produire.");
+            } catch (Exception excep)
+                {
+                    Assert.IsTrue(excep.Message.Contains("ORA-"),
+                        "L'exception aurait du contenir ora- mais est " +
+                        excep.Message );  
+                }
+
+            
         }
     }
 }

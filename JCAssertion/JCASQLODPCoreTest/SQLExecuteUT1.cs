@@ -54,9 +54,34 @@ namespace JCASQLODPCoreTest
             Resultat = monSQLClient.SQLExecute(monSQLInsert);
             Assert.AreEqual(1,Resultat,
                 "Le nombre de rangées insérées retournées par SQLExecute n'est pas 1 mais " +
-                Resultat.ToString()  ); 
+                Resultat.ToString()  );
+            Assert.IsTrue(monSQLClient.AssertSQL(SQLPrecondition, 1),
+                "La rangée n'a pas été créée.");
 
             // updater
+            String monInfo = "+++123+++";
+            String SQLPrecondition2 = "select count(*) from JCATest where" +
+                " ((IDTEST = '" +
+                maCleDeTest + "') AND " +
+                "(info = '" + monInfo + "')";
+
+            String monSQLUpdate = "update JCATest " +
+                "set info = '" +
+                monInfo + "' where "+
+                "IDTEST = '" +
+                maCleDeTest + "'";
+            // * vérifier que la rengée n'exustre oas déjà
+            Assert.IsTrue(monSQLClient.AssertSQL(SQLPrecondition2,0), 
+                "La rangée avec l'info " +
+                monInfo + " ne devrait pas déjà exister.");
+            
+            // * exécuter update et vérifier résultat
+            Resultat = monSQLClient.SQLExecute(monSQLUpdate);
+            Assert.AreEqual(1, Resultat ,
+                "SQLExecute aurait du retourner 1");
+            Assert.IsTrue(monSQLClient.AssertSQL(SQLPrecondition2, 1),
+                          "La rangée avec l'info " +
+                          monInfo + " devrait exister.");
 
             // de;ete
 

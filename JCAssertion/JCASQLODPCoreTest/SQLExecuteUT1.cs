@@ -83,8 +83,36 @@ namespace JCASQLODPCoreTest
                           "La rangée avec l'info " +
                           monInfo + " devrait exister.");
 
-            // de;ete
+            // delete acec plus d'une ligne affectée
+            // S'assurer que la deuxi`me rangée n'existe pas en l'effacant
+            monSQLClient.SQLExecute("delete from JCATest where IDTest='" +
+                maCleDeTest + "2'");  
+            // * Ajouter une ligne à effacer
+            monSQLUpdate = "update JCATest " +
+                "set IDTEST = '" +
+                maCleDeTest  + "2' where " +
+                "IDTEST = '" +
+                maCleDeTest + "'";
+            Assert.AreEqual(1,
+                monSQLClient.SQLExecute(monSQLUpdate),
+                "Une rangée aurait du être modifiée.");
+            Assert.AreEqual(1,
+                monSQLClient.SQLExecute(monSQLInsert),
+                "Une rangée aurait du être ajoutée.");
 
+
+            // * définir delete de 2 rangées
+            monSQLDelete = "delete from JCATest where " +
+                "IDTEST in ('" +
+                maCleDeTest + "','" +
+                maCleDeTest + "2')";
+
+            Resultat = monSQLClient.SQLExecute(monSQLDelete);
+            Assert.AreEqual(2, Resultat,
+                "Deux rangées aurait dû être effacées");
+            Assert.IsTrue(monSQLClient.AssertSQL(SQLPrecondition, 0),
+                   "La rangée qui ne devrait pas exister est toujours sur la base de données.");
+               
 
             // produire une exception oracle
 

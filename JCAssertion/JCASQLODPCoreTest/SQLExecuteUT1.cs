@@ -63,7 +63,7 @@ namespace JCASQLODPCoreTest
             String SQLPrecondition2 = "select count(*) from JCATest where" +
                 " ((IDTEST = '" +
                 maCleDeTest + "') AND " +
-                "(info = '" + monInfo + "')";
+                "(info = '" + monInfo + "'))";
 
             String monSQLUpdate = "update JCATest " +
                 "set info = '" +

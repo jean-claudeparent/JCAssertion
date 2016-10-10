@@ -49,7 +49,13 @@ namespace JCAssertionCore
 
         private JCASQLODPClient monSQLClient = new JCASQLODPClient();
         public enum Action {Aucune, Ouvrir, Fermer };
-
+        /// <summary>
+        /// ConnectionOuverte : Retourne si la connection
+        /// courante courante est ouverte.
+        /// Pour l'instant une seule connection est
+        /// permise par ODP a oracle.
+        /// </summary>
+        /// <returns></returns>
         public Boolean ConnectionOuverte()
         {
             return monSQLClient.SiConnectionOuverte(); 
@@ -76,7 +82,13 @@ namespace JCAssertionCore
                 monSQLClient.FermerConnection(); 
         }
 
-
+        /// <summary>
+        /// SQLAssert : Appelle le SQLAssert
+        /// de la connection  courante. 
+        /// </summary>
+        /// <param name="SQL">Commande SQL servant pour l'assertion</param>
+        /// <param name="ResultatAttendu">Résultat attendu à comparer pour que l'assertion soit vraie.</param>
+        /// <returns>Retourne si l'assertion est vraie</returns>
         public Boolean SQLAssert(String SQL,
             String ResultatAttendu)
         {

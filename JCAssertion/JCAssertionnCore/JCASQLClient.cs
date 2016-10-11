@@ -103,6 +103,14 @@ namespace JCAssertionCore
             return Resultat; 
         }
 
+        /// <summary>
+        /// SQLAssert : Appelle le SQLAssert
+        /// de la connection  courante. 
+        /// </summary>
+        /// <param name="SQL">Commande SQL servant pour l'assertion</param>
+        /// <param name="ResultatAttendu">Résultat attendu à comparer pour que l'assertion soit vraie.</param>
+        /// <param name="Operateur">Opérateur logique pour comparer le résultat SQL et le résultat attendu. Par exemple plus grand que</param>
+        /// <returns>Retourne si l'assertion est vraie</returns>
         public Boolean SQLAssert(String SQL,
             Double  ResultatAttendu,
             String Operateur = "=")
@@ -119,7 +127,26 @@ namespace JCAssertionCore
             return Resultat; 
         }
 
+        /// <summary>
+        /// SQLExecute : excute une commande SQL qui modifie la base de données
+        /// courante. Par exemoke un insert dans une table.
+        /// Peut lancer des exceptions.
+        /// </summary>
+        /// <param name="SQL">Commande SQL à exécuter.</param>
+        /// <returns>Nombre de rangées de table modifiées si la commande SQL nodifie des rangées.</returns>
+        public Int64 SQLExecute(String SQL)
+        {
 
+
+            Boolean Fermer = (!monSQLClient.SiConnectionOuverte());
+            
+            if (!monSQLClient.SiConnectionOuverte())
+                monSQLClient.OuvrirConnection();
+            Int64 Resultat = monSQLClient.SQLExecute(SQL);
+            if (Fermer)
+                monSQLClient.FermerConnection();
+            return Resultat;
+        }
 
     }
 }

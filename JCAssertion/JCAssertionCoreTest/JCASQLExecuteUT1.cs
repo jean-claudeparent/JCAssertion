@@ -47,12 +47,44 @@ namespace JCAssertionCoreTest
   
             // Cas avec 5 commandes sdql dont une change 0,1 ou plus de 1 tangées
             String[] cinqSQL = new String[5];
-            cinqSQL[0] = "";
-            cinqSQL[1] = "";
-            cinqSQL[2] = "";
-            cinqSQL[3] = "";
-            cinqSQL[4] = "";
+            cinqSQL[0] = "delete from {{NomTable}}" + Environment.NewLine +
+                "where IDTEST LIKE '{{cleCas}}%';";
+
+            cinqSQL[1] = "INSERT INTO {{NomTable}}(IDTEST,NOM,INFO) " +
+                "VALUES ('{{cleCas}}1','CAS 1','AVANT UPTADE 1')";
+
+            cinqSQL[2] = "INSERT INTO {{NomTable}}(IDTEST,NOM,INFO) " +
+                "VALUES ('{{cleCas}}2','CAS 2','AVANT UPTADE 2')";
             
+            cinqSQL[3] = "update  {{NomTable}}" + Environment.NewLine +
+                "set info = 'après update' " + 
+                "where IDTEST LIKE '{{cleCas}}%';";
+
+            cinqSQL[4] = "update {{NomTable}} set info = 'impossible' " + 
+                "idtest='idnexistepas'";
+
+            moXML = JCAssertionCoreTest.SQLHelper.XMLSQLExecute(cinqSQL , "");
+            
+
+            Assert.IsTrue(monCore.ExecuteCas(moXML),
+                "L'exécution aurait du donner true "  +
+            monCore.Message );
+
+            Assert.IsTrue(monCore.Message.Contains(
+                "0 rangée affectée"),
+                "Message innatendu : " + monCore.Message);
+
+            Assert.IsTrue(monCore.Message.Contains(
+                "1 rangée affectée"),
+                "Message innatendu : " + monCore.Message);
+
+            Assert.IsTrue(monCore.Message.Contains(
+                "2 rangées affectées"),
+                "Message innatendu : " + monCore.Message);
+  
+  
+
+            // faire un cas avec une exception oracle
  
 
             Assert.Fail("Pas encore implémentée");

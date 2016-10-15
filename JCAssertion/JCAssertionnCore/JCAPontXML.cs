@@ -431,7 +431,8 @@ namespace JCAssertionCore
 
      
         public bool JCAAssertSQL(XmlNode monXMLNode, 
-            ref string Message, ref  Dictionary<String, String> Variables,
+            ref string Message, 
+            ref  Dictionary<String, String> Variables,
             ref string MessageEchec,
             ref JCASQLClient monODPSQLClient)
             {
@@ -536,6 +537,20 @@ namespace JCAssertionCore
                 return Resultat ;
             }
 
+        public bool JCASQLExecute(XmlNode monXMLNode,
+             ref String Message,
+             ref Dictionary<String, String>  Variables,
+             ref string   MessageEchec,
+             ref JCASQLClient  monSQLClient)
+                 {
+                     Message = Message + Environment.NewLine +
+                        "Assertion :  SQLExecute" + Environment.NewLine;
+                     MessageEchec = "";
+                     if (monXMLNode == null)
+                         throw new JCAssertionException("Le XML est vide.");
+                     ValideBalise(monXMLNode, "SQL"); 
+                    return false;
+                 }
 
     }
 }

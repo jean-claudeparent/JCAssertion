@@ -41,7 +41,8 @@ namespace JCAssertionCoreTest
             moXML = JCAssertionCoreTest.SQLHelper.XMLSQLExecute(vide,"");
             Assert.IsFalse(monCore.ExecuteCas(moXML),
                 "L'exécution d'un SQLExecute sans balise SQL aurait du donner faux");
-            Assert.IsTrue(monCore.Message.Contains("La balise SQL est obligatoire"),
+            Assert.IsTrue(monCore.Message.Contains(
+                "Le XML ne contient pas la balise SQL"),
                 "Message innatendu : " + monCore.Message);
   
             // Cas avec 5 commandes sdql dont une change 0,1 ou plus de 1 tangées

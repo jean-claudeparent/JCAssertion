@@ -85,9 +85,18 @@ namespace JCAssertionCoreTest
   
 
             // faire un cas avec une exception oracle
- 
+            cinqSQL[0] = "erreur from {{NomTable}}" + Environment.NewLine +
+                "where IDTEST LIKE '{{cleCas}}%'";
 
-            Assert.Fail("Pas encore implémentée");
+            moXML = JCAssertionCoreTest.SQLHelper.XMLSQLExecute(cinqSQL ,
+                "");
+            try {
+                monCore.ExecuteCas(moXML);
+                Assert.Fail("Une exception aurait dû se produire.");
+                } catch (Exception excep)
+                {
+                    Assert.IsTrue(excep.Message.Contains("ORA-")  ); 
+                }
         }
     }
 }

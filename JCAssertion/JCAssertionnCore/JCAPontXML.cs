@@ -548,8 +548,27 @@ namespace JCAssertionCore
                      MessageEchec = "";
                      if (monXMLNode == null)
                          throw new JCAssertionException("Le XML est vide.");
-                     ValideBalise(monXMLNode, "SQL"); 
-                    return false;
+                     ValideBalise(monXMLNode, "SQL");
+                     String monSQL = "";        
+            Int64 Rangees = 0;
+            foreach (XmlElement  monFragmentXML in monXMLNode.SelectNodes(
+                    "SQL"))
+                {
+                    monSQL = monFragmentXML.InnerText;
+                    monSQL = JCAVariable.SubstituerVariables(
+                    monSQL, Variables);
+                    Message = Message + monSQL + Environment.NewLine ;
+                    Rangees = monSQLClient.SQLExecute(monSQL);
+                if (Rangees > 1)
+                    Message = Message + Rangees.ToString() +
+                        " rangées affectées." + Environment.NewLine;
+                else 
+                    Message = Message + Rangees.ToString() +
+                        " rangée affectée." + Environment.NewLine;
+                }
+            
+            
+            return true ;
                  }
 
     }

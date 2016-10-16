@@ -48,7 +48,7 @@ namespace JCAssertionCoreTest
             // Cas avec 5 commandes sdql dont une change 0,1 ou plus de 1 tangées
             String[] cinqSQL = new String[5];
             cinqSQL[0] = "delete from {{NomTable}}" + Environment.NewLine +
-                "where IDTEST LIKE '{{cleCas}}%';";
+                "where IDTEST LIKE '{{cleCas}}%'";
 
             cinqSQL[1] = "INSERT INTO {{NomTable}}(IDTEST,NOM,INFO) " +
                 "VALUES ('{{cleCas}}1','CAS 1','AVANT UPTADE 1')";
@@ -58,10 +58,10 @@ namespace JCAssertionCoreTest
             
             cinqSQL[3] = "update  {{NomTable}}" + Environment.NewLine +
                 "set info = 'après update' " + 
-                "where IDTEST LIKE '{{cleCas}}%';";
+                "where IDTEST LIKE '{{cleCas}}%'";
 
             cinqSQL[4] = "update {{NomTable}} set info = 'impossible' " + 
-                "idtest='idnexistepas'";
+                "where idtest='idnexistepas'";
 
             moXML = JCAssertionCoreTest.SQLHelper.XMLSQLExecute(cinqSQL , "");
             

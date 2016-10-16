@@ -372,6 +372,7 @@ namespace JCASQLODPCore
         public Int64 SQLExecute(String SQL)
             {
             try {
+                maCommandeSQL.Connection = maConnection; 
                 maCommandeSQL.CommandText = SQL;
                 maCommandeSQL.CommandType = CommandType.Text;
                 Int64 Resultat = maCommandeSQL.ExecuteNonQuery();

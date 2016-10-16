@@ -47,7 +47,7 @@ namespace JCAssertionCore
     public class JCASQLClient
     {
 
-        private JCASQLODPClient monSQLClient = new JCASQLODPClient();
+        private JCASQLODPClient monSQLClientODP = new JCASQLODPClient();
         public enum Action {Aucune, Ouvrir, Fermer };
         /// <summary>
         /// ConnectionOuverte : Retourne si la connection
@@ -58,7 +58,7 @@ namespace JCAssertionCore
         /// <returns></returns>
         public Boolean ConnectionOuverte()
         {
-            return monSQLClient.SiConnectionOuverte(); 
+            return monSQLClientODP.SiConnectionOuverte(); 
         }
 
 
@@ -73,13 +73,13 @@ namespace JCAssertionCore
             String Serveur = null,
             Action monAction = Action.Aucune  )
         {
-            monSQLClient.User = User;
-            monSQLClient.Password = Password;
-            monSQLClient.Serveur = Serveur;
+            monSQLClientODP.User = User;
+            monSQLClientODP.Password = Password;
+            monSQLClientODP.Serveur = Serveur;
             if (monAction == Action.Ouvrir)
-                monSQLClient.OuvrirConnection();
+                monSQLClientODP.OuvrirConnection();
             if (monAction == Action.Fermer)
-                monSQLClient.FermerConnection(); 
+                monSQLClientODP.FermerConnection(); 
         }
 
         /// <summary>
@@ -93,12 +93,12 @@ namespace JCAssertionCore
             String ResultatAttendu)
         {
             Boolean Resultat = false;
-            Boolean Fermer = (!monSQLClient.SiConnectionOuverte());
-            if (!monSQLClient.SiConnectionOuverte())
-                monSQLClient.OuvrirConnection();
-            Resultat = monSQLClient.AssertSQL(SQL, ResultatAttendu); 
+            Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
+            if (!monSQLClientODP.SiConnectionOuverte())
+                monSQLClientODP.OuvrirConnection();
+            Resultat = monSQLClientODP.AssertSQL(SQL, ResultatAttendu); 
             if (Fermer)
-                monSQLClient.FermerConnection();
+                monSQLClientODP.FermerConnection();
 
             return Resultat; 
         }
@@ -117,12 +117,12 @@ namespace JCAssertionCore
         {
 
             Boolean Resultat = false;
-            Boolean Fermer = (!monSQLClient.SiConnectionOuverte());
-            if (!monSQLClient.SiConnectionOuverte())
-                monSQLClient.OuvrirConnection();
-            Resultat = monSQLClient.AssertSQL(SQL, ResultatAttendu, Operateur );
+            Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
+            if (!monSQLClientODP.SiConnectionOuverte())
+                monSQLClientODP.OuvrirConnection();
+            Resultat = monSQLClientODP.AssertSQL(SQL, ResultatAttendu, Operateur);
             if (Fermer)
-                monSQLClient.FermerConnection();
+                monSQLClientODP.FermerConnection();
 
             return Resultat; 
         }
@@ -138,13 +138,13 @@ namespace JCAssertionCore
         {
 
 
-            Boolean Fermer = (!monSQLClient.SiConnectionOuverte());
-            
-            if (!monSQLClient.SiConnectionOuverte())
-                monSQLClient.OuvrirConnection();
-            Int64 Resultat = monSQLClient.SQLExecute(SQL);
+            Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
+
+            if (!monSQLClientODP.SiConnectionOuverte())
+                monSQLClientODP.OuvrirConnection();
+            Int64 Resultat = monSQLClientODP.SQLExecute(SQL);
             if (Fermer)
-                monSQLClient.FermerConnection();
+                monSQLClientODP.FermerConnection();
             return Resultat;
         }
 

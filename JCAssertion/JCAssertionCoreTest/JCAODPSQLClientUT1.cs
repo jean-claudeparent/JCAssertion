@@ -10,6 +10,10 @@ namespace JCAssertionCoreTest
     [TestClass]
     public class JCAODPSQLClientUT1
     {
+        /// <summary>
+        /// Teste le clientSQL en passant
+        /// par l'interface xml
+        /// </summary>
         [TestMethod]
         public void ClientOK()
         {

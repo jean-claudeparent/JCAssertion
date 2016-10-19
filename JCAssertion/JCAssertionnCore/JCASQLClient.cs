@@ -47,12 +47,18 @@ namespace JCAssertionCore
     public class JCASQLClient
     {
 
-        private JCASQLODPClient monSQLClient = new JCASQLODPClient();
+        private JCASQLODPClient monSQLClientODP = new JCASQLODPClient();
         public enum Action {Aucune, Ouvrir, Fermer };
-
+        /// <summary>
+        /// ConnectionOuverte : Retourne si la connection
+        /// courante courante est ouverte.
+        /// Pour l'instant une seule connection est
+        /// permise par ODP a oracle.
+        /// </summary>
+        /// <returns></returns>
         public Boolean ConnectionOuverte()
         {
-            return monSQLClient.SiConnectionOuverte(); 
+            return monSQLClientODP.SiConnectionOuverte(); 
         }
 
 
@@ -67,47 +73,80 @@ namespace JCAssertionCore
             String Serveur = null,
             Action monAction = Action.Aucune  )
         {
-            monSQLClient.User = User;
-            monSQLClient.Password = Password;
-            monSQLClient.Serveur = Serveur;
+            monSQLClientODP.User = User;
+            monSQLClientODP.Password = Password;
+            monSQLClientODP.Serveur = Serveur;
             if (monAction == Action.Ouvrir)
-                monSQLClient.OuvrirConnection();
+                monSQLClientODP.OuvrirConnection();
             if (monAction == Action.Fermer)
-                monSQLClient.FermerConnection(); 
+                monSQLClientODP.FermerConnection(); 
         }
 
-
+        /// <summary>
+        /// SQLAssert : Appelle le SQLAssert
+        /// de la connection  courante. 
+        /// </summary>
+        /// <param name="SQL">Commande SQL servant pour l'assertion</param>
+        /// <param name="ResultatAttendu">Résultat attendu à comparer pour que l'assertion soit vraie.</param>
+        /// <returns>Retourne si l'assertion est vraie</returns>
         public Boolean SQLAssert(String SQL,
             String ResultatAttendu)
         {
             Boolean Resultat = false;
-            Boolean Fermer = (!monSQLClient.SiConnectionOuverte());
-            if (!monSQLClient.SiConnectionOuverte())
-                monSQLClient.OuvrirConnection();
-            Resultat = monSQLClient.AssertSQL(SQL, ResultatAttendu); 
+            Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
+            if (!monSQLClientODP.SiConnectionOuverte())
+                monSQLClientODP.OuvrirConnection();
+            Resultat = monSQLClientODP.AssertSQL(SQL, ResultatAttendu); 
             if (Fermer)
-                monSQLClient.FermerConnection();
+                monSQLClientODP.FermerConnection();
 
             return Resultat; 
         }
 
+        /// <summary>
+        /// SQLAssert : Appelle le SQLAssert
+        /// de la connection  courante. 
+        /// </summary>
+        /// <param name="SQL">Commande SQL servant pour l'assertion</param>
+        /// <param name="ResultatAttendu">Résultat attendu à comparer pour que l'assertion soit vraie.</param>
+        /// <param name="Operateur">Opérateur logique pour comparer le résultat SQL et le résultat attendu. Par exemple plus grand que</param>
+        /// <returns>Retourne si l'assertion est vraie</returns>
         public Boolean SQLAssert(String SQL,
             Double  ResultatAttendu,
             String Operateur = "=")
         {
 
             Boolean Resultat = false;
-            Boolean Fermer = (!monSQLClient.SiConnectionOuverte());
-            if (!monSQLClient.SiConnectionOuverte())
-                monSQLClient.OuvrirConnection();
-            Resultat = monSQLClient.AssertSQL(SQL, ResultatAttendu, Operateur );
+            Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
+            if (!monSQLClientODP.SiConnectionOuverte())
+                monSQLClientODP.OuvrirConnection();
+            Resultat = monSQLClientODP.AssertSQL(SQL, ResultatAttendu, Operateur);
             if (Fermer)
-                monSQLClient.FermerConnection();
+                monSQLClientODP.FermerConnection();
 
             return Resultat; 
         }
 
+        /// <summary>
+        /// SQLExecute : excute une commande SQL qui modifie la base de données
+        /// courante. Par exemoke un insert dans une table.
+        /// Peut lancer des exceptions.
+        /// </summary>
+        /// <param name="SQL">Commande SQL à exécuter.</param>
+        /// <returns>Nombre de rangées de table modifiées si la commande SQL nodifie des rangées.</returns>
+        public Int64 SQLExecute(String SQL)
+        {
 
+
+            Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
+
+            if (!monSQLClientODP.SiConnectionOuverte())
+                monSQLClientODP.OuvrirConnection();
+            Int64 Resultat = monSQLClientODP.SQLExecute(SQL);
+            if (Fermer)
+                monSQLClientODP.FermerConnection();
+            return Resultat;
+        }
 
     }
 }

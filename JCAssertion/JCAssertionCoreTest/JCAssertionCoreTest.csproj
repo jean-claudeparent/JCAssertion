@@ -57,12 +57,14 @@
     <Compile Include="JCAConsoleUnitTest.cs" />
     <Compile Include="JCAODPSQLClientUT1.cs" />
     <Compile Include="JCASQLAssertUT1.cs" />
+    <Compile Include="JCASQLExecuteUT1.cs" />
     <Compile Include="JCAUtilitaireFichierUnitTest.cs" />
     <Compile Include="JCAUtilitaireUnitTest1.cs" />
     <Compile Include="JCAVariableUnitTest1.cs" />
     <Compile Include="ExecuteCasTest.cs" />
     <Compile Include="JCAMAJVariablesUnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JCAssertionnCore\JCAssertionCore.csproj">

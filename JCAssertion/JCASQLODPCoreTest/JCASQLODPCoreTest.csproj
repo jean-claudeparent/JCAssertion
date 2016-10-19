@@ -54,6 +54,7 @@
     <Compile Include="CreerConnectionStringTest.cs" />
     <Compile Include="OuvrirConnectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLExecuteUT1.cs" />
     <Compile Include="SQLSelectUnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>

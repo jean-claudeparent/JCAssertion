@@ -431,7 +431,8 @@ namespace JCAssertionCore
 
      
         public bool JCAAssertSQL(XmlNode monXMLNode, 
-            ref string Message, ref  Dictionary<String, String> Variables,
+            ref string Message, 
+            ref  Dictionary<String, String> Variables,
             ref string MessageEchec,
             ref JCASQLClient monODPSQLClient)
             {
@@ -536,6 +537,39 @@ namespace JCAssertionCore
                 return Resultat ;
             }
 
+        public bool JCASQLExecute(XmlNode monXMLNode,
+             ref String Message,
+             ref Dictionary<String, String>  Variables,
+             ref string   MessageEchec,
+             ref JCASQLClient  monSQLClient)
+                 {
+                     Message = Message + Environment.NewLine +
+                        "Assertion :  SQLExecute" + Environment.NewLine;
+                     MessageEchec = "";
+                     if (monXMLNode == null)
+                         throw new JCAssertionException("Le XML est vide.");
+                     ValideBalise(monXMLNode, "SQL");
+                     String monSQL = "";        
+            Int64 Rangees = 0;
+            foreach (XmlElement  monFragmentXML in monXMLNode.SelectNodes(
+                    "SQL"))
+                {
+                    monSQL = monFragmentXML.InnerText;
+                    monSQL = JCAVariable.SubstituerVariables(
+                    monSQL, Variables);
+                    Message = Message + monSQL + Environment.NewLine ;
+                    Rangees = monSQLClient.SQLExecute(monSQL);
+                if (Rangees > 1)
+                    Message = Message + Rangees.ToString() +
+                        " rangées affectées." + Environment.NewLine;
+                else 
+                    Message = Message + Rangees.ToString() +
+                        " rangée affectée." + Environment.NewLine;
+                }
+            
+            
+            return true ;
+                 }
 
     }
 }

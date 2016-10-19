@@ -39,7 +39,9 @@ using Oracle.ManagedDataAccess;
 using System.Data;
 using System.Xml;
 using JCASQLODPCore;
+using Oracle.ManagedDataAccess.Client;
 
+ 
 
 
 namespace JCASQLODPCore
@@ -56,6 +58,8 @@ namespace JCASQLODPCore
         private Boolean ConnectionOuverte = false ; // Indique si la connection est instanciée et ouverte
         public String Resume = "";
         public Boolean ActiverResume = false;
+        public Boolean ExceptionDetaillee = true;
+
         private Oracle.ManagedDataAccess.Client.OracleConnection maConnection;
         private Oracle.ManagedDataAccess.Client.OracleDataReader monReader;
         private Oracle.ManagedDataAccess.Client.OracleCommand maCommandeSQL =
@@ -64,7 +68,7 @@ namespace JCASQLODPCore
 
 
         /// <summary>
-        /// CreerConnectionString : retourne la chaîne de conntextion
+        /// CreerConnectionString : retourne la chaîne de connection
         /// crée à partir des propriétés de la classe. Peut
         /// lever une exception.
         /// </summary>
@@ -136,8 +140,18 @@ namespace JCASQLODPCore
             maCommandeSQL.Connection = maConnection;
             maCommandeSQL.CommandText = maCommandeSQLString;
             maCommandeSQL.CommandType = CommandType.Text;
-            monReader = maCommandeSQL.ExecuteReader();
-            monReader.Read();
+            try {
+              monReader = maCommandeSQL.ExecuteReader();
+              monReader.Read();
+            }
+            catch (OracleException excep)
+            {
+                if (ExceptionDetaillee)
+                    throw new JCASQLODPException("Commande SQL:" + Environment.NewLine +
+                    maCommandeSQLString + Environment.NewLine +
+                    excep.Message, excep);
+                else throw excep;
+            }
             if (ActiverResume) Resumer();
              
 
@@ -348,6 +362,29 @@ namespace JCASQLODPCore
         }
 
 
-        
+        /// <summary>
+        /// SQLExecute: Execute une command SQL qui modifie la base de données
+        /// sur la connection courante
+        /// La commande
+        /// est passé en paramètre.
+        /// Retourne le nombre de rangées modifiées.
+        /// </summary>
+        public Int64 SQLExecute(String SQL)
+            {
+            try {
+                maCommandeSQL.Connection = maConnection; 
+                maCommandeSQL.CommandText = SQL;
+                maCommandeSQL.CommandType = CommandType.Text;
+                Int64 Resultat = maCommandeSQL.ExecuteNonQuery();
+                return Resultat;
+            } catch (OracleException excep)
+                {
+                    if (ExceptionDetaillee)
+                        throw new JCASQLODPException("Commande SQL:" + Environment.NewLine +
+                        SQL + Environment.NewLine +
+                        excep.Message  , excep);
+                    else throw excep; 
+                }
+            }
     } // class
 } // namespace

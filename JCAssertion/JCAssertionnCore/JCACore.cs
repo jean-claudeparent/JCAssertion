@@ -65,7 +65,7 @@ namespace JCAssertionCore
         
         public class Constantes
         {
-            public const String Version = "1.0.6";
+            public const String Version = "1.0.7";
 
         }
         public void MessageAjoutter(String Texte)

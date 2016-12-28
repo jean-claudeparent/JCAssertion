@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AssertSQLUT1.cs" />
     <Compile Include="CreerConnectionStringTest.cs" />
+    <Compile Include="LOBUT1.cs" />
     <Compile Include="OuvrirConnectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLExecuteUT1.cs" />

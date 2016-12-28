@@ -315,7 +315,26 @@ namespace JCASQLODPCore
         }
 
         /// <summary>
+        /// ChargeLOB : Charge un Large object
+        /// dans toutes les rangées définies
+        /// par un énoncé SQL.
+        /// </summary>
+        /// <param name="SQL">Énoncé SQL identifiant 1 à n rangées dMune colonne.
+        /// C'est dans cette colonne que leLOB sera chargé</param>
+        /// <param name="Fichier">Nom du fichier qui contient le
+        /// contenu à mettre dans le LOB</param>
+        public void ChargeLOB(
+            String SQL,
+            String Fichier)
+        {
+        }
+
+
+
+
+        /// <summary>
         /// Resumer : Resume le datareader dans la propriété Resume
+        /// Sert à débugger
         /// </summary>
         private void  Resumer()
         {

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JCAssertionCore;
 using System.Xml;
+using System.IO;
 
 
 
@@ -23,7 +24,24 @@ namespace JCAssertionCoreTest
             
             Assert.IsTrue(monJCACore.FichierDeCas.Contains("Ressources\\FichierDeCasOK.xml"));
             Assert.IsNull(monJCACore.FichierValeur);
-            Assert.IsNotNull(monJCACore.FichierJournal,"Le nom du fichier de journal par défaut aurait du être assigné");
+            Assert.IsNotNull(monJCACore.FichierJournal,
+                "Le nom du fichier de journal par défaut aurait du être assigné");
+            // Tester les inscriptions au journal lors du load
+
+            // Vérifier que la version et la date est mise dans le journal
+            String monContenuJournal =
+                File.ReadAllText(monJCACore.FichierJournal);
+            Assert.IsTrue(monContenuJournal.Contains(
+                "Essai lancé avec JCAssertion version 1."),
+                "La version aurait dû être dans le journal " +
+                monContenuJournal);
+            Assert.IsTrue(monContenuJournal.Contains(
+                "Date et heure de l'essai : 2"),
+                "La date et heure  aurait dû être dans le journal " +
+                monContenuJournal); 
+            
+
+            // aprs test journal
             Assert.AreEqual(0,monJCACore.NoCasCourant);
             //Assert.IsTrue(monJCACore.Message.Contains ("réussi"),"Message erroné " + monJCACore.Message );
             

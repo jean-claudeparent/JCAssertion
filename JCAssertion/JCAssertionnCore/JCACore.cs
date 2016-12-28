@@ -93,6 +93,12 @@ namespace JCAssertionCore
             if (FichierJournal == null )
                 FichierJournal = FichierDeCas + ".log.txt";
             JournalInitialise = false;
+            // Débuter le journal
+            Journalise("Essai lancé avec JCAssertion version " +
+                Constantes.Version);
+            Journalise("Date et heure de l'essai : " +
+                DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
             ListeDeCasXML = new XmlDocument();
             ListeDeCasXML.Load(FichierDeCas);
             if (ListeDeCasXML == null) throw new Exception("Le document XML est vide oumal structuré");

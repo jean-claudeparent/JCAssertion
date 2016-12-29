@@ -120,6 +120,22 @@ namespace JCASQLODPCoreTest
             "La base de données oracle ne contient pas les pré requis id=3");
  
  
+            // Lancer le test 1. charger un BLOB
+            // dans une seule rangée
+            monSQLClient.ChargeLOB("select TYPEBLOB from JCATest "+
+            " where where IDTEST = 'LOBUT1_1'", 
+            FichierBLOB);
+  
+            // vérifier résultat test 1
+            Assert.IsTrue(
+            monSQLClient.AssertSQL(monSQLCheck2, 1),
+            "Il ne devrait ne rester qu'une ligne sur la banque ou le BLOB est null");
+
+            Assert.IsTrue(
+            monSQLClient.AssertSQL(monSQLCheck2, 2),
+            "Il devrait rester 2 rangées avec le clob à null");
+
+            // todo test 2
 
 
             Assert.Fail("Pas encore implémenté");

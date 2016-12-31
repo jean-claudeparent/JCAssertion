@@ -63,7 +63,8 @@ namespace JCASQLODPCore
         private Oracle.ManagedDataAccess.Client.OracleConnection maConnection;
         private Oracle.ManagedDataAccess.Client.OracleDataReader monReader;
         private Oracle.ManagedDataAccess.Client.OracleCommand maCommandeSQL =
-            new Oracle.ManagedDataAccess.Client.OracleCommand();
+           new Oracle.ManagedDataAccess.Client.OracleCommand();
+        private JCASQLODPHelper Helper = new JCASQLODPHelper() ;
 
 
 
@@ -323,10 +324,41 @@ namespace JCASQLODPCore
         /// C'est dans cette colonne que leLOB sera chargé</param>
         /// <param name="Fichier">Nom du fichier qui contient le
         /// contenu à mettre dans le LOB</param>
-        public void ChargeLOB(
+        public Int32  ChargeLOB(
             String SQL,
             String Fichier)
         {
+            System.Data.DataSet monDS = new DataSet(); 
+
+            // Initialiser la commande sql
+            maCommandeSQL.Connection = maConnection; 
+            maCommandeSQL.CommandText = SQL;
+            maCommandeSQL.CommandType = CommandType.Text;
+
+            // Créer le dataadapter
+            OracleDataAdapter momDA = new OracleDataAdapter(maCommandeSQL );
+
+            // Charger le dataset
+            try {
+              momDA.Fill(monDS);
+            } catch (Exception excep)
+                {
+                    throw new JCASQLODPException("Erreur d'acces à la base de données " +
+                Environment.NewLine +  "SQL: " +
+                SQL + Environment.NewLine +
+                excep.Message  , excep);
+                }
+
+            // Modifier le dataset et reporter les changements
+            Int32 NbRandees = Helper.MAJLOB(ref monDS,"");
+            monDS.AcceptChanges();
+            
+            
+
+            return NbRandees;
+
+                
+            
         }
 
 

@@ -59,6 +59,7 @@
     <Compile Include="JCASQLODPCore.cs" />
     <Compile Include="JCASQLODPException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="JCASQLODPHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

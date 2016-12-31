@@ -123,7 +123,7 @@ namespace JCASQLODPCoreTest
             // Lancer le test 1. charger un BLOB
             // dans une seule rangée
             monSQLClient.ChargeLOB("select TYPEBLOB from JCATest "+
-            " where where IDTEST = 'LOBUT1_1'", 
+            " where IDTEST = 'LOBUT1_1'", 
             FichierBLOB);
   
             // vérifier résultat test 1

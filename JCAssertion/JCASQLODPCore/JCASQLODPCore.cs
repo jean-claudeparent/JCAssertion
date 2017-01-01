@@ -328,7 +328,9 @@ namespace JCASQLODPCore
             String SQL,
             String Fichier)
         {
-            System.Data.DataSet monDS = new DataSet(); 
+            System.Data.DataSet monDS = new DataSet();
+            OracleCommandBuilder monCB;
+            Int32 NbRandees = 0;
 
             // Initialiser la commande sql
             maCommandeSQL.Connection = maConnection; 
@@ -337,11 +339,27 @@ namespace JCASQLODPCore
 
             // Créer le dataadapter
             OracleDataAdapter momDA = new OracleDataAdapter(maCommandeSQL );
+            
 
             // Charger le dataset
             try {
-              momDA.Fill(monDS);
-            } catch (Exception excep)
+               monCB = new OracleCommandBuilder(momDA); 
+               momDA.Fill(monDS);
+               // Modifier le dataset et reporter les changements
+               NbRandees = Helper.MAJLOB(ref monDS, "");
+               // monDS.AcceptChanges();
+               momDA.Update(monDS.Tables[0]); 
+            
+            }
+            catch (System.InvalidOperationException excep)
+                {
+                    throw new JCASQLODPException("Erreur dans la commande SQL de sélection  " +
+                        "La commande doit avoir la forme 'select colonnedecle, colonneblob as blob from table' " +
+                    Environment.NewLine + "SQL: " +
+                    SQL + Environment.NewLine +
+                    excep.Message, excep);
+                }
+            catch (Exception excep)
                 {
                     throw new JCASQLODPException("Erreur d'acces à la base de données " +
                 Environment.NewLine +  "SQL: " +
@@ -349,9 +367,6 @@ namespace JCASQLODPCore
                 excep.Message  , excep);
                 }
 
-            // Modifier le dataset et reporter les changements
-            Int32 NbRandees = Helper.MAJLOB(ref monDS,"");
-            monDS.AcceptChanges();
             
             
 

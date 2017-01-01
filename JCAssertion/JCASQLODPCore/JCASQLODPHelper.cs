@@ -54,6 +54,8 @@ namespace JCASQLODPCore
                 {
                     case "BLOB":
                         BD.Tables[0].Rows[i][0] = Contenu;
+                    // throw new Exception 
+                       // (BD.Tables[0].Rows[i][0].GetType().ToString()); 
                         break;
                     default:
                         throw new JCASQLODPException(

@@ -70,7 +70,7 @@ namespace JCASQLODPCoreTest
         }
 
         [TestMethod]
-        public void ChargeLOBOK()
+        public void LOBOK()
         {
             String FichierCLOB = Chemin + "CLOB.xml";
             String FichierBLOB = Chemin + "BLOB.jpg";
@@ -122,7 +122,7 @@ namespace JCASQLODPCoreTest
  
             // Lancer le test 1. charger un BLOB
             // dans une seule rangée
-            monSQLClient.ChargeLOB("select TYPEBLOB from JCATest "+
+            monSQLClient.ChargeLOB("select TYPEBLOB,IDTEST from JCATest " +
             " where IDTEST = 'LOBUT1_1'", 
             FichierBLOB);
   
@@ -139,6 +139,23 @@ namespace JCASQLODPCoreTest
 
 
             Assert.Fail("Pas encore implémenté");
+        }
+        /// <summary>
+        /// Cas de LOB qui gémèrent des exceptions
+        /// </summary>
+        [TestMethod]
+        public void LOBPasOK()
+        {
+            // Select de LOB incorrect (sans info de clé)
+            try {
+                monSQLClient.ChargeLOB("select typeclob from JCATest","");
+                } catch (Exception excep)
+                {
+                    Assert.IsTrue(excep.Message.Contains(
+                        "Erreur dans la commande SQL de sélection  La commande doit avoir la forme"),
+                        "Le message d'exception attendu n'est pas là " +
+                        excep.Message  ); 
+                }
         }
     }
 }

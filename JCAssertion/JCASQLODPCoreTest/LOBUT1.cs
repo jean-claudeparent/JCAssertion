@@ -68,7 +68,9 @@ namespace JCASQLODPCoreTest
             monSQLClient.FermerConnection();
 
         }
-
+        /// <summary>
+        /// Cas oz les fonctions de LOB fonctionnent normalement
+        /// </summary>
         [TestMethod]
         public void LOBOK()
         {
@@ -94,51 +96,64 @@ namespace JCASQLODPCoreTest
                 "Le fichier BLOB d'essai est introubable " +
                 FichierBLOB);
 
-            String monSQLCheck1 = "select count(*) from JCATest " +
+            String CompteCLOBNull = "select count(*) from JCATest " +
                 "where IDTEST like 'LOBUT1%' and " +
                 " TYPECLOB is null";
 
             Assert.IsTrue(
-            monSQLClient.AssertSQL(monSQLCheck1, 2),
+            monSQLClient.AssertSQL(CompteCLOBNull, 2),
             "La base de données oracle ne contient pas les pré requis id=1");
 
-            String monSQLCheck2 = "select count(*) from JCATest " +
+            String CompteBLOBNull = "select count(*) from JCATest " +
                 "where IDTEST like 'LOBUT1%' and " +
                 " TYPEBLOB is null";
 
             Assert.IsTrue(
-            monSQLClient.AssertSQL(monSQLCheck2, 2),
+            monSQLClient.AssertSQL(CompteCLOBNull, 2),
             "La base de données oracle ne contient pas les pré requis id=2");
 
-            String monSQLCheck3 = "select count(*) from JCATest " +
+            String CompteCLOBAvant = "select count(*) from JCATest " +
                 "where IDTEST like 'LOBUT1%' and " +
                 " TYPEBLOB is not null and " +
                 "TYPECLOB like '%Valeur CLOB à remplacer%'";
 
             Assert.IsTrue(
-            monSQLClient.AssertSQL(monSQLCheck3, 1),
+            monSQLClient.AssertSQL(CompteCLOBAvant, 1),
             "La base de données oracle ne contient pas les pré requis id=3");
  
  
             // Lancer le test 1. charger un BLOB
             // dans une seule rangée
-            monSQLClient.ChargeLOB("select TYPEBLOB,IDTEST from JCATest " +
+            Assert.AreEqual(1,
+            monSQLClient.ChargeLOB("select IDTEST,TYPEBLOB AS BLOB from JCATest " +
             " where IDTEST = 'LOBUT1_1'", 
-            FichierBLOB);
+            FichierBLOB),
+            "ChargerLOB aurait du retourner 1 comme nombre de rangées affectées");
   
             // vérifier résultat test 1
+            // Il est censé ne rester qu'un BLOB `null
             Assert.IsTrue(
-            monSQLClient.AssertSQL(monSQLCheck2, 1),
+            monSQLClient.AssertSQL(CompteBLOBNull, 1),
             "Il ne devrait ne rester qu'une ligne sur la banque ou le BLOB est null");
 
             Assert.IsTrue(
-            monSQLClient.AssertSQL(monSQLCheck2, 2),
+            monSQLClient.AssertSQL(CompteCLOBNull, 2),
             "Il devrait rester 2 rangées avec le clob à null");
 
             // todo test 2
 
 
             Assert.Fail("Pas encore implémenté");
+
+            String VerifCLOBModifie = "select count(*) from JCATest " +
+                "where IDTEST like 'LOBUT1%' and " +
+                " TYPEBLOB is not null and " +
+                "TYPECLOB like '%</ListeDeVariables>%'";
+
+            Assert.IsTrue(
+            monSQLClient.AssertSQL(VerifCLOBModifie, 0),
+            "La base de données oracle ne contient pas les pré requis VerifCLOBModifie");
+ 
         }
         /// <summary>
         /// Cas de LOB qui gémèrent des exceptions
@@ -146,13 +161,15 @@ namespace JCASQLODPCoreTest
         [TestMethod]
         public void LOBPasOK()
         {
+            String FichierBLOB = Chemin + "BLOB.jpg";
+            
             // Select de LOB incorrect (sans info de clé)
             try {
-                monSQLClient.ChargeLOB("select typeclob from JCATest","");
+                monSQLClient.ChargeLOB("select typeclob from JCATest", FichierBLOB);
                 } catch (Exception excep)
                 {
                     Assert.IsTrue(excep.Message.Contains(
-                        "Erreur dans la commande SQL de sélection  La commande doit avoir la forme"),
+                        "Il n'y a aucune colonne identifiée par un alias BLOB ou CLOB dans la commande SQL"),
                         "Le message d'exception attendu n'est pas là " +
                         excep.Message  ); 
                 }

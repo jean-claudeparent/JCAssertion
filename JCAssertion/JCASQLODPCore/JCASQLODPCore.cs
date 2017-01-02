@@ -332,6 +332,24 @@ namespace JCASQLODPCore
             OracleCommandBuilder monCB;
             Int32 NbRandees = 0;
 
+            // Valider que le fichier existe
+            if (Fichier == null )
+                throw new JCASQLODPException(
+                    "Le nom de fichier doit contenir un nom de fichier");
+
+
+            if (Fichier == "")
+                throw new JCASQLODPException(
+                    "Le nom de fichier doit contenir un nom de fichier");
+
+            
+
+            if (!System.IO.File.Exists(Fichier))
+                throw new JCASQLODPException(
+                    "Le fichier à charger sur la base de données n'existe pas ou est invalide "+
+                    "Nom du fichier : " +
+            Fichier );
+
             // Initialiser la commande sql
             maCommandeSQL.Connection = maConnection; 
             maCommandeSQL.CommandText = SQL;
@@ -346,7 +364,7 @@ namespace JCASQLODPCore
                monCB = new OracleCommandBuilder(momDA); 
                momDA.Fill(monDS);
                // Modifier le dataset et reporter les changements
-               NbRandees = Helper.MAJLOB(ref monDS, "");
+               NbRandees = Helper.MAJLOB(ref monDS, Fichier );
                // monDS.AcceptChanges();
                momDA.Update(monDS.Tables[0]); 
             

@@ -41,31 +41,91 @@ namespace JCASQLODPCore
 {
     public class JCASQLODPHelper
     {
+        /// <summary>
+        /// Net le contenu dMun fichier dans
+        /// une des colonnes d'un dataset.
+        /// Le dataset doit avoir une colonne
+        /// nommée BLOB ou une colonne nommée CLOAB.
+        /// Ceci est accompli en mettant un alias de colonne
+        /// dans la commande SQL qui crée le dataset.
+        /// </summary>
+        /// <param name="BD">Le dataset à modifier passé par référence</param>
+        /// <param name="Fichier">Le nom du fichier dont el contenu sera mis dans le dataset. Avec le chemin complet.</param>
+        /// <returns>Le nombre de rangées du dataset modifiées.</returns>
         public Int32 MAJLOB(ref System.Data.DataSet BD,
-            String Fichier,
-            String TypeOracle = "BLOB")
+            String Fichier)
             {
-                Byte[] Contenu = new Byte[] { 0x20 };
-
+                
                 Int32 NBRangees = BD.Tables[0].Rows.Count;
                 for (Int32 i = (NBRangees - 1); (i < NBRangees) && (NBRangees > 0); i++)
                 {
-            switch (TypeOracle)
+                    // Déterminer si BLOB, CLOB ou erreur
+                    String monTypeLoB = TypeLOB(BD.Tables[0].Rows[i]);
+                    // Traiter selon le type
+                    switch (monTypeLoB)
                 {
+
                     case "BLOB":
-                        BD.Tables[0].Rows[i][0] = Contenu;
-                    // throw new Exception 
-                       // (BD.Tables[0].Rows[i][0].GetType().ToString()); 
+                        BD.Tables[0].Rows[i]["BLOB"] =
+                            LireFichierBinaire(Fichier );
+                        break;
+                    case "CLOB":
+                        BD.Tables[0].Rows[i]["BLOB"] =
+                            LireFichierTexte(Fichier);
                         break;
                     default:
                         throw new JCASQLODPException(
-                            "Le type de données n'est pas suporté pour cette fonction : " +
-                            BD.Tables[0].Rows[i][0].GetType().ToString());
+                            "Il n'y a aucune colonne identifiée par un alias BLOB ou CLOB dans la commande SQL");
                         break;
                 } // switch
             } // for
                 return NBRangees;
 
+            } 
+
+        /// <summary>
+        /// Retourne un des alias oracle permis dans une requête
+        /// sql (BLOB ou CLOB) qio a servi `sélectionner
+        /// la rangée de données. Cet alias se retrouve comme nom de colonne
+        /// </summary>
+        /// <param name="Rangee">Rangée dMun dataset qu'il faut typer avec l'alias</param>
+        /// <returns>BLOB, CLOB ou inconnu</returns>
+        private String TypeLOB(DataRow Rangee)
+            {
+            String Resultat = "Inconnu";
+                
+            foreach (DataColumn maColonne  in Rangee.Table.Columns  )
+            {
+                if (maColonne.ColumnName == "BLOB")
+                    Resultat = "BLOB";
+                if (maColonne.ColumnName == "CLOB")
+                    Resultat = "CLOB";
             }
+                return Resultat;
+            } // TypeLOB
+
+
+            /// <summary>
+            /// Lire un fichier binaire
+            /// </summary>
+            /// <param name="Fichier">Nom du fichier avec chenin complet</param>
+            /// <returns>Contenu du fichier en array de byte</returns>
+            private Byte[] LireFichierBinaire(String Fichier)
+                {
+                    return System.IO.File.ReadAllBytes(Fichier);   
+                }
+
+
+            /// <summary>
+            /// Lire le contenu d'unfichier texte
+            /// </summary>
+            /// <param name="Fichier">Nom du fichier avec chenin complet</param>
+            /// <returns>Contenu du fichier</returns>
+            private String  LireFichierTexte(String Fichier)
+            {
+                return System.IO.File.ReadAllText(Fichier);
+            }
+
+
     }  // class
 } // namespace

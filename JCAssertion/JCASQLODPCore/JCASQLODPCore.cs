@@ -307,6 +307,8 @@ namespace JCASQLODPCore
             return (ResultatAttendu == monResultat);
         }
 
+        
+
         /// <summary>
         /// SiConnectionOuverte retourne si la connection est ouverte
         /// </summary>
@@ -332,24 +334,9 @@ namespace JCASQLODPCore
             OracleCommandBuilder monCB;
             Int32 NbRandees = 0;
 
-            // Valider que le fichier existe
-            if (Fichier == null )
-                throw new JCASQLODPException(
-                    "Le nom de fichier doit contenir un nom de fichier");
-
-
-            if (Fichier == "")
-                throw new JCASQLODPException(
-                    "Le nom de fichier doit contenir un nom de fichier");
-
             
-
-            if (!System.IO.File.Exists(Fichier))
-                throw new JCASQLODPException(
-                    "Le fichier à charger sur la base de données n'existe pas ou est invalide "+
-                    "Nom du fichier : " +
-            Fichier );
-
+            Helper.ValideFichier(Fichier ); 
+            
             // Initialiser la commande sql
             maCommandeSQL.Connection = maConnection; 
             maCommandeSQL.CommandText = SQL;
@@ -361,12 +348,24 @@ namespace JCASQLODPCore
 
             // Charger le dataset
             try {
-               monCB = new OracleCommandBuilder(momDA); 
+                momDA.MissingSchemaAction = 
+                    MissingSchemaAction.AddWithKey;
+                momDA.FillSchema(monDS, SchemaType.Source); 
+                
                momDA.Fill(monDS);
+               
+               
+
+
+               monCB = 
+                   new OracleCommandBuilder(momDA);
+               
                // Modifier le dataset et reporter les changements
                NbRandees = Helper.MAJLOB(ref monDS, Fichier );
-               // monDS.AcceptChanges();
-               momDA.Update(monDS.Tables[0]); 
+               Helper.ExploreDataset(monDS);
+               momDA.Update(monDS.Tables[0]);
+               
+                 
             
             }
             catch (System.InvalidOperationException excep)

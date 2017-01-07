@@ -57,10 +57,11 @@ namespace JCASQLODPCore
             {
                 
                 Int32 NBRangees = BD.Tables[0].Rows.Count;
+                String monTypeLoB = "";
                 for (Int32 i = (NBRangees - 1); (i < NBRangees) && (NBRangees > 0); i++)
                 {
                     // Déterminer si BLOB, CLOB ou erreur
-                    String monTypeLoB = TypeLOB(BD.Tables[0].Rows[i]);
+                    monTypeLoB = TypeLOB(BD.Tables[0].Rows[i]);
                     // Traiter selon le type
                     switch (monTypeLoB)
                 {
@@ -70,13 +71,15 @@ namespace JCASQLODPCore
                             LireFichierBinaire(Fichier );
                         break;
                     case "CLOB":
-                        BD.Tables[0].Rows[i]["BLOB"] =
-                            LireFichierTexte(Fichier);
+                        BD.Tables[0].Rows[i]["TYPECLOB"] =
+                            "LireFichierTexte(Fichier)";
+                        BD.Tables[0].Rows[i]["INFO"] = "XXXXX";
+                        
                         break;
                     default:
                         throw new JCASQLODPException(
                             "Il n'y a aucune colonne identifiée par un alias BLOB ou CLOB dans la commande SQL");
-                        break;
+                        
                 } // switch
             } // for
                 return NBRangees;
@@ -98,7 +101,7 @@ namespace JCASQLODPCore
             {
                 if (maColonne.ColumnName == "BLOB")
                     Resultat = "BLOB";
-                if (maColonne.ColumnName == "CLOB")
+                if (maColonne.ColumnName.Contains ( "CLOB"))
                     Resultat = "CLOB";
             }
                 return Resultat;
@@ -125,6 +128,61 @@ namespace JCASQLODPCore
             {
                 return System.IO.File.ReadAllText(Fichier);
             }
+
+        /// <summary>
+        /// Cette fonction ne devrait plus être utilisé dans une
+        /// release car elle sert à débugger
+        /// </summary>
+        /// <param name="monDS"></param>
+        public void ExploreDataset (DataSet  BD)
+            {
+                Int32 NBRangees = BD.Tables[0].Rows.Count;
+                String  nomColonne = "";
+                // throw new Exception(
+                //    BD.Tables[0].Columns[0].ToString() +
+                //    BD.Tables[0].Columns[0].Unique.ToString()  );
+            for (Int32 i = (NBRangees - 1); (i < NBRangees) && (NBRangees > 0); i++)
+                {
+                    System.IO.File.WriteAllText("d:\\Devcenter\\dataset.xml",
+                        BD.GetXml())  ;
+                    System.IO.File.WriteAllText("d:\\Devcenter\\shemadataset.xml",
+                            BD.GetXmlSchema());
+                    
+                    nomColonne = TypeLOB(BD.Tables[0].Rows[i]);
+
+                    //if (BD.Tables[0].Rows[i][nomColonne] == null)
+                      //  throw new Exception(
+                        //    "Explore dataset la colonne " +
+                          //  nomColonne + " est à null"); 
+                }
+            }
+
+
+
+        
+        
+
+        public void ValideFichier(String Fichier)
+            {
+            if (Fichier == null )
+                throw new JCASQLODPException(
+                    "Le nom de fichier doit contenir un nom de fichier");
+
+
+            if (Fichier == "")
+                throw new JCASQLODPException(
+                    "Le nom de fichier doit contenir un nom de fichier");
+
+            
+
+            if (!System.IO.File.Exists(Fichier))
+                throw new JCASQLODPException(
+                    "Le fichier à charger sur la base de données n'existe pas ou est invalide "+
+                    "Nom du fichier : " +
+            Fichier );
+            }
+
+
 
 
     }  // class

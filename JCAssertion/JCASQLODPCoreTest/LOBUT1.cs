@@ -31,8 +31,7 @@ namespace JCASQLODPCoreTest
                 " TYPEBLOB is null";
         String CompteCLOBApres = "select count(*) from JCATest " +
                 "where IDTEST like 'LOBUT1%' and " +
-                " TYPEBLOB is not null and " +
-                "TYPECLOB like '%</ListeDeVariables>%'";
+                "TYPECLOB like '%</ListeDAssertion>%'";
 
 
 
@@ -175,7 +174,8 @@ namespace JCASQLODPCoreTest
 
             // Lancer l'esssai cas 2
             Assert.AreEqual(1,
-            monSQLClient.ChargeLOB("select scrap JCATest",
+            monSQLClient.ChargeLOB("select IDTEST,TYPECLOB AS CLOB from JCATest " +
+             " where IDTEST = 'LOBUT1_1'",
                 FichierCLOB),
             "ChargerLOB aurait du retourner 1 comme nombre de rangées affectées");
             // Il devrait y avoir un clob  changé
@@ -195,15 +195,30 @@ namespace JCASQLODPCoreTest
             
             // Test 3 changer 2 bloB d'un coup, un
             // est à null l'autre conntient quelque chose
-            // Assert.AreEqual(2,
-            // monSQLClient.ChargeLOB("select IDTEST,TYPEBLOB AS BLOB from JCATest " +
-            // " where IDTEST in ('LOBUT1_2','LOBUT1_3')",
-            // FichierBLOB),
-            // "ChargerLOB aurait du retourner 2 comme nombre de rangées affectées");
+            Assert.AreEqual(2,
+             monSQLClient.ChargeLOB("select IDTEST,TYPEBLOB AS BLOB from JCATest " +
+             " where IDTEST in ('LOBUT1_2','LOBUT1_3')",
+             FichierBLOB),
+             "ChargerLOB aurait du retourner 2 comme nombre de rangées affectées");
+
+            Assert.IsTrue(
+            monSQLClient.AssertSQL(CompteBLOBNull, 0),
+            "erreur il ne devrait rester aucun blob à null");
+
+            // Test 4 changer 2 cloB d'un coup, un
+            // est à null l'autre conntient quelque chose
+            Assert.AreEqual(2,
+             monSQLClient.ChargeLOB("select IDTEST,TYPECLOB AS CLOB from JCATest " +
+             " where IDTEST in ('LOBUT1_2','LOBUT1_3')",
+             FichierCLOB),
+             "ChargerLOB aurait du retourner 2 comme nombre de rangées affectées");
+
+            Assert.IsTrue(
+            monSQLClient.AssertSQL(CompteCLOBApres, 3),
+            "erreur il ne devrait rester aucun clob à l.ancienne valeur");
             
 
-            Assert.Fail("Pas encore implémenté");
-
+            
             
             
         }

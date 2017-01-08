@@ -58,23 +58,22 @@ namespace JCASQLODPCore
                 
                 Int32 NBRangees = BD.Tables[0].Rows.Count;
                 String monTypeLoB = "";
-                for (Int32 i = (NBRangees - 1); (i < NBRangees) && (NBRangees > 0); i++)
+                for (Int32 i = 1; (i <= (NBRangees)) 
+                    && (NBRangees > 0); i++)
                 {
                     // Déterminer si BLOB, CLOB ou erreur
-                    monTypeLoB = TypeLOB(BD.Tables[0].Rows[i]);
+                    monTypeLoB = TypeLOB(BD.Tables[0].Rows[i-1]);
                     // Traiter selon le type
                     switch (monTypeLoB)
                 {
 
                     case "BLOB":
-                        BD.Tables[0].Rows[i]["BLOB"] =
+                        BD.Tables[0].Rows[i-1]["BLOB"] =
                             LireFichierBinaire(Fichier );
                         break;
                     case "CLOB":
-                        BD.Tables[0].Rows[i]["TYPECLOB"] =
-                            "LireFichierTexte(Fichier)";
-                        BD.Tables[0].Rows[i]["INFO"] = "XXXXX";
-                        
+                        BD.Tables[0].Rows[i-1]["CLOB"] =
+                            LireFichierTexte(Fichier);
                         break;
                     default:
                         throw new JCASQLODPException(
@@ -101,7 +100,7 @@ namespace JCASQLODPCore
             {
                 if (maColonne.ColumnName == "BLOB")
                     Resultat = "BLOB";
-                if (maColonne.ColumnName.Contains ( "CLOB"))
+                if (maColonne.ColumnName ==  "CLOB")
                     Resultat = "CLOB";
             }
                 return Resultat;

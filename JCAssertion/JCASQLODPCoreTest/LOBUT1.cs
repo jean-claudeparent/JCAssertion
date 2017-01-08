@@ -232,16 +232,87 @@ namespace JCASQLODPCoreTest
         {
             String FichierBLOB = Chemin + "BLOB.jpg";
             
-            // Select de LOB incorrect (sans info de clé)
+            // Select de LOB incorrect (sans 'alias)
             try {
-                // monSQLClient.ChargeLOB("select typeclob from JCATest", FichierBLOB);
-                } catch (Exception excep)
+                 monSQLClient.ChargeLOB("select idtest,typeblob from JCATest", FichierBLOB);
+                } catch (JCASQLODPException excep)
                 {
                     Assert.IsTrue(excep.Message.Contains(
                         "Il n'y a aucune colonne identifiée par un alias BLOB ou CLOB dans la commande SQL"),
                         "Le message d'exception attendu n'est pas là " +
                         excep.Message  ); 
                 }
+            // Select de LOB incorrect (sans info de clé)
+            try
+            {
+                monSQLClient.ChargeLOB("select typeblob as blob, info from JCATest", FichierBLOB);
+            }
+            catch (JCASQLODPException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains(
+                    "La commande doit avoir la forme 'select colonnedecle, colonneblob as blob from table' "),
+                    "Le message d'exception attendu n'est pas là " +
+                    excep.Message);
+            }
+
+            // Select de LOB incorrect (sql invalide)
+            try
+            {
+                monSQLClient.ChargeLOB("select xx xx typeblob as blob deom deom, info from JCATest", FichierBLOB);
+            }
+            catch (JCASQLODPException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains(
+                    "ORA-00923"),
+                    "Le message d'exception attendu n'est pas là " +
+                    excep.Message);
+            }
+
+            // Select de LOB correct nom de fichier a null
+            try
+            {
+                monSQLClient.ChargeLOB("select idtest, typeblob as blob  from JCATest", 
+                    null );
+            }
+            catch (JCASQLODPException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains(
+                    "Le nom de fichier doit contenir un nom de fichier"),
+                    "Le message d'exception attendu n'est pas là " +
+                    excep.Message);
+            }
+
+            // Select de LOB correct nom de fichier a chaine vide
+            try
+            {
+                monSQLClient.ChargeLOB("select idtest, typeblob as blob  from JCATest",
+                    "");
+            }
+            catch (JCASQLODPException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains(
+                    "Le nom de fichier doit contenir un nom de fichier"),
+                    "Le message d'exception attendu n'est pas là " +
+                    excep.Message);
+            }
+
+            // Select de LOB correct nom de fichier invalide
+            try
+            {
+                monSQLClient.ChargeLOB("select idtest, typeblob as blob  from JCATest",
+                    "cd::\\\\\\oascvalide");
+            }
+            catch (JCASQLODPException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains(
+                    "Le fichier à charger sur la base de données n'existe pas ou est invalide Nom du fichier : cd::\\\\\\oascvalide"),
+                    "Le message d'exception attendu n'est pas là " +
+                    excep.Message);
+            }
+
+
+
+            
         }
     }
 }

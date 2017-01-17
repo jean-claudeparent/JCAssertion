@@ -46,6 +46,13 @@ namespace JCAssertionCore
     {
 
 
+        /// <summary>
+        /// Retourne le texte d'une balise XML
+        /// ou une chaîne vide si on ne trouve pas la balise
+        /// </summary>
+        /// <param name="monXMLNode">Un document xml ou une autre structure XML qui peuut contenir la balise recherchée</param>
+        /// <param name="maBalise">Balise à rechercher</param>
+        /// <returns>La valeur de la balise ou ""</returns>
         public static String  ValeurBalise(XmlNode monXMLNode, String maBalise)
         {
             if (monXMLNode == null)
@@ -60,6 +67,13 @@ namespace JCAssertionCore
             return monXMLNode[maBalise].InnerText;
         }
 
+        /// <summary>
+        /// Cherche si une balise est présente au moins une fois
+        /// dans une structure xml
+        /// </summary>
+        /// <param name="monXMLNode">Document ou structure xnl où chercher</param>
+        /// <param name="maBalise">Nom de la balise à rechercher</param>
+        /// <returns>Trouvé ou non</returns>
         public static Boolean  SiBaliseExiste(XmlNode monXMLNode, String maBalise)
             {
                 if (monXMLNode == null)
@@ -75,6 +89,12 @@ namespace JCAssertionCore
             }
         
 
+        /// <summary>
+        /// Retourne une exception sauf si
+        /// une balise existe et contient quelque chose différent d'une chaîne vide
+        /// </summary>
+        /// <param name="monXMLNode">Docuememt ou structure xml à valider</param>
+        /// <param name="maBalise">Nom de la balise qui doit exister</param>
         public static void ValideBalise(XmlNode monXMLNode, String maBalise)
             {
                 if (monXMLNode == null)
@@ -570,6 +590,116 @@ namespace JCAssertionCore
             
             return true ;
                  }
+
+        public bool JCAChargeLOB(XmlNode monXMLNode,
+            ref string Message,
+            ref  Dictionary<String, String> Variables,
+            ref string MessageEchec,
+            ref JCASQLClient monODPSQLClient)
+        {
+            Message = Message + Environment.NewLine +
+            "Assertion AssertSQL" + Environment.NewLine;
+            MessageEchec = "";
+            if (monXMLNode == null)
+                throw new JCAssertionException("Le XML est vide.");
+            ValideBalise(monXMLNode, "SQL");
+            if ((!SiBaliseExiste(monXMLNode, "AttenduNombre")) &&
+                (!SiBaliseExiste(monXMLNode, "AttenduTexte")))
+                throw new JCAssertionException(
+                    "Une des deux balises suivantes doit exister :AttenduNombre ou AttenduTexte ");
+            if ((SiBaliseExiste(monXMLNode, "AttenduNombre")) &&
+                (SiBaliseExiste(monXMLNode, "AttenduTexte")))
+                throw new JCAssertionException(
+                    "Une seule des deux balises suivantes doit exister dans le xml :AttenduNombre ou AttenduTexte ");
+            String monSQL = ValeurBalise(monXMLNode, "SQL");
+            monSQL = JCAVariable.SubstituerVariables(
+                    monSQL, Variables);
+
+            Message = Message + monSQL + Environment.NewLine;
+            Boolean Resultat = false;
+            String monOperateur = "";
+            if (SiBaliseExiste(monXMLNode, "AttenduNombre"))
+            {
+                monOperateur = ValeurBalise(monXMLNode, "Operateur");
+                if (monOperateur == "")
+                    monOperateur = "=";
+                monOperateur = JCAVariable.SubstituerVariables(
+                monOperateur, Variables);
+
+                Message = Message + "Opérateur : " +
+                    monOperateur + Environment.NewLine;
+                Double ResultatAttendu = 0;
+                String monANString = "";
+                try
+                {
+                    monANString = ValeurBalise(
+                        monXMLNode, "AttenduNombre");
+                    monANString = JCAVariable.SubstituerVariables(
+                    monANString, Variables);
+
+                    ResultatAttendu = Convert.ToDouble(monANString);
+
+                }
+                catch (FormatException excep)
+                {
+                    throw new JCAssertionException(
+                        "La balise AttenduNombre comporte une valeur (" +
+                        monANString + ") ne pouvant pas être convertie en nombre" +
+                        monXMLNode.InnerXml +
+                        Environment.NewLine +
+                        excep.Message, excep);
+                }
+                catch (Exception excep)
+                {
+                    throw excep;
+                }
+                Message = Message +
+                    "Valeur attendue : " +
+                    ResultatAttendu.ToString() +
+                    Environment.NewLine;
+                Resultat = monODPSQLClient.SQLAssert(monSQL,
+                        ResultatAttendu, monOperateur);
+                if (!(Resultat))
+                    MessageEchec = JCAVariable.SubstituerVariables(
+                        ValeurBalise(
+                        monXMLNode, "MessageEchec"), Variables);
+
+
+
+            } // if
+            else
+            {
+                String ResultatnAttenduTexte = ValeurBalise(
+                        monXMLNode, "AttenduTexte");
+                ResultatnAttenduTexte = JCAVariable.SubstituerVariables(
+                    ResultatnAttenduTexte, Variables);
+                Message = Message +
+                "Valeur attendue : " +
+                ResultatnAttenduTexte +
+                Environment.NewLine;
+                Resultat = monODPSQLClient.SQLAssert(monSQL,
+                        ResultatnAttenduTexte);
+                if (!(Resultat))
+                    MessageEchec = JCAVariable.SubstituerVariables(
+                        ValeurBalise(
+                        monXMLNode, "MessageEchec"), Variables);
+
+
+            } // end else
+
+            if (Resultat)
+                Message = Message +
+                    "L'expression évaluée est vraie" +
+                    Environment.NewLine;
+            else
+                Message = Message +
+                    "L'expression évaluée est fausse" +
+                    Environment.NewLine;
+
+
+            return Resultat;
+        }
+
 
     }
 }

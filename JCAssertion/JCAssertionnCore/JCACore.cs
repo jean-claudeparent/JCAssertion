@@ -41,6 +41,9 @@ using System.IO;
 
 namespace JCAssertionCore
 {
+    /// <summary>
+    /// Classe principale pour diriger l'exécution des assertions
+    /// </summary>
     public class JCACore
     {
         public String FichierDeCas;
@@ -62,12 +65,20 @@ namespace JCAssertionCore
         private JCASQLClient monSQLClient = new JCASQLClient();
 
 
-        
+        /// <summary>
+        /// Constante globales
+        /// </summary>
         public class Constantes
         {
             public const String Version = "1.0.7";
 
         }
+        
+        /// <summary>
+        /// Ajoute un texte à la propriété globale
+        /// de message
+        /// </summary>
+        /// <param name="Texte">Texte à ajouter au message</param>
         public void MessageAjoutter(String Texte)
             {
                 Message = Message + Environment.NewLine  + Texte;
@@ -75,6 +86,10 @@ namespace JCAssertionCore
         
         
 
+        /// <summary>
+        /// Surcharge de Load qui accepte le nom de fichier en paramètre
+        /// </summary>
+        /// <param name="NomFichierLoad">Nom du fichier à charger</param>
         public void Load(String NomFichierLoad)
             {
                 FichierDeCas = NomFichierLoad;
@@ -83,11 +98,13 @@ namespace JCAssertionCore
             }
 
         
-
+        /// <summary>
+        /// Load : Charger le fichier de cas et optionnellement
+        /// le fichier de valeur de variables
+        /// initialise aussi lenom dujournalet lenombre de cas et le cas courant
+        /// </summary>
         public void Load()
-            // Charger le fichier de cas et optionnellement
-            // le fihier de valeur
-            // initialise aussi lenom dujournalet lenombre de cas et le cas courant
+             
 
         {
             if (FichierJournal == null )
@@ -118,12 +135,22 @@ namespace JCAssertionCore
                 }
 
           }
-
+        
+        /// <summary>
+        /// Retourne le répertoire de l'assembly
+        /// qui s'exécute. Utile pour trouver le répertoire
+        /// des ressources
+        /// </summary>
+        /// <returns>Répertoire de l'assembly (l'éxécutable)</returns>
         public static string RepertoireAssembly()
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\";
         }
         
+        /// <summary>
+        /// Expose en lecture seulement la liste des cas
+        /// </summary>
+        /// <returns>Liste des cas en format xml</returns>
         public XmlNodeList getListeDeCas()
         {
             return ListeDeCas;
@@ -135,7 +162,11 @@ namespace JCAssertionCore
         
 
         
-
+        /// <summary>
+        /// ExecuteCas : exécute une assertion en format xml
+        /// </summary>
+        /// <param name="XMLCas">Assertion en format xml</param>
+        /// <returns>Retourne si l'asertion est vraie ou fausse</returns>
         public bool ExecuteCas(XmlNode XMLCas)
         {
             XmlDocument monDoc = new XmlDocument ();
@@ -222,6 +253,15 @@ namespace JCAssertionCore
                                     ref monSQLClient);
                                 Journalise(Message);
                                 return Resultat;
+
+                            case "ChargeLOB":
+                                Resultat = monPontXML.JCAChargeLOB(XMLCas,
+                                    ref  Message,
+                                    ref  Variables.Variables,
+                                    ref  MessageEchec,
+                                    ref monSQLClient);
+                                Journalise(Message);
+                                return Resultat;
                         default:
                             MessageAjoutter("Type inconnu");
                             MessageEchec =
@@ -244,7 +284,7 @@ namespace JCAssertionCore
             }
 
 
-            public void Journalise(String monMessage)
+        public void Journalise(String monMessage)
             {
                 if (FichierJournal == null) Journaliser = false;
                 if (Journaliser)

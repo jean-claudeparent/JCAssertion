@@ -49,6 +49,7 @@ namespace JCAssertionCore
 
         private JCASQLODPClient monSQLClientODP = new JCASQLODPClient();
         public enum Action {Aucune, Ouvrir, Fermer };
+
         /// <summary>
         /// ConnectionOuverte : Retourne si la connection
         /// courante courante est ouverte.
@@ -143,6 +144,21 @@ namespace JCAssertionCore
             if (!monSQLClientODP.SiConnectionOuverte())
                 monSQLClientODP.OuvrirConnection();
             Int64 Resultat = monSQLClientODP.SQLExecute(SQL);
+            if (Fermer)
+                monSQLClientODP.FermerConnection();
+            return Resultat;
+        }
+
+        public Int64 SQLChargeLOB(String SQL,
+            String Fichier)
+        {
+
+
+            Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
+
+            if (!monSQLClientODP.SiConnectionOuverte())
+                monSQLClientODP.OuvrirConnection();
+            Int64 Resultat = monSQLClientODP.ChargeLOB(SQL,Fichier);
             if (Fermer)
                 monSQLClientODP.FermerConnection();
             return Resultat;

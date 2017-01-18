@@ -73,17 +73,25 @@ namespace JCAssertionCoreTest
                 " idtest='JCACT.LOB_1'");  
             // Lancer un test où les assertions passent
             monCas.InnerXml = "<Assertion>" +
-               "<Type>ChargeLO</Type>" +
+               "<Type>ChargeLOB</Type>" +
                "<Fichier>{{Fichier}}</Fichier>" +
-               "<SQL>select idcas, typeblob AS BLOB from JCATest where {{Where}}</SQL>" +
+               "<SQL>select idtest, typeblob AS BLOB from JCATest where {{Where}}</SQL>" +
                "</Assertion>";
 
             if (!monCore.ExecuteCas(monCas))
                 throw new Exception("Échec de l'assertion "+
             monCore.Message + 
-            monCore.MessageEchec  ); 
+            monCore.MessageEchec  );
+
+            Assert.IsTrue(monCore.Message.Contains("SQL de spécification des rangées à charger select idtest, typeblob AS BLOB from JCATest where  idtest='JCACT.LOB_1'"),
+                "Attendu : SQL de spécification des rangées à charger select idtest, typeblob AS BLOB from JCATest where  idtest='JCACT.LOB_1'");
+            Assert.IsTrue(monCore.Message.Contains("Fichier dont le contenu sera chargé :"),
+                "Attendu : Fichier dont le contenu sera chargé :");
+            Assert.IsTrue(monCore.Message.Contains("1 rangée affectée"),
+                "Attendu : 1 rangée affectée"); 
             
-            Assert.Fail("Pas encore implémenté");
+            Assert.Fail("Pas encore implémenté "  +
+            monCore.Message );
         }
     }
 }

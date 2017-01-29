@@ -36,10 +36,17 @@ namespace JCASQLODPCoreTest
             Double ResultatAttendu = 0;
 
             // Cas 1  Test d'égalité numérique entier = true
+            try {
             Assert.IsTrue(monSQLClient.AssertSQL (
                 "select count(*)  as R  from dual",1),
                 "fail cas 1 de AssertSQLOK()");
-
+                } catch (Exception excep)
+                {
+                    throw new Exception(
+                        "Exception dans le cas 1 " +
+                    excep.Message , excep);
+                }
+            
             // Cas 2  Test d'égalité numérique réel = true
             ResultatAttendu = 0.25 ;
             Assert.IsTrue(monSQLClient.AssertSQL(
@@ -47,12 +54,12 @@ namespace JCASQLODPCoreTest
                 ResultatAttendu),
                 "fail cas 2 de AssertSQLOK()" +
                 Environment.NewLine + monSQLClient.Resume   );
-
+            
             // Cas 3 Test d'égalité numérique entier = false
             Assert.IsFalse(monSQLClient.AssertSQL(
                 "select count(*)  as R  from dual", 12),
                 "fail cas 3 de AssertSQLOK()");
-
+            
             // Cas 4 Test d'égalité numérique réel = false
             Assert.IsFalse(monSQLClient.AssertSQL(
                 "select count(*) / 2 as R  from dual", 1.11),
@@ -69,18 +76,18 @@ namespace JCASQLODPCoreTest
                 "select 'pas ça' as R  from dual", 
                 "pas vraiment cela"),
                 "fail cas 6 de AssertSQLOK()");
-
+            
             // Cas 9  Test de non égalité numérique = true
             Assert.IsTrue(monSQLClient.AssertSQL(
                 "select count(*) / 2  as R  from dual", 0.50001,"!="),
                 "fail cas 9 de AssertSQLOK()");
-
+            
             // Cas 10  Test de non égalité numérique = false
             Assert.IsFalse(monSQLClient.AssertSQL(
                 "select count(*) / 2  as R  from dual", 0.50, "!="),
                 "fail cas 10 de AssertSQLOK() " +
                 monSQLClient.Resume  );
-
+            
             // Cas 11  Test de sql plus grand numérique = true
             Assert.IsTrue(monSQLClient.AssertSQL(
                 "select count(*) + .5  as R  from dual", 1, "pg"),
@@ -164,12 +171,19 @@ namespace JCASQLODPCoreTest
                 45, "="),
                 "fail cas 21 INT32 de AssertSQLOK() " +
                 monSQLClient.Resume);
-
+            try
+            {
             Assert.IsTrue(monSQLClient.AssertSQL(
                 "select TYPENUMBERINT64 from JCATest where IDTEST = 'Cas2'",
                 45, "="),
                 "fail cas 21 INT64 de AssertSQLOK() " +
                 monSQLClient.Resume);
+            } catch (Exception excep)
+                {
+                    throw new Exception(
+                        "Exception dans fail cas 21 INT64 de AssertSQLOK() " +
+                    excep.Message , excep);
+                }
 
             // Cas 22 sql retourne colonne null = true
             Assert.IsFalse(monSQLClient.AssertSQL(

@@ -59,6 +59,8 @@ namespace JCASQLODPCore
         public String Resume = "";
         public Boolean ActiverResume = false;
         public Boolean ExceptionDetaillee = true;
+        public String  DernierResultat = ""; //  dernier resultat de assert en texte
+
 
         private Oracle.ManagedDataAccess.Client.OracleConnection maConnection;
         private Oracle.ManagedDataAccess.Client.OracleDataReader monReader;
@@ -161,10 +163,13 @@ namespace JCASQLODPCore
 
         /// <summary>
         /// AssertSQL (CommandeSQL,ResultatAttendu): Fait un select 
+        ///
         /// retournant un nombre  
         /// sur la connection courante et retourne si
         /// la valeur est égale (ou est évaluée avec un autre operateur) au Resultat attendu.
-        /// Si aucune rangée n'est retournée par le select on retourne false
+        /// Si aucune rangée n'est retournée par le select on 
+        /// retourne false. 
+        /// Modifie aussi la propriété DernierResultat
         /// </summary>
         public Boolean AssertSQL(String CommandeSQL, 
             Double  ResultatAttendu,
@@ -179,7 +184,7 @@ namespace JCASQLODPCore
             String TypeString = "";
             Double TypeDouble = 0;
             Boolean TypeTrouve = false;
-            
+            DernierResultat = "";
           Boolean ResultatAssertion = false;
           Operateur = Operateur.ToUpper(); 
           SQLSelect(CommandeSQL);
@@ -196,12 +201,17 @@ namespace JCASQLODPCore
 
           Double monResultat = 0;
           
+          // Garder le type en traitement pour l'exception
+          String TypeDeColonne = monReader.GetFieldType(0).ToString();
+ 
           // peu importe le type numérique ramener cela en type double
-          // TypeInt64
+          try {
+            // TypeInt64
           if (monReader.GetFieldType(0) == TypeInt64.GetType())
           {
               monResultat = Convert.ToDouble(monReader.GetInt64(0));
               TypeTrouve = true;
+              DernierResultat = monReader.GetInt64(0).ToString(); 
           }
 
           // TypeInt32
@@ -209,6 +219,7 @@ namespace JCASQLODPCore
           {
               monResultat = Convert.ToDouble(monReader.GetInt32(0));
               TypeTrouve = true;
+              DernierResultat = monReader.GetInt32(0).ToString();
           }
 
           // TypeInt16
@@ -216,6 +227,7 @@ namespace JCASQLODPCore
           {
               monResultat = Convert.ToDouble(monReader.GetInt16(0));
               TypeTrouve = true;
+              DernierResultat = monReader.GetInt16(0).ToString();
           }
 
           // TypeInt
@@ -223,6 +235,7 @@ namespace JCASQLODPCore
           {
               monResultat = Convert.ToDouble(monReader.GetInt16(0));
               TypeTrouve = true;
+              DernierResultat = monReader.GetInt16(0).ToString();
           }
 
           // TypeDecimal
@@ -230,13 +243,23 @@ namespace JCASQLODPCore
                   {
                     monResultat = Convert.ToDouble(monReader.GetDecimal(0));
                     TypeTrouve = true;
+                    DernierResultat = monReader.GetDecimal(0).ToString();
                   }
             // TypeDouble
             if (monReader.GetFieldType(0) == TypeDouble.GetType())
             {
                 monResultat = monReader.GetDouble(0);
                 TypeTrouve = true;
+                DernierResultat = Convert.ToString(monReader.GetDouble(0));
             }
+              } catch  (Exception excep)
+                {
+                    throw new JCASQLODPException 
+                    ("Erreur de programmationtype " + TypeDeColonne + " " +
+                  excep.Message ,
+                    excep);
+                }
+
               // TypeString
               if (monReader.GetFieldType(0) == TypeString.GetType())
               {
@@ -288,6 +311,7 @@ namespace JCASQLODPCore
         public Boolean AssertSQL(String CommandeSQL,
             String  ResultatAttendu)
         {
+            DernierResultat = "";
             SQLSelect(CommandeSQL);
             if (!monReader.HasRows)
                 return false;
@@ -303,7 +327,7 @@ namespace JCASQLODPCore
                 throw new JCASQLODPException("La connande SQL :" +
               CommandeSQL + ": ne retourne pas un résultat de type chaîne de caractère", excep);
             }
-
+            DernierResultat = monResultat;
             return (ResultatAttendu == monResultat);
         }
 

@@ -453,9 +453,25 @@ namespace JCASQLODPCore
                             monReader.GetDecimal(i).ToString()  +
                             Environment.NewLine; 
                         break;
+                    case "System.Int16":
+                        Resultat = Resultat +
+                            monReader.GetInt16(i).ToString() +
+                            Environment.NewLine;
+                        break;
+                    case "System.Int32":
+                        Resultat = Resultat +
+                            monReader.GetInt32(i).ToString() +
+                            Environment.NewLine;
+                        break;
+                    case "System.Int64":
+                        Resultat = Resultat +
+                            monReader.GetInt64(i).ToString() +
+                            Environment.NewLine;
+                        break;
+                    
                     default:
                         Resultat = Resultat +
-                            "Type non implémenté : " +
+                            "Type non implémenté DANS LA FONCTION RESUME : " +
                             monReader.GetFieldType(i).ToString() +
                             Environment.NewLine  ;
                         break; 

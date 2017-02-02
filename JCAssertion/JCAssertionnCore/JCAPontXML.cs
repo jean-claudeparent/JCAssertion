@@ -516,7 +516,12 @@ namespace JCAssertionCore
                     Environment.NewLine; 
                 Resultat = monODPSQLClient.SQLAssert(monSQL , 
                         ResultatAttendu, monOperateur);
+
                 if (! (Resultat))
+                    Message = Message +
+                    "Valeur réelle : " +
+                     monODPSQLClient.DernierResultat  +
+                    Environment.NewLine; 
                     MessageEchec =  JCAVariable.SubstituerVariables(
                         ValeurBalise(
                         monXMLNode,"MessageEchec"), Variables );

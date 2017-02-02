@@ -255,7 +255,7 @@ namespace JCASQLODPCoreTest
                 47, "="),
                 "fail cas 22 de AssertSQLOK() " +
                 monSQLClient.Resume);
-            Assert.AreEqual("",
+            Assert.AreEqual("null",
                 monSQLClient.DernierResultat); 
             
             // Cas 23  Test sql retourne reel = truee

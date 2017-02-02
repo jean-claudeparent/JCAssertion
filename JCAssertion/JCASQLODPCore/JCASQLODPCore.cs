@@ -184,7 +184,8 @@ namespace JCASQLODPCore
             String TypeString = "";
             Double TypeDouble = 0;
             Boolean TypeTrouve = false;
-            DernierResultat = "";
+            
+            DernierResultat = "Problème technique";
           Boolean ResultatAssertion = false;
           Operateur = Operateur.ToUpper(); 
           SQLSelect(CommandeSQL);
@@ -192,12 +193,19 @@ namespace JCASQLODPCore
               Resume = Resume +
                   "Valeur attendue : " +
                   ResultatAttendu.ToString() +
-                  Environment.NewLine; 
+                  Environment.NewLine;
           if (!monReader.HasRows)
-              return false;
-          // Si la colonne est null retourner false
+              {
+                DernierResultat = "Le select ne retourne aucune rangées";
+                return false;
+              }
+          
+            // Si la colonne est null retourner false
           if (monReader.IsDBNull(0))
-              return false;
+              {
+                  DernierResultat = "null";
+                return false;
+              }
 
           Double monResultat = 0;
           
@@ -268,11 +276,14 @@ namespace JCASQLODPCore
               }
               if (!TypeTrouve)
               {
+                  DernierResultat = "Erreur de programmation : type non supporté " +
+                      TypeDeColonne;
                   throw new JCASQLODPException("La commande SQL retourne un type de données non supporté, commande = " +
                   CommandeSQL +
                   "Type non supporté : " +
                   monReader.GetFieldType(0).ToString ());
               }
+              
 
           switch (Operateur)
           {
@@ -311,10 +322,14 @@ namespace JCASQLODPCore
         public Boolean AssertSQL(String CommandeSQL,
             String  ResultatAttendu)
         {
-            DernierResultat = "";
+
+            DernierResultat = "Erreur rencontrée";
             SQLSelect(CommandeSQL);
             if (!monReader.HasRows)
-                return false;
+                {
+                    DernierResultat = "Le select n'a retourné aucune ligne";
+                    return false;
+                }
             String  monResultat = "";
             
             try
@@ -324,6 +339,7 @@ namespace JCASQLODPCore
             }
             catch (Exception excep)
             {
+                DernierResultat = "Erreur";
                 throw new JCASQLODPException("La connande SQL :" +
               CommandeSQL + ": ne retourne pas un résultat de type chaîne de caractère", excep);
             }

@@ -82,6 +82,12 @@ namespace JCAssertionCoreTest
                 monCore.Message +
                 " " + monCore.MessageEchec);
 
+            Assert.IsTrue   (
+                monCore.Message.Contains (
+                "Valeur réelle : 1"),
+                "erreurr attendu Valeur réelle : 1 mais " +
+                monCore.Message  );
+
             Assert.IsTrue(monCore.MessageEchec.Contains(
                 "Ceci est le message d'échec de test."),
                 "Le message d'échec aurait du contenir :" 

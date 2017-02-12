@@ -48,9 +48,9 @@ namespace JCAssertionCoreTest
                "<SQL>" + SQL + "</SQL>" +
                "<AttenduNombre>" + Valeur.ToString() + "</AttenduNombre>" +
                "</Assertion>";
-                monCore.ExecuteCas(monCas);  
+                return monCore.ExecuteCas(monCas);  
 
-                return false ; 
+                
             }
 
         [TestInitialize]
@@ -95,8 +95,9 @@ namespace JCAssertionCoreTest
             // Lancer un test où les assertions passent
             monCas.InnerXml = "<Assertion>" +
                "<Type>ChargeLOB</Type>" +
-               "<Fichier>{{Fichier}}FichierDeCasOK.xml</Fichier>" +
-               "<SQL>select idtest, typeblob AS BLOB from JCATest where {{Where}}</SQL>" +
+               "<Fichier>{{Fichier}}pdf.pdf</Fichier>" +
+               "<SQL>select idtest, typeblob AS BLOB from JCATest"+
+               " where {{Where}}</SQL>" +
                "</Assertion>";
 
             if (!monCore.ExecuteCas(monCas))
@@ -112,11 +113,49 @@ namespace JCAssertionCoreTest
             Assert.IsTrue(monCore.Message.Contains("1 rangée affectée"),
                 "Attendu : 1 rangée affectée");
             Assert.IsTrue(AssertSQL(
-                "select count(*) from JCATest where idtest like 'JCACT.LOB_%' and typeclob is not null", 1),
-                monCore.Message + " " +
+                "select count(*) from JCATest where idtest like 'JCACT.LOB_%' and typeblob is not null", 1),
+                "Le nombre de blob not null n'est pas bon " + monCore.Message + " " +
                 monCore.MessageEchec );
-            Assert.Fail("Pas encore implémenté "  +
-            monCore.Message );
+            // Avant clob
+            Assert.IsTrue(AssertSQL(
+                "select count(*) from JCATest where "+
+                " idtest like 'JCACT.LOB_%' and typeclob is not null", 0),
+                "Le nombre de clob not null n'est pas bon " + monCore.Message + " " +
+                monCore.MessageEchec);
+            
+            Assert.IsTrue(AssertSQL(
+                "select count(*) from JCATest where idtest like 'JCACT.LOB_%' and typeblob is not null", 1),
+                "Le nombre de blob not null n'est pas bon " + monCore.Message + " " +
+                monCore.MessageEchec );
+
+
+            // Cas pour le clob
+            Assert.IsTrue(AssertSQL(
+                "select count(*) from JCATest where"+
+                " idtest like 'JCACT.LOB_%' and typeclob is not null", 0),
+                "Le nombre de clob not null n'est pas bon " + monCore.Message + " " +
+                monCore.MessageEchec);
+
+            monCas.InnerXml = "<Assertion>" +
+               "<Type>ChargeLOB</Type>" +
+               "<Fichier>{{Fichier}}SQLOK.txt</Fichier>" +
+               "<SQL>select idtest, typeclob AS CLOB from JCATest" +
+               " where {{Where}}</SQL>" +
+               "</Assertion>";
+
+            Assert.IsTrue(monCore.ExecuteCas(monCas),
+                "L'assertion aurait due être vraie " +
+                monCore.Message );
+
+            Assert.IsTrue(AssertSQL(
+                "select count(*) from JCATest where" +
+                " idtest like 'JCACT.LOB_%' and typeclob is not null", 1),
+                "Le nombre de clob not null n'est pas bon " + monCore.Message + " " +
+                monCore.MessageEchec);
+
+            // Retester avec l'exportation de LOB
+            Assert.Fail("Pas encore implémenté exportelob ");
+                
         }
     }
 }

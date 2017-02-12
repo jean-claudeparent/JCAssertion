@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JCASQLODPCore;
 using System.IO;
+using System.Text;
  
 
 
@@ -18,7 +19,7 @@ namespace JCASQLODPCoreTest
         String FichierBLOB;
 
           
-        // Définiirions des commandes SQL d'assertion
+        // Définiitions des commandes SQL d'assertion
         String CompteCLOBAvant = "select count(*) from JCATest " +
                 "where IDTEST like 'LOBUT1%' and " +
                 " TYPEBLOB is not null and " +
@@ -36,7 +37,23 @@ namespace JCASQLODPCoreTest
 
 
             
-        
+        /// <summary>
+        /// Efface les fichiers de sortie s'ils existent
+        /// </summary>
+        /// <param name="Fichier"></param>
+        private void Menage(String Fichier) 
+            {
+                String monFichier = Chemin + Fichier;
+                if (System.IO.File.Exists(monFichier))
+                    System.IO.File.Delete(monFichier);   
+            }
+
+        private Boolean  Existe(String Fichier)
+        {
+            String monFichier = Chemin + Fichier;
+            return System.IO.File.Exists(monFichier);
+
+        }
 
         /// <summary>
         /// Nettoie et recrée les rangées
@@ -112,7 +129,7 @@ namespace JCASQLODPCoreTest
             
             // Vérifier les pré requis de l'essai
             Assert.IsTrue(File.Exists(FichierCLOB),
-                "Le fichier CLOB d'essai est introubable " +
+                "Le fichier CLOB d'essai est introuvable " +
                 FichierCLOB);
 
             Assert.IsTrue(File.Exists(FichierBLOB),
@@ -218,8 +235,8 @@ namespace JCASQLODPCoreTest
             "erreur il ne devrait rester aucun clob à l.ancienne valeur");
             
 
-            
-            
+            //Vérifications avec ExporteLOB
+            ExporteLOBOK(monSQLClient);
             
         }
 
@@ -314,5 +331,49 @@ namespace JCASQLODPCoreTest
 
             
         }
+
+        public void ExporteLOBOK(JCASQLODPClient monSQLClient)
+            {
+            // Les trois rangées coneiennent FichoerBLOB dans typeblob
+            // et FichierCLOB dams ;a colonne type clob
+
+            // Faire le ménage
+                Menage("LOBUT1_1.pdf");
+                Menage("LOBUT1_2.pdf");
+                Menage("LOBUT1_3.pdf");
+                Menage("LOBUT1_1.txt");
+                Menage("LOBUT1_2.txt");
+                Menage("LOBUT1_3.txt");
+
+            Assert.AreEqual(3,     
+                monSQLClient.ExporteLOB(
+                    "select IDTEST||'.pdf' AS NOM, TYPEBLOB AS BLOB " +
+                    " FROM JCATEST WHERE IDTEST LIKE 'LOBUT1_%'",
+                    Chemin ),
+                    "Pas le bon nombre de blob exporté");
+            Assert.AreEqual (3, 
+                monSQLClient.ExporteLOB(
+                        "select IDTEST||'.txt' AS NOM, TYPECLOB AS CLOB " +
+                        " FROM JCATEST WHERE IDTEST LIKE 'LOBUT1_%'",
+                        Chemin,
+                        Encoding.UTF8  ),
+                        "Nauvais nombre de clob exportés"); 
+
+            // Vérifier que les fichiers existent
+            Assert.IsTrue(Existe("LOBUT1_1.pdf") &&
+                Existe ("LOBUT1_2.pdf")&&
+                Existe ("LOBUT1_3.pdf") &&
+                Existe ("LOBUT1_1.txt") &&
+                Existe ("LOBUT1_2.txt") &&
+                Existe ("LOBUT1_3.txt"),
+                "Les 6 fichier ne sont pas créés");
+
+ 
+ 
+ 
+                Assert.Fail("ExporteLOBOK pas encore implémenté");  
+            }
+
+
     }
 }

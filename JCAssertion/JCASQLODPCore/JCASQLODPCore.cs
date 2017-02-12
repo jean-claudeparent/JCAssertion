@@ -525,5 +525,77 @@ namespace JCASQLODPCore
                     else throw excep; 
                 }
             }
+
+        /// <summary>
+        /// ExporteLOB : Écrit des colonnes BLOB ou CLOB
+        /// dans des fichiers.
+        /// </summary>
+        /// <param name="SQL">Commande SQL spécifiant les noms des fichiers et la colonne LOB à exporter</param>
+        /// <param name="Chemin">Chemin où créer les fichiers</param>
+        /// <param name="TypeEncodage">Type d'encodage de fichier, null = byte8</param>
+        /// <returns>Nombre de LOB exportés en ichier</returns>
+        public Int32 ExporteLOB(
+            String SQL,
+            String Chemin,
+            Encoding  TypeEncodage = null)
+            {
+                System.Data.DataSet monDS = new DataSet();
+                Int32 NbRandees = 0;
+                                
+                // Initialiser la commande sql
+                maCommandeSQL.Connection = maConnection;
+                maCommandeSQL.CommandText = SQL;
+                maCommandeSQL.CommandType = CommandType.Text;
+
+                // Créer le dataadapter
+                OracleDataAdapter momDA = new OracleDataAdapter(maCommandeSQL);
+
+
+                // Charger le dataset
+                try
+                {
+                    //momDA.MissingSchemaAction =
+                      //  MissingSchemaAction.AddWithKey;
+                    momDA.FillSchema(monDS, SchemaType.Source);
+
+                    momDA.Fill(monDS);
+
+
+
+
+                   
+
+                    // Exporter les lob
+                    NbRandees = Helper.ExporteLOB(monDS, TypeEncodage );
+                    
+
+
+                }
+                catch (System.InvalidOperationException excep)
+                {
+                    throw new JCASQLODPException("Erreur dans la commande SQL de sélection  " +
+                        "La commande doit avoir la forme 'select colonnedecle, colonneblob as blob from table' " +
+                    Environment.NewLine + "SQL: " +
+                    SQL + Environment.NewLine +
+                    excep.Message, excep);
+                }
+                catch (Exception excep)
+                {
+                    throw new JCASQLODPException("Erreur d'acces à la base de données " +
+                Environment.NewLine + "SQL: " +
+                SQL + Environment.NewLine +
+                excep.Message, excep);
+                }
+
+
+
+
+                return NbRandees;
+
+                
+                
+            }
+
+    
     } // class
 } // namespace

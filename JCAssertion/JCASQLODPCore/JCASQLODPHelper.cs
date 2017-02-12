@@ -181,6 +181,17 @@ namespace JCASQLODPCore
             Fichier );
             }
 
+        /// <summary>
+        /// Exporte les LOB du dataset
+        /// </summary>
+        /// <param name="monDS">Dataset ¸a traiter</param>
+        /// <param name="TypeEncodage">Type d'encodage des fuichiers textes</param>
+        /// <returns></returns>
+        public Int32 ExporteLOB(DataSet  monDS,Encoding TypeEncodage)
+            {
+                return monDS.Tables[0].Rows.Count ;
+            }
+
 
 
 

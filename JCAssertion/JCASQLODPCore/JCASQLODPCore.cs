@@ -566,7 +566,8 @@ namespace JCASQLODPCore
                    
 
                     // Exporter les lob
-                    NbRandees = Helper.ExporteLOB(monDS, TypeEncodage );
+                    NbRandees = Helper.ExporteLOB(monDS,Chemin, 
+                        TypeEncodage, ref DernierResultat  );
                     
 
 

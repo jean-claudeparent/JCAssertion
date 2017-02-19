@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016 Jean-Claude Parent 
+//  Copyright 2016,2017 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //
@@ -42,7 +42,7 @@ namespace JCASQLODPCore
     public class JCASQLODPHelper
     {
         /// <summary>
-        /// Net le contenu dMun fichier dans
+        /// Met le contenu dMun fichier dans
         /// une des colonnes d'un dataset.
         /// Le dataset doit avoir une colonne
         /// nommée BLOB ou une colonne nommée CLOAB.
@@ -84,6 +84,22 @@ namespace JCASQLODPCore
                 return NBRangees;
 
             } 
+
+        
+        /// <summary>
+        /// NomColonne : retourne la nom de la colonne préfére
+        /// si elle existe sinon retourner le nom de la première colonne
+        /// </summary>
+        /// <param name="Rangee">Rangée d`une table d`un dataset à analyser</param>
+        /// <param name="ColonnePreferee">Colonne `utiliser si elle existe</param>
+        /// <returns>Nom de colonne déterminée</returns>
+        private String NomColonne(
+            DataRow Rangee,
+            String ColonnePreferee)
+            {
+                return "pas implémenté";
+            }
+
 
         /// <summary>
         /// Retourne un des alias oracle permis dans une requête
@@ -160,7 +176,11 @@ namespace JCASQLODPCore
 
         
         
-
+        /// <summary>
+        /// Validation de bases sur un nom de fichier
+        /// Lance une exception en cas d'échec de la validation
+        /// </summary>
+        /// <param name="Fichier"></param>
         public void ValideFichier(String Fichier)
             {
             if (Fichier == null )
@@ -185,11 +205,31 @@ namespace JCASQLODPCore
         /// Exporte les LOB du dataset
         /// </summary>
         /// <param name="monDS">Dataset ¸a traiter</param>
+        /// <param name="Chemin">Chemin du répertoire o``u déposer les fichiers</param>
         /// <param name="TypeEncodage">Type d'encodage des fuichiers textes</param>
-        /// <returns></returns>
-        public Int32 ExporteLOB(DataSet  monDS,Encoding TypeEncodage)
+        /// <param name="ListeFichier">Liste des fichiers écrits</param>
+        /// <returns>Nombre de fichiers écrits</returns>
+        public Int32 ExporteLOB(
+            DataSet  monDS,
+            String Chemin,
+            Encoding TypeEncodage,
+            ref String ListeFichier)
             {
-                return monDS.Tables[0].Rows.Count ;
+                ListeFichier = "Aucun LOB à extraire";
+                Int32 NBRangees = monDS.Tables[0].Rows.Count;
+                String ColonneNomFichier = NomColonne(
+                    monDS.Tables[0].Rows[1], "NOM");
+                ListeFichier = "Noms de fichier provenant de la colonne "+
+                    ColonneNomFichier + Environment.NewLine;
+                String monTypeLOB = TypeLOB(monDS.Tables[0].Rows[1]);
+                for (Int32 i = 1; (i <= (NBRangees)) 
+                    && (NBRangees > 0); i++)
+                {
+                    ListeFichier = ListeFichier +
+                        monDS.Tables[0].Rows[i - 1][ColonneNomFichier];
+
+                } // end for
+                return NBRangees;
             }
 
 

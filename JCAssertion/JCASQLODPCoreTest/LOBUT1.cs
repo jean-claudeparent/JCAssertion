@@ -378,7 +378,37 @@ namespace JCASQLODPCoreTest
 
             // Valider le contenu des nouveaux fichiers
             Assert.IsTrue(
-               UtilitairesUT.FichierTextePareils("",""));
+               UtilitairesUT.FichierTextePareils(FichierCLOB,
+               Chemin + "LOBUT1_1.txt"),
+               "LOBUT1_1.txt a été altéré ");
+
+            Assert.IsTrue(
+               UtilitairesUT.FichierTextePareils(FichierCLOB,
+               Chemin + "LOBUT1_2.txt"),
+               "LOBUT1_2.txt a été altéré ");
+            Assert.IsTrue(
+              UtilitairesUT.FichierTextePareils(FichierCLOB,
+              Chemin + "LOBUT1_3.txt"),
+              "LOBUT1_3.txt a été altéré ");
+
+            Assert.IsTrue(
+              UtilitairesUT.FichierBinairePareils(FichierBLOB,
+              Chemin + "LOBUT1_2.pdf"),
+              "LOBUT1_2.pdf a été altéré ");
+
+            Assert.IsTrue(
+              UtilitairesUT.FichierBinairePareils(FichierBLOB,
+              Chemin + "LOBUT1_1.pdf"),
+              "LOBUT1_1.pdf a été altéré ");
+
+
+            Assert.IsTrue(
+              UtilitairesUT.FichierBinairePareils(FichierBLOB,
+              Chemin + "LOBUT1_3.pdf"),
+              "LOBUT3_1.pdf a été altéré ");
+
+
+
 
  
  

@@ -31,6 +31,14 @@ namespace JCASQLODPCoreTest
                     System.IO.File.ReadAllText(NomFichier2));
             }
 
+        public static Boolean FichierBinairePareils(
+            String NomFichier1,
+            String NomFichier2)
+        {
+            return (System.IO.File.ReadAllBytes(NomFichier1) ==
+                System.IO.File.ReadAllBytes(NomFichier2));
+        }
+
 
     }
 }

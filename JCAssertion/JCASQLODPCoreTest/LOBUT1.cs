@@ -344,34 +344,46 @@ namespace JCASQLODPCoreTest
                 Menage("LOBUT1_1.txt");
                 Menage("LOBUT1_2.txt");
                 Menage("LOBUT1_3.txt");
-
+            // Extraction d un blob avec alias NOM
             Assert.AreEqual(3,     
                 monSQLClient.ExporteLOB(
                     "select IDTEST||'.pdf' AS NOM, TYPEBLOB AS BLOB " +
                     " FROM JCATEST WHERE IDTEST LIKE 'LOBUT1_%'",
                     Chemin ),
                     "Pas le bon nombre de blob exporté");
+            // Valider que les fichiers blob ont été créés
+            Assert.IsTrue(Existe("LOBUT1_1.pdf") &&
+                Existe("LOBUT1_2.pdf") &&
+                Existe("LOBUT1_3.pdf") ,
+                "Les 3 fichiers BLOB ne sont pas créés " +
+                monSQLClient.DernierResultat);
+
+
+            //extraction d'un clob sans alias dans le select
             Assert.AreEqual (3, 
                 monSQLClient.ExporteLOB(
-                        "select IDTEST||'.txt' AS NOM, TYPECLOB AS CLOB " +
+                        "select IDTEST||'.txt' , TYPECLOB AS CLOB " +
                         " FROM JCATEST WHERE IDTEST LIKE 'LOBUT1_%'",
                         Chemin,
                         Encoding.UTF8  ),
                         "Nauvais nombre de clob exportés"); 
 
-            // Vérifier que les fichiers existent
-            Assert.IsTrue(Existe("LOBUT1_1.pdf") &&
-                Existe ("LOBUT1_2.pdf")&&
-                Existe ("LOBUT1_3.pdf") &&
+            // Vérifier que les fichiers CLOB existent
+            Assert.IsTrue(
                 Existe ("LOBUT1_1.txt") &&
                 Existe ("LOBUT1_2.txt") &&
                 Existe ("LOBUT1_3.txt"),
-                "Les 6 fichier ne sont pas créés");
+                "Les 3 fichiers pour le CLOB ne sont pas créés " +
+                monSQLClient.DernierResultat  );
+
+            // Valider le contenu des nouveaux fichiers
+            Assert.IsTrue(
+               UtilitairesUT.FichierTextePareils("",""));
 
  
  
  
-                Assert.Fail("ExporteLOBOK pas encore implémenté");  
+                Assert.Fail("todo tester avec des lob a null sélectionnés par ;la commandeExporteLOBOK pas encore implémenté");  
             }
 
 

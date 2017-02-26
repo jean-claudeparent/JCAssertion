@@ -67,9 +67,9 @@ namespace JCASQLODPCore
         private Oracle.ManagedDataAccess.Client.OracleCommand maCommandeSQL =
            new Oracle.ManagedDataAccess.Client.OracleCommand();
         private JCASQLODPHelper Helper = new JCASQLODPHelper() ;
+        
 
-
-
+        
         /// <summary>
         /// CreerConnectionString : retourne la chaîne de connection
         /// crée à partir des propriétés de la classe. Peut

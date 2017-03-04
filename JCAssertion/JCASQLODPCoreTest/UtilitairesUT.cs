@@ -35,8 +35,17 @@ namespace JCASQLODPCoreTest
             String NomFichier1,
             String NomFichier2)
         {
-            return (System.IO.File.ReadAllBytes(NomFichier1) ==
-                System.IO.File.ReadAllBytes(NomFichier2));
+            Byte[] Contenu1 = System.IO.File.ReadAllBytes(NomFichier1);
+            Byte[] Contenu2 = System.IO.File.ReadAllBytes(NomFichier2);
+            if (Contenu1.Count() != Contenu2.Count() )
+                return false;
+            for (Int64 i = 0; i < Contenu1.Count(); i++)
+            {
+                if (Contenu1[i] != Contenu2[i] )
+                    return false;
+            }
+            return true ;
+            
         }
 
 

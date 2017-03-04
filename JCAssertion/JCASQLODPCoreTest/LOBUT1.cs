@@ -245,7 +245,7 @@ namespace JCASQLODPCoreTest
         /// Cas de LOB qui gémèrent des exceptions
         /// </summary>
         [TestMethod]
-        public void LOBPasOK()
+        public void ChargeLOBPasOK()
         {
             String FichierBLOB = Chemin + "BLOB.jpg";
             
@@ -338,23 +338,23 @@ namespace JCASQLODPCoreTest
             // et FichierCLOB dams ;a colonne type clob
 
             // Faire le ménage
-                Menage("LOBUT1_1.pdf");
-                Menage("LOBUT1_2.pdf");
-                Menage("LOBUT1_3.pdf");
+                Menage("LOBUT1_1.JPG");
+                Menage("LOBUT1_2.JPG");
+                Menage("LOBUT1_3.JPG");
                 Menage("LOBUT1_1.txt");
                 Menage("LOBUT1_2.txt");
                 Menage("LOBUT1_3.txt");
             // Extraction d un blob avec alias NOM
             Assert.AreEqual(3,     
                 monSQLClient.ExporteLOB(
-                    "select IDTEST||'.pdf' AS NOM, TYPEBLOB AS BLOB " +
+                    "select IDTEST||'.JPG' AS NOM, TYPEBLOB AS BLOB " +
                     " FROM JCATEST WHERE IDTEST LIKE 'LOBUT1_%'",
                     Chemin ),
                     "Pas le bon nombre de blob exporté");
             // Valider que les fichiers blob ont été créés
-            Assert.IsTrue(Existe("LOBUT1_1.pdf") &&
-                Existe("LOBUT1_2.pdf") &&
-                Existe("LOBUT1_3.pdf") ,
+            Assert.IsTrue(Existe("LOBUT1_1.JPG") &&
+                Existe("LOBUT1_2.JPG") &&
+                Existe("LOBUT1_3.JPG"),
                 "Les 3 fichiers BLOB ne sont pas créés " +
                 monSQLClient.DernierResultat);
 
@@ -393,13 +393,13 @@ namespace JCASQLODPCoreTest
 
             Assert.IsTrue(
               UtilitairesUT.FichierBinairePareils(FichierBLOB,
-              Chemin + "LOBUT1_2.pdf"),
-              "LOBUT1_2.pdf a été altéré ");
+              Chemin + "LOBUT1_2.JPG"),
+              "LOBUT1_2.JPG a été altéré ");
 
             Assert.IsTrue(
               UtilitairesUT.FichierBinairePareils(FichierBLOB,
-              Chemin + "LOBUT1_1.pdf"),
-              "LOBUT1_1.pdf a été altéré ");
+              Chemin + "LOBUT1_1.JPG"),
+              "LOBUT1_1.JPG a été altéré ");
 
 
             Assert.IsTrue(

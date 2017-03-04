@@ -9,7 +9,7 @@ using System.Text;
 namespace JCASQLODPCoreTest
 {
     [TestClass]
-    public class LOBUT1
+    public class SQLODPLOBUT1
     {
 
         JCASQLODPClient monSQLClient = new JCASQLODPClient();
@@ -81,7 +81,15 @@ namespace JCASQLODPCoreTest
                 "'cas 3 des unit test lob','Info lob cas 3'," 
                 + "'Valeur CLOB à remplacer','F0F0')");
 
-            // mettre un lob à remplacer
+            // Cas 4 pour avoir des lob qui restent a null
+
+            monSQLClient.SQLExecute(
+                "INSERT INTO JCATest(IDTEST,NOM,INFO) " +
+                "VALUES('LOBUT1_4'," +
+                "'cas 4 des unit test lob','Info lob cas 2')");
+
+
+            
 
 
 
@@ -113,7 +121,7 @@ namespace JCASQLODPCoreTest
         /// Méthode de test  oz les fonctions de LOB fonctionnent normalement
         /// </summary>
         [TestMethod]
-        public void LOBOK()
+        public void SQLODPLOBOK()
         {
             // Test : Mattre à jour les champs BLOB (1 appel `ChargerLOB) 
             // et CLOB (1 autre appel) du cas 1,
@@ -135,14 +143,14 @@ namespace JCASQLODPCoreTest
             Assert.IsTrue(File.Exists(FichierBLOB),
                 "Le fichier BLOB d'essai est introubable " +
                 FichierBLOB);
-            // Valider qu'il y a deux rangées avec le CLOB `null
+            // Valider qu'il y a 3 rangées avec le CLOB `null
             Assert.IsTrue(
-            monSQLClient.AssertSQL(CompteCLOBNull, 2),
+            monSQLClient.AssertSQL(CompteCLOBNull, 3),
             "La base de données oracle ne contient pas les pré requis id=1");
 
-            // Valider qu'il y a 2 rangées avec le BLOB à null
+            // Valider qu'il y a 3 rangées avec le BLOB à null
             Assert.IsTrue(
-            monSQLClient.AssertSQL(CompteBLOBNull, 2),
+            monSQLClient.AssertSQL(CompteBLOBNull, 3),
             "La base de données oracle ne contient pas les pré requis id=2");
 
             
@@ -161,32 +169,32 @@ namespace JCASQLODPCoreTest
              "ChargerLOB aurait du retourner 1 comme nombre de rangées affectées");
   
             // vérifier résultat test 1
-            // Il est censé ne rester qu'un BLOB `null
+            // Il est censé ne rester que 2 BLOB `null
             Assert.IsTrue(
-            monSQLClient.AssertSQL(CompteBLOBNull, 1),
-            "Il ne devrait ne rester qu'une ligne sur la banque ou le BLOB est null cas test 1 après");
+            monSQLClient.AssertSQL(CompteBLOBNull, 2),
+            "Il ne devrait ne rester que 2 lignes sur la banque ou le BLOB est null cas test 1 après id=1004");
 
             Assert.IsTrue(
-            monSQLClient.AssertSQL(CompteCLOBNull, 2),
-            "Il devrait rester 2 rangées avec le clob à null");
+            monSQLClient.AssertSQL(CompteCLOBNull, 3),
+            "Il devrait rester 3 rangées avec le clob à null id=1005");
 
             // Faire le test 2.
             // Changer une rangée, mettre du contenu dans le clob
             // qui est à null
 
             // Vérification avant test
-            // 2 rangées avec clob `null
+            // 3 rangées avec clob `null
             Assert.IsTrue(
-            monSQLClient.AssertSQL(CompteCLOBNull, 2),
-            "erreur CompteCLOBnull");
+            monSQLClient.AssertSQL(CompteCLOBNull, 3),
+            "erreur CompteCLOBnull id=1006");
             // 1 rangée avec contenu dans clob, qui contient la valeur à remplacer
             Assert.IsTrue(
             monSQLClient.AssertSQL(CompteCLOBAvant, 1),
-            "erreur CompteCLOBAvant");
+            "erreur CompteCLOBAvant id=1006");
             // 0 rangées avec la nouvelle valeur dans le clob
             Assert.IsTrue(
             monSQLClient.AssertSQL(CompteCLOBApres, 0),
-            "erreur CompteCLOBApres");
+            "erreur CompteCLOBApres id=1007");
 
 
             // Lancer l'esssai cas 2
@@ -198,17 +206,17 @@ namespace JCASQLODPCoreTest
             // Il devrait y avoir un clob  changé
             Assert.IsTrue(
             monSQLClient.AssertSQL(CompteCLOBApres, 1),
-            "erreur CompteCLOBApres une rangée devrait avoir changé");
+            "erreur CompteCLOBApres une rangée devrait avoir changé id=1008");
  
-            // Il devrait rester un clob à null
+            // todo 2Il devrait rester un clob à null
             Assert.IsTrue(
-            monSQLClient.AssertSQL(CompteCLOBNull, 1),
-            "erreur il devrait rester juste un clob à null");
+            monSQLClient.AssertSQL(CompteCLOBNull, 2),
+            "erreur il devrait rester juste un clob à null id=1009");
             
             // Il devrait rester un clob avant modification
             Assert.IsTrue(
             monSQLClient.AssertSQL(CompteCLOBAvant, 1),
-            "erreur il devrait rester juste un clob avec la valeur à remplacer");
+            "erreur il devrait rester juste un clob avec la valeur à remplacer id=1010");
             
             // Test 3 changer 2 bloB d'un coup, un
             // est à null l'autre conntient quelque chose
@@ -219,8 +227,8 @@ namespace JCASQLODPCoreTest
              "ChargerLOB aurait du retourner 2 comme nombre de rangées affectées");
 
             Assert.IsTrue(
-            monSQLClient.AssertSQL(CompteBLOBNull, 0),
-            "erreur il ne devrait rester aucun blob à null");
+            monSQLClient.AssertSQL(CompteBLOBNull, 1),
+            "erreur il  devrait rester 1 blob à null ie=1011");
 
             // Test 4 changer 2 cloB d'un coup, un
             // est à null l'autre conntient quelque chose
@@ -232,7 +240,7 @@ namespace JCASQLODPCoreTest
 
             Assert.IsTrue(
             monSQLClient.AssertSQL(CompteCLOBApres, 3),
-            "erreur il ne devrait rester aucun clob à l.ancienne valeur");
+            "erreur il ne devrait rester aucun clob à l.ancienne valeur id=1012");
             
 
             //Vérifications avec ExporteLOB
@@ -241,11 +249,18 @@ namespace JCASQLODPCoreTest
         }
 
 
+        
+        [TestMethod]
+        public void SQLODPExportLOBPasOK()
+        {
+            Assert.Fail("Pas encore implémenté"); 
+        }
+
         /// <summary>
         /// Cas de LOB qui gémèrent des exceptions
         /// </summary>
         [TestMethod]
-        public void ChargeLOBPasOK()
+        public void SQLODPChargeLOBPasOK()
         {
             String FichierBLOB = Chemin + "BLOB.jpg";
             
@@ -413,7 +428,7 @@ namespace JCASQLODPCoreTest
  
  
  
-                Assert.Fail("todo tester avec des lob a null sélectionnés par ;la commandeExporteLOBOK pas encore implémenté");  
+                  
             }
 
 

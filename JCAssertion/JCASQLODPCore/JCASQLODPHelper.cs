@@ -134,21 +134,12 @@ namespace JCASQLODPCore
         public Byte[] ConvertirByteArray(
             object Valeur)
             {
-                Byte[] Resultat;
-                switch  (Valeur.GetType().ToString()) 
-                        {
-                            case "System.Byte[]":
-                                Resultat = (Byte[]) Valeur;
-                                break;
-                            default:
-                                throw new JCASQLODPException("Type non supporté par ConvertirByteArray" + 
-                                    Valeur.GetType().ToString () );
-
-                        }
-                
-                return Resultat;
+                if (Valeur.GetType().ToString()  == "System.DBNull")
+                    return null;
+                return (Byte[]) Valeur; 
             }
 
+        
 
 
             /// <summary>
@@ -170,6 +161,10 @@ namespace JCASQLODPCore
             private void  EcrireFichierBinaire(String Fichier,
                 Byte[] Contenu)
             {
+                if (Contenu == null)
+                    throw new JCASQLODPException("Aucun contenu passé pour le fichier "+
+                Fichier );
+
                 System.IO.File.WriteAllBytes(Fichier,Contenu);
             }
 
@@ -266,7 +261,8 @@ namespace JCASQLODPCore
             {
                 ListeFichier = "Aucun LOB à extraire";
                 Int32 NBRangees = monDS.Tables[0].Rows.Count;
-                String monContenu = "";
+                Int32 NbFichierExportes = 0;
+                //String monContenu = "";
                 String ColonneNomFichier = NomColonne(
                     monDS.Tables[0].Rows[1], "NOM");
                 ListeFichier = "Noms de fichier provenant de la colonne "+
@@ -275,25 +271,28 @@ namespace JCASQLODPCore
                 for (Int32 i = 1; (i <= (NBRangees)) 
                     && (NBRangees > 0); i++)
                 {
-                    ListeFichier = ListeFichier +
+                    if (monDS.Tables[0].Rows[i - 1][monTypeLOB] != DBNull.Value   )
+                        {
+                            NbFichierExportes = NbFichierExportes + 1;
+                        ListeFichier = ListeFichier +
                         Chemin +
                         monDS.Tables[0].Rows[i - 1][ColonneNomFichier] +
                         Environment.NewLine  ;
-                    if (monTypeLOB == "CLOB")
-                        EcrireFichierTexte(
+                        if (monTypeLOB == "CLOB")
+                            EcrireFichierTexte(
                             Chemin +
                             monDS.Tables[0].Rows[i - 1][ColonneNomFichier],
                             monDS.Tables[0].Rows[i - 1][monTypeLOB].ToString(),
                             TypeEncodage);
-                    if (monTypeLOB == "BLOB")
-                        EcrireFichierBinaire(
+                        if (monTypeLOB == "BLOB")
+                            EcrireFichierBinaire(
                             Chemin +
                             monDS.Tables[0].Rows[i - 1][ColonneNomFichier],
                             ConvertirByteArray (
                             monDS.Tables[0].Rows[i - 1][monTypeLOB]));
-
+                        } // endif
                 } // end for
-                return NBRangees;
+                return NbFichierExportes;
             }
 
 

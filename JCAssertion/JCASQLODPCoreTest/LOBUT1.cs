@@ -249,15 +249,76 @@ namespace JCASQLODPCoreTest
         }
 
 
-        
+        /// <summary>
+        /// Cas de ExporteLOB qui causent des exceptions
+        /// </summary>
         [TestMethod]
         public void SQLODPExportLOBPasOK()
         {
-            Assert.Fail("Pas encore implémenté"); 
+            String FichierBLOB = Chemin + "BLOB.jpg";
+
+            // SQL de LOB incorrect (sans 'alias)
+            try
+            {
+                monSQLClient.ExporteLOB(
+                    "select idtest,typeblob from JCATest", Chemin );
+                Assert.Fail("L'exception prévue n'est pas arrivée id = 1001");
+            }
+            catch (JCASQLODPException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains(
+                    "Il n'y a aucune colonne identifiée par un alias BLOB ou CLOB dans la commande SQL"),
+                    "Le message d'exception attendu n'est pas là " +
+                    excep.Message);
+            }
+            
+
+            // Select de LOB incorrect (sql invalide)
+            try
+            {
+                monSQLClient.ExporteLOB(
+                    "select xx xx typeblob as blob deom deom, info from JCATest",
+                    Chemin );
+                Assert.Fail(
+                    "L'exception prévue n'est pas arrivée id = 1002");
+            
+            }
+            catch (JCASQLODPException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains(
+                    "ORA-00923"),
+                    "Le message d'exception attendu n'est pas là " +
+                    excep.Message);
+                
+            }
+
+            
+            
+
+            // Select de LOB correct nom de fichier invalide
+            try
+            {
+                monSQLClient.ExporteLOB(
+                    "select '::::idtest', typeblob as BLOB  from JCATest",
+                    Chemin );
+                Assert.Fail(
+                "L'exception prévue n'est pas arrivée id = 1004");
+            
+
+            }
+            catch (JCASQLODPException excep)
+            {
+                Assert.IsTrue(excep.Message.Contains(
+                    "chemin"),
+                    "Le message d'exception attendu n'est pas là " +
+                    excep.Message);
+            }
+
+             
         }
 
         /// <summary>
-        /// Cas de LOB qui gémèrent des exceptions
+        /// Cas de ChargeLOB qui gémèrent des exceptions
         /// </summary>
         [TestMethod]
         public void SQLODPChargeLOBPasOK()

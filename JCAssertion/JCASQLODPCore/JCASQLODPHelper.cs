@@ -120,7 +120,7 @@ namespace JCASQLODPCore
         /// <returns>BLOB, CLOB ou inconnu</returns>
         private String TypeLOB(DataRow Rangee)
             {
-            String Resultat = "Inconnu";
+            String Resultat = "";
                 
             foreach (DataColumn maColonne  in Rangee.Table.Columns  )
             {
@@ -218,7 +218,14 @@ namespace JCASQLODPCore
 
                 System.IO.File.WriteAllBytes(Fichier,Contenu);
             }
-
+            
+            /// <summary>
+            /// Écrit un fichier texte avec le bon encodage.
+            /// Peut lancer une exception
+            /// </summary>
+            /// <param name="Fichier">Nom du fichier à écrire</param>
+            /// <param name="Contenu">Contenu textuel à écrire</param>
+            /// <param name="EncodageFichier">Encodega eu fichier texte</param>
             private void EcrireFichierTexte(String Fichier,
                 String  Contenu,
                 Encoding EncodageFichier )
@@ -318,7 +325,11 @@ namespace JCASQLODPCore
                     monDS.Tables[0].Rows[1], "NOM");
                 ListeFichier = "Noms de fichier provenant de la colonne "+
                     ColonneNomFichier + Environment.NewLine;
+                
                 String monTypeLOB = TypeLOB(monDS.Tables[0].Rows[1]);
+                if (monTypeLOB == "")
+                    throw new JCASQLODPException(
+                        "Il n'y a aucune colonne identifiée par un alias BLOB ou CLOB dans la commande SQL");
                 for (Int32 i = 1; (i <= (NBRangees)) 
                     && (NBRangees > 0); i++)
                 {

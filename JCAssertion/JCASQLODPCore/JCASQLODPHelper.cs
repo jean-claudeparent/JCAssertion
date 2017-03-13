@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+ 
 using System.Threading.Tasks;
 using System.IO;
 using System.Data;
@@ -131,12 +132,62 @@ namespace JCASQLODPCore
                 return Resultat;
             } // TypeLOB
 
+        /// <summary>
+        /// Convertir un objet en Byte Array
+        /// Le type de l'objet doit avoir une méthode
+        /// toString() pour que ¸a marche bien.
+        /// Le seul type vraiemnt sécuritaire à
+        /// utiliser est Byte[]
+        /// soit que l'objet est déjàen byte array
+        /// Les autres types sont semis supportés pour voir ce qui se passe 
+        /// deans les assertions
+        /// Les caractères spéciaux des chaîne de caractères
+        /// peuvent aussi être problématiques.
+        /// </summary>
+        /// <param name="Valeur">Objet à transformer en byte array</param>
+        /// <returns></returns>
         public Byte[] ConvertirByteArray(
             object Valeur)
             {
-                if (Valeur.GetType().ToString()  == "System.DBNull")
-                    return null;
-                return (Byte[]) Valeur; 
+                String TypeValeur = Valeur.GetType().ToString();
+                switch (TypeValeur )
+                    {
+                    case "System.DBNull":
+                        return null;
+                    case "System.Byte[]":
+                        return (Byte[])Valeur;
+                    case "System.String":
+                        {
+                            String maValeur = Valeur.ToString() ;
+                            return ConvertirByteArrayStr(maValeur );
+                        }
+                    default:
+                        return ConvertirByteArrayStr(Valeur.ToString()  );
+ 
+ 
+                    }
+
+                     
+                
+                   
+                 
+            }
+
+        /// <summary>
+        /// Encode les string en ascii
+        /// pour les transformer en byte array
+        /// </summary>
+        /// <param name="Valeur"></param>
+        /// <returns></returns>
+        private Byte[] ConvertirByteArrayStr(
+            String  Valeur)
+            {
+                Encoding monEncoding = Encoding.ASCII;
+ 
+                if (Valeur == null)
+                    return null ;
+                else
+                    return monEncoding.GetBytes(Valeur);
             }
 
         

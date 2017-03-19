@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016 Jean-Claude Parent 
+//  Copyright 2016,2017 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //
@@ -636,6 +636,49 @@ namespace JCAssertionCore
             
             return true;
         }
+
+        public bool JCAExporteLOB(XmlNode monXMLNode,
+            ref string Message,
+            ref  Dictionary<String, String> Variables,
+            ref string MessageEchec,
+            ref JCASQLClient monSQLClient)
+        {
+            Message = Message + Environment.NewLine +
+            "Assertion ExporteLOB" + Environment.NewLine;
+            MessageEchec = "";
+            if (monXMLNode == null)
+                throw new JCAssertionException("Le XML est vide.");
+            ValideBalise(monXMLNode, "SQL");
+            ValideBalise(monXMLNode, "Chemin");
+
+            String monSQL = ValeurBalise(monXMLNode, "SQL");
+            monSQL = JCAVariable.SubstituerVariables(
+                    monSQL, Variables);
+            String monChemin = ValeurBalise(monXMLNode, "Chemin");
+            monChemin = JCAVariable.SubstituerVariables(
+                    monChemin, Variables);
+
+            Message = Message + "SQL de spécification des rangées à exporter "
+                + monSQL + Environment.NewLine;
+            Message = Message + "Chemin des fichiers créés : " +
+                monChemin + Environment.NewLine;
+
+
+            long Rangees =
+                monSQLClient.ExporteLOB(monSQL, 
+                monChemin);
+
+            if (Rangees > 1)
+                Message = Message + Rangees.ToString() +
+                    " rangées exportées." + Environment.NewLine;
+            else
+                Message = Message + Rangees.ToString() +
+                    " rangée exportée." + Environment.NewLine;
+
+
+            return true;
+        }
+
 
 
     }

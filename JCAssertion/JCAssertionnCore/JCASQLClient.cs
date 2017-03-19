@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016 Jean-Claude Parent 
+//  Copyright 2016,2017 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //
@@ -155,6 +155,13 @@ namespace JCAssertionCore
             return Resultat;
         }
 
+        /// <summary>
+        /// Charge un fichier dans une colonne
+        /// qui contient un objet binaire large
+        /// </summary>
+        /// <param name="SQL">SQL indiquant la colonne LOB à renplir ainsi que les rangées à traiter</param>
+        /// <param name="Fichier">Fichier contenant le contenu à charger</param>
+        /// <returns>Nombre de rangées affectées par le chargement</returns>
         public Int64 SQLChargeLOB(String SQL,
             String Fichier)
         {
@@ -170,5 +177,21 @@ namespace JCAssertionCore
             return Resultat;
         }
 
+        public Int64 ExporteLOB(
+            String SQL,
+            String Chemin,
+            Encoding  TypeEncodage = null)
+            {
+                Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
+
+                if (!monSQLClientODP.SiConnectionOuverte())
+                    monSQLClientODP.OuvrirConnection();
+            Int64 Resultat = monSQLClientODP.ExporteLOB(
+                SQL,Chemin, TypeEncodage  );
+            if (Fermer)
+                monSQLClientODP.FermerConnection();
+            return Resultat;
+        
+            }
     }
 }

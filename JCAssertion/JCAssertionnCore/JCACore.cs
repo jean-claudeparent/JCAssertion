@@ -262,6 +262,14 @@ namespace JCAssertionCore
                                     ref monSQLClient);
                                 Journalise(Message);
                                 return Resultat;
+                            case "ExporteLOB":
+                                Resultat = monPontXML.JCAExporteLOB(XMLCas,
+                                    ref  Message,
+                                    ref  Variables.Variables,
+                                    ref  MessageEchec,
+                                    ref monSQLClient);
+                                Journalise(Message);
+                                return Resultat;
                         default:
                             MessageAjoutter("Type inconnu");
                             MessageEchec =

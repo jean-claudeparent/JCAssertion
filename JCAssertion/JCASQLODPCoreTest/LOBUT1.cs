@@ -242,6 +242,13 @@ namespace JCASQLODPCoreTest
             monSQLClient.AssertSQL(CompteCLOBApres, 3),
             "erreur il ne devrait rester aucun clob à l.ancienne valeur id=1012");
             
+            // Le sql ne donne aucune rangée
+            Assert.AreEqual(0,
+             monSQLClient.ChargeLOB("select IDTEST,TYPECLOB AS CLOB from JCATest " +
+             " where IDTEST = 'n_existe_pas'",
+             FichierCLOB),
+             "ChargerLOB aurait du retourner 2 comme nombre de rangées affectées");
+
 
             //Vérifications avec ExporteLOB
             ExporteLOBOK(monSQLClient);
@@ -483,6 +490,14 @@ namespace JCASQLODPCoreTest
               Chemin + "LOBUT1_3.pdf"),
               "LOBUT3_1.pdf a été altéré ");
 
+            // test avec un select qui ne retourne aucune rangée
+            Assert.AreEqual(0,
+                monSQLClient.ExporteLOB(
+                        "select IDTEST||'.txt' , TYPECLOB AS CLOB " +
+                        " FROM JCATEST WHERE IDTEST = 'n+existe+pas'",
+                        Chemin,
+                        Encoding.UTF8),
+                        "Nauvais nombre de clob exportés"); 
 
 
 

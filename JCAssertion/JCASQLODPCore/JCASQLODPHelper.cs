@@ -59,8 +59,9 @@ namespace JCASQLODPCore
                 
                 Int32 NBRangees = BD.Tables[0].Rows.Count;
                 String monTypeLoB = "";
-                for (Int32 i = 1; (i <= (NBRangees)) 
-                    && (NBRangees > 0); i++)
+            if (NBRangees > 0)
+                {
+                for (Int32 i = 1; i <= NBRangees; i++)
                 {
                     // Déterminer si BLOB, CLOB ou erreur
                     monTypeLoB = TypeLOB(BD.Tables[0].Rows[i-1]);
@@ -82,6 +83,7 @@ namespace JCASQLODPCore
                         
                 } // switch
             } // for
+                } // end if
                 return NBRangees;
 
             } 
@@ -320,17 +322,24 @@ namespace JCASQLODPCore
                 ListeFichier = "Aucun LOB à extraire";
                 Int32 NBRangees = monDS.Tables[0].Rows.Count;
                 Int32 NbFichierExportes = 0;
-                //String monContenu = "";
-                String ColonneNomFichier = NomColonne(
-                    monDS.Tables[0].Rows[1], "NOM");
+                String ColonneNomFichier = "";
+                if (NBRangees == 0)
+                    ColonneNomFichier = "";
+                else
+                    ColonneNomFichier = NomColonne(
+                    monDS.Tables[0].Rows[0], "NOM");
+
                 ListeFichier = "Noms de fichier provenant de la colonne "+
                     ColonneNomFichier + Environment.NewLine;
-                
-                String monTypeLOB = TypeLOB(monDS.Tables[0].Rows[1]);
-                if (monTypeLOB == "")
-                    throw new JCASQLODPException(
-                        "Il n'y a aucune colonne identifiée par un alias BLOB ou CLOB dans la commande SQL");
-                for (Int32 i = 1; (i <= (NBRangees)) 
+                String monTypeLOB = "";
+                if (NBRangees > 0 )
+                    {
+                        monTypeLOB = TypeLOB(monDS.Tables[0].Rows[0]);
+                        if (monTypeLOB == "")
+                            throw new JCASQLODPException(
+                            "Il n'y a aucune colonne identifiée par un alias BLOB ou CLOB dans la commande SQL");
+                    }
+                    for (Int32 i = 1; (i <= (NBRangees)) 
                     && (NBRangees > 0); i++)
                 {
                     if (monDS.Tables[0].Rows[i - 1][monTypeLOB] != DBNull.Value   )

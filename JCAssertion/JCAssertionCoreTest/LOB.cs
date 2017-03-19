@@ -87,7 +87,7 @@ namespace JCAssertionCoreTest
     
 
         [TestMethod]
-        public void LOBOKUT1()
+        public void JCACoreLOBOKUT1()
         {
             InitBD();
             monCore.Variables.MAJVariable("Where",
@@ -154,8 +154,29 @@ namespace JCAssertionCoreTest
                 monCore.MessageEchec);
 
             // Retester avec l'exportation de LOB
-            Assert.Fail("Pas encore implémenté exportelob ");
+            RxporteLOBVerif();
+            
                 
         }
+
+        private void RxporteLOBVerif()
+            {
+            // test blob
+                monCas.InnerXml = "<Assertion>" +
+               "<Type>ExporteLOB</Type>" +
+               "<Chemin>{{Fichier}}</Chemin>" +
+               "<SQL>select idtest||'.pdf' as NOM, typeblob AS BLOB from JCATest" +
+               " where {{Where}}</SQL>" +
+               "</Assertion>";
+
+                Assert.IsTrue (monCore.ExecuteCas(monCas),
+                    "L'assertoion est en échec : "+
+                    monCore.Message + " " +
+                    monCore.MessageEchec );
+            // test clob utf8
+            // test clob ansi
+            Assert.Fail("Pas encore implémenté exportelob ");
+            }
+
     }
 }

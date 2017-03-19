@@ -173,6 +173,20 @@ namespace JCAssertionCoreTest
                     "L'assertoion est en échec : "+
                     monCore.Message + " " +
                     monCore.MessageEchec );
+                Assert.IsTrue(monCore.Message.Contains(
+                    "1 rangée exportée.") &&
+                    monCore.Message.Contains(
+                    "SQL de spécification des rangées à exporter select "),
+                    "Mauvais message : " +
+                    monCore.Message  );
+
+                Assert.IsTrue(monCore.Message.Contains(
+                        "Noms de fichier provenant de la colonne NOM") &&
+                        monCore.Message.Contains(
+                        "JCACT.LOB_1.pdf"),
+                        "Mauvais message : " +
+                        monCore.Message); 
+
             // test clob utf8
             // test clob ansi
             Assert.Fail("Pas encore implémenté exportelob ");

@@ -59,7 +59,7 @@ namespace JCASQLODPCore
         public String Resume = "";
         public Boolean ActiverResume = false;
         public Boolean ExceptionDetaillee = true;
-        public String  DernierResultat = ""; //  dernier resultat de assert en texte
+        public String  DernierResultat = ""; //  dernier resultat de certaines méthodes  en texte
 
 
         private Oracle.ManagedDataAccess.Client.OracleConnection maConnection;
@@ -567,7 +567,8 @@ namespace JCASQLODPCore
 
                     // Exporter les lob
                     NbRandees = Helper.ExporteLOB(monDS,Chemin, 
-                        TypeEncodage, ref DernierResultat  );
+                        TypeEncodage, ref DernierResultat);
+                    
                     
 
 

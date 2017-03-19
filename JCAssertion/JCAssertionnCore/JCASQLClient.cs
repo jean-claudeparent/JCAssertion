@@ -187,7 +187,8 @@ namespace JCAssertionCore
                 if (!monSQLClientODP.SiConnectionOuverte())
                     monSQLClientODP.OuvrirConnection();
             Int64 Resultat = monSQLClientODP.ExporteLOB(
-                SQL,Chemin, TypeEncodage  );
+                SQL,Chemin, TypeEncodage);
+            DernierResultat = monSQLClientODP.DernierResultat; 
             if (Fermer)
                 monSQLClientODP.FermerConnection();
             return Resultat;

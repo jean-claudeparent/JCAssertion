@@ -667,7 +667,8 @@ namespace JCAssertionCore
             long Rangees =
                 monSQLClient.ExporteLOB(monSQL, 
                 monChemin);
-
+            Message = Message + monSQLClient.DernierResultat +
+                Environment.NewLine; 
             if (Rangees > 1)
                 Message = Message + Rangees.ToString() +
                     " rangées exportées." + Environment.NewLine;

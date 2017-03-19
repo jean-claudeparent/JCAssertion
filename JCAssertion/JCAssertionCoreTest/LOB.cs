@@ -170,7 +170,7 @@ namespace JCAssertionCoreTest
                "</Assertion>";
 
                 Assert.IsTrue (monCore.ExecuteCas(monCas),
-                    "L'assertoion est en échec : "+
+                    "L'assertion est en échec : "+
                     monCore.Message + " " +
                     monCore.MessageEchec );
                 Assert.IsTrue(monCore.Message.Contains(
@@ -185,10 +185,36 @@ namespace JCAssertionCoreTest
                         monCore.Message.Contains(
                         "JCACT.LOB_1.pdf"),
                         "Mauvais message : " +
-                        monCore.Message); 
+                        monCore.Message);
 
-            // test clob utf8
+                Assert.IsTrue(
+                    System.IO.File.Exists (Chemin +
+                    "JCACT.LOB_1.pdf"), "Fichier pas créé " +
+                    monCore.Message    );  
+
+            // test clob utf8 
+                monCas.InnerXml = "<Assertion>" +
+                   "<Type>ExporteLOB</Type>" +
+                   "<Chemin>{{Fichier}}</Chemin>" +
+                   "<SQL>select idtest||'.UTF8.txt' as NOM, typEClob AS CLOB from JCATest" +
+                   " where IDTEST IN "+
+                   "('JCACT.LOB_1','JCACT.LOB_2','JCACT.LOB_3' )</SQL>" +
+                   "</Assertion>";
+
+                Assert.IsTrue(monCore.ExecuteCas(monCas),
+                    "L'assertion est en échec : " +
+                    monCore.Message + " " +
+                    monCore.MessageEchec);
+                Assert.IsTrue(monCore.Message.Contains(
+                    "1 rangée exportée.") &&
+                    monCore.Message.Contains(
+                    "JCACT.LOB_1.UTF8.txt"),
+                    "Mauvais message : " +
+                    monCore.Message);
+                Assert.IsTrue(false, "verif utf8 pas implémenté");  
             // test clob ansi
+            // test aucune rangée retournée par le select
+
             Assert.Fail("Pas encore implémenté exportelob ");
             }
 

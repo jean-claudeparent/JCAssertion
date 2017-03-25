@@ -658,6 +658,14 @@ namespace JCAssertionCore
             monChemin = JCAVariable.SubstituerVariables(
                     monChemin, Variables);
 
+            String monEncodageStr = ValeurBalise(monXMLNode, "Encodage");
+            monEncodageStr = JCAVariable.SubstituerVariables(
+                monEncodageStr, Variables).ToUpper() ;
+            Encoding monEncodage = Encoding.UTF8;
+            if (monEncodageStr.Contains("ASCII"))
+                monEncodage = Encoding.ASCII;
+            
+
             Message = Message + "SQL de spécification des rangées à exporter "
                 + monSQL + Environment.NewLine;
             Message = Message + "Chemin des fichiers créés : " +
@@ -665,8 +673,8 @@ namespace JCAssertionCore
 
 
             long Rangees =
-                monSQLClient.ExporteLOB(monSQL, 
-                monChemin);
+                monSQLClient.ExporteLOB(monSQL,
+                monChemin, monEncodage);
             Message = Message + monSQLClient.DernierResultat +
                 Environment.NewLine; 
             if (Rangees > 1)

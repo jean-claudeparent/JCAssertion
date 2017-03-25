@@ -235,12 +235,28 @@ namespace JCAssertionCoreTest
                 Assert.IsTrue(JCAMiniCore.TypeEncodage(Chemin + 
                     "JCACT.LOB_1.ascii.txt") ==
                     Encoding.ASCII ,
-                    "Le fichier devrait être en ascii : JCACT.LOB_1.asciitxt");
+                    "Le fichier devrait être en ascii : JCACT.LOB_1.asciitxt " +
+                    JCAMiniCore.TypeEncodage(Chemin +
+                    "JCACT.LOB_1.ascii.txt").ToString() );
 
-            // test clob ansi
             // test aucune rangée retournée par le select
+                monCas.InnerXml = "<Assertion>" +
+                       "<Type>ExporteLOB</Type>" +
+                       "<Chemin>{{Fichier}}</Chemin>" +
+                       "<SQL>select idtest||'.ascii.txt' as NOM, typEClob AS CLOB from JCATest" +
+                       " where IDTEST IN " +
+                       "('N_EXISTE_PAS')</SQL>" +
+                       "<Encodage>Ascii</Encodage>" +
+                       "</Assertion>";
 
-            Assert.Fail("Pas encore implémenté exportelob ");
+                Assert.IsTrue(monCore.ExecuteCas(monCas),
+                    "L'assertion est en échec : " +
+                    monCore.Message + " " +
+                    monCore.MessageEchec);
+            Assert.IsTrue(monCore.Message.Contains(
+                "0 rangée exportée"),
+                "Mauvais message '0 rangée exportée' attendu mais  " +
+                monCore.Message  );
             }
 
     }

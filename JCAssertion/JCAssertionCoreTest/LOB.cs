@@ -3,7 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Xml;
 using JCAssertionCore;
-  
+using JCAMC;
+using System.Text;
+
 
 namespace JCAssertionCoreTest
 {
@@ -205,13 +207,36 @@ namespace JCAssertionCoreTest
                     "L'assertion est en échec : " +
                     monCore.Message + " " +
                     monCore.MessageEchec);
+
                 Assert.IsTrue(monCore.Message.Contains(
                     "1 rangée exportée.") &&
                     monCore.Message.Contains(
                     "JCACT.LOB_1.UTF8.txt"),
                     "Mauvais message : " +
                     monCore.Message);
-                Assert.IsTrue(false, "verif utf8 pas implémenté");  
+                Assert.IsTrue(JCAMiniCore.TypeEncodage(Chemin + "JCACT.LOB_1.UTF8.txt") ==
+                Encoding.UTF8  ,
+                "Le fichier devrait être en utf8 : JCACT.LOB_1.UTF8.txt");
+
+                // test clob ascii 
+                monCas.InnerXml = "<Assertion>" +
+                   "<Type>ExporteLOB</Type>" +
+                   "<Chemin>{{Fichier}}</Chemin>" +
+                   "<SQL>select idtest||'.ascii.txt' as NOM, typEClob AS CLOB from JCATest" +
+                   " where IDTEST IN " +
+                   "('JCACT.LOB_1','JCACT.LOB_2','JCACT.LOB_3' )</SQL>" +
+                   "<Encodage>Ascii</Encodage>" +
+                   "</Assertion>";
+
+                Assert.IsTrue(monCore.ExecuteCas(monCas),
+                    "L'assertion est en échec : " +
+                    monCore.Message + " " +
+                    monCore.MessageEchec);
+                Assert.IsTrue(JCAMiniCore.TypeEncodage(Chemin + 
+                    "JCACT.LOB_1.ascii.txt") ==
+                    Encoding.ASCII ,
+                    "Le fichier devrait être en ascii : JCACT.LOB_1.asciitxt");
+
             // test clob ansi
             // test aucune rangée retournée par le select
 

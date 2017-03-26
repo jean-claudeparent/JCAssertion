@@ -161,6 +161,67 @@ namespace JCAssertionCoreTest
                 
         }
 
+        [TestMethod]
+        public void JCACoreExporteLOBPasOKUT1()
+        {
+            // Pas de balise SQL
+            monCas.InnerXml = "<Assertion>" +
+              "<Type>ExporteLOB</Type>" +
+              "<Chemin>{{Fichier}}</Chemin>" +
+              "</Assertion>";
+
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "L'assertion est en échec : " +
+                monCore.Message + " " +
+                monCore.MessageEchec);
+            Assert.IsTrue(monCore.Message.Contains(
+                "Le XML ne contient pas la balise SQL"),
+                "Mauvais message : " + monCore.Message  );  
+               
+            // Pas de balise Chemin
+            monCas.InnerXml = "<Assertion>" +
+              "<Type>ExporteLOB</Type>" +
+              "<SQL>{{Fichier}}</SQL>" +
+              "</Assertion>";
+
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "L'assertion est en échec : " +
+                monCore.Message + " " +
+                monCore.MessageEchec);
+            Assert.IsTrue(monCore.Message.Contains(
+                "Le XML ne contient pas la balise Chemin"),
+                "Mauvais message : " + monCore.Message);  
+               
+            
+            // erreur générique qui lance une exception
+            monCas.InnerXml = "<Assertion>" +
+              "<Type>ExporteLOB</Type>" +
+              "<SQL>selet rien rien from rien</SQL>" +
+              "<Chemin>{{Fichier}}</Chemin>" +
+              "</Assertion>";
+
+            try 
+                {
+                 Assert.IsFalse(monCore.ExecuteCas(monCas),
+                    "L'assertion est en échec : " +
+                    monCore.Message + " " +
+                    monCore.MessageEchec);
+                 Assert.Fail("Une exception aurait du se produire"); 
+                } catch (Exception excep)
+                {
+                    Assert.IsTrue(excep.Message.Contains(
+                    "SQL: selet rien rien from rien"),
+                    "Mauvais message : " + excep.Message);
+                }
+            
+
+
+            
+        }
+
+        
+        
+        
         private void RxporteLOBVerif()
             {
             // test blob
@@ -264,6 +325,7 @@ namespace JCAssertionCoreTest
                 "Mauvais message '0 rangée exportée' attendu mais  " +
                 monCore.Message  );
             }
+
 
     }
 }

@@ -276,7 +276,7 @@ namespace JCAssertionCore
                     }
                 else
                 {
-                    MessageEchec = "Assertion fauuse du dichier " + NomFichier  +
+                    MessageEchec = "Assertion fausse du fichier " + NomFichier  +
                         Environment.NewLine + MessageEchec;
                     MessageEchec = JCAVariable.SubstituerVariables(
                         MessageEchec, Variables);

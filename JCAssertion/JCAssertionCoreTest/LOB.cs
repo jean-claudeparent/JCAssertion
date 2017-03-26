@@ -222,11 +222,17 @@ namespace JCAssertionCoreTest
                 monCas.InnerXml = "<Assertion>" +
                    "<Type>ExporteLOB</Type>" +
                    "<Chemin>{{Fichier}}</Chemin>" +
-                   "<SQL>select idtest||'.ascii.txt' as NOM, typEClob AS CLOB from JCATest" +
+                   "<SQL>select idtest||'.ascii.txt' as NOM, typEClob AS CLOB {{lefr}} JCATest" +
                    " where IDTEST IN " +
                    "('JCACT.LOB_1','JCACT.LOB_2','JCACT.LOB_3' )</SQL>" +
-                   "<Encodage>Ascii</Encodage>" +
+                   "<Encodage>Asc{{2i}}</Encodage>" +
                    "</Assertion>";
+                // définir des variables
+
+                monCore.Variables.MAJVariable("2i","ii");
+                monCore.Variables.MAJVariable("lefr", " from ");
+   
+   
 
                 Assert.IsTrue(monCore.ExecuteCas(monCas),
                     "L'assertion est en échec : " +

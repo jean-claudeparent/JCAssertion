@@ -59,6 +59,14 @@ namespace JCAMC
 
                 
             } // Encodage
+
+        public static void EffaceFichier(
+            String NomFichier)
+            {
+                if (System.IO.File.Exists(NomFichier ))
+                    System.IO.File.Delete(NomFichier );   
+            }
+
         
     } // class
 } // namespace

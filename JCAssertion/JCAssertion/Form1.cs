@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016 Jean-Claude Parent 
+//  Copyright 2016,2017 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //
@@ -343,6 +343,13 @@ namespace JCAssertion
                    System.IO.File.Delete(JournalActivite);   
 
             //
+            // Journaliser qelques ifo utiles
+               Informer("JCAssertion version " +
+                   JCAssertionCore.JCACore.Constantes.Version);
+               Informer("Date de l'exécution : " +
+                   DateTime.Now.ToLongDateString() + " " +  
+                   DateTime.Now.ToLongTimeString());
+
             // commencer le traitementproprement dit
             NAJtbxFAssertion(FichierAssertion);
             MAJtbxFVariables(FichierVariable) ;
@@ -465,18 +472,29 @@ namespace JCAssertion
 
         }
 
+        /// <summary>
+        /// Action à faire quand l'utilisateur 
+        /// clique sur le bouton annuler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAnnuler_Click(object sender, EventArgs e)
         {
             Informer("Programme annulé par le boutonannuler");
             AnnulerExecution = true;
         }
 
+        /// <summary>
+        /// Popup de "à propos de JCAsseertion"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             MessageBox.Show  ("JCAssertion "+
                 JCAssertionCore.JCACore.Constantes.Version +
                 Environment.NewLine +
-                "(C)opyright 2016 Jean-Claude Parent" +
+                "(C)opyright 2016,2017 Jean-Claude Parent" +
                 Environment.NewLine +
                 "http://www.jcassertion.org");
 

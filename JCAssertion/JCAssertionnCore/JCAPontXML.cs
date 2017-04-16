@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016 Jean-Claude Parent 
+//  Copyright 2016,2017 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //
@@ -46,6 +46,13 @@ namespace JCAssertionCore
     {
 
 
+        /// <summary>
+        /// Retourne le texte d'une balise XML
+        /// ou une chaîne vide si on ne trouve pas la balise
+        /// </summary>
+        /// <param name="monXMLNode">Un document xml ou une autre structure XML qui peuut contenir la balise recherchée</param>
+        /// <param name="maBalise">Balise à rechercher</param>
+        /// <returns>La valeur de la balise ou ""</returns>
         public static String  ValeurBalise(XmlNode monXMLNode, String maBalise)
         {
             if (monXMLNode == null)
@@ -60,6 +67,13 @@ namespace JCAssertionCore
             return monXMLNode[maBalise].InnerText;
         }
 
+        /// <summary>
+        /// Cherche si une balise est présente au moins une fois
+        /// dans une structure xml
+        /// </summary>
+        /// <param name="monXMLNode">Document ou structure xnl où chercher</param>
+        /// <param name="maBalise">Nom de la balise à rechercher</param>
+        /// <returns>Trouvé ou non</returns>
         public static Boolean  SiBaliseExiste(XmlNode monXMLNode, String maBalise)
             {
                 if (monXMLNode == null)
@@ -75,6 +89,12 @@ namespace JCAssertionCore
             }
         
 
+        /// <summary>
+        /// Retourne une exception sauf si
+        /// une balise existe et contient quelque chose différent d'une chaîne vide
+        /// </summary>
+        /// <param name="monXMLNode">Docuememt ou structure xml à valider</param>
+        /// <param name="maBalise">Nom de la balise qui doit exister</param>
         public static void ValideBalise(XmlNode monXMLNode, String maBalise)
             {
                 if (monXMLNode == null)
@@ -256,7 +276,7 @@ namespace JCAssertionCore
                     }
                 else
                 {
-                    MessageEchec = "Assertion fauuse du dichier " + NomFichier  +
+                    MessageEchec = "Assertion fausse du fichier " + NomFichier  +
                         Environment.NewLine + MessageEchec;
                     MessageEchec = JCAVariable.SubstituerVariables(
                         MessageEchec, Variables);
@@ -496,7 +516,12 @@ namespace JCAssertionCore
                     Environment.NewLine; 
                 Resultat = monODPSQLClient.SQLAssert(monSQL , 
                         ResultatAttendu, monOperateur);
+
                 if (! (Resultat))
+                    Message = Message +
+                    "Valeur réelle : " +
+                     monODPSQLClient.DernierResultat  +
+                    Environment.NewLine; 
                     MessageEchec =  JCAVariable.SubstituerVariables(
                         ValeurBalise(
                         monXMLNode,"MessageEchec"), Variables );
@@ -570,6 +595,100 @@ namespace JCAssertionCore
             
             return true ;
                  }
+
+        public bool JCAChargeLOB(XmlNode monXMLNode,
+            ref string Message,
+            ref  Dictionary<String, String> Variables,
+            ref string MessageEchec,
+            ref JCASQLClient monSQLClient)
+        {
+            Message = Message + Environment.NewLine +
+            "Assertion ChargeLOB" + Environment.NewLine;
+            MessageEchec = "";
+            if (monXMLNode == null)
+                throw new JCAssertionException("Le XML est vide.");
+            ValideBalise(monXMLNode, "SQL");
+            ValideBalise(monXMLNode, "Fichier");
+            
+            String monSQL = ValeurBalise(monXMLNode, "SQL");
+            monSQL = JCAVariable.SubstituerVariables(
+                    monSQL, Variables);
+            String monFichier = ValeurBalise(monXMLNode, "Fichier");
+            monFichier = JCAVariable.SubstituerVariables(
+                    monFichier, Variables);
+
+            Message = Message + "SQL de spécification des rangées à charger "
+                + monSQL + Environment.NewLine;
+            Message = Message + "Fichier dont le contenu sera chargé : " +
+                monFichier + Environment.NewLine;
+            
+            
+            long Rangees =
+                monSQLClient.SQLChargeLOB(monSQL, monFichier) ;
+
+           if (Rangees > 1)
+                    Message = Message + Rangees.ToString() +
+                        " rangées affectées." + Environment.NewLine;
+                else 
+                    Message = Message + Rangees.ToString() +
+                        " rangée affectée." + Environment.NewLine;
+                
+            
+            return true;
+        }
+
+        public bool JCAExporteLOB(XmlNode monXMLNode,
+            ref string Message,
+            ref  Dictionary<String, String> Variables,
+            ref string MessageEchec,
+            ref JCASQLClient monSQLClient)
+        {
+            Message = Message + Environment.NewLine +
+            "Assertion ExporteLOB" + Environment.NewLine;
+            MessageEchec = "";
+            if (monXMLNode == null)
+                throw new JCAssertionException("Le XML est vide.");
+            ValideBalise(monXMLNode, "SQL");
+            ValideBalise(monXMLNode, "Chemin");
+
+            String monSQL = ValeurBalise(monXMLNode, "SQL");
+            monSQL = JCAVariable.SubstituerVariables(
+                    monSQL, Variables);
+            String monChemin = ValeurBalise(monXMLNode, "Chemin");
+            monChemin = JCAVariable.SubstituerVariables(
+                    monChemin, Variables);
+
+            String monEncodageStr = ValeurBalise(monXMLNode, "Encodage");
+            monEncodageStr = JCAVariable.SubstituerVariables(
+                monEncodageStr, Variables).ToUpper() ;
+            Encoding monEncodage = Encoding.UTF8;
+            if (monEncodageStr.Contains("ASCII"))
+                monEncodage = Encoding.ASCII;
+            
+
+            Message = Message + "SQL de spécification des rangées à exporter "
+                + monSQL + Environment.NewLine;
+            Message = Message + "Chemin des fichiers créés : " +
+                monChemin + Environment.NewLine;
+
+
+            long Rangees =
+                monSQLClient.ExporteLOB(monSQL,
+                monChemin, monEncodage);
+            Message = Message + monSQLClient.DernierResultat +
+                Environment.NewLine; 
+            if (Rangees > 1)
+                Message = Message + Rangees.ToString() +
+                    " rangées exportées." + Environment.NewLine;
+            else
+                Message = Message + Rangees.ToString() +
+                    " rangée exportée." + Environment.NewLine;
+
+
+            return true;
+        }
+
+
 
     }
 }

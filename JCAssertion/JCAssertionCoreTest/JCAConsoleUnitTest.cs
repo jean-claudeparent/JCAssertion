@@ -24,15 +24,16 @@ namespace JCAssertionCoreTest
             mesArgs = new String[10];
             mesArgs[0] = "/Fichier:c:app.exe";
             mesArgs[1] = "/on";
-            mesArgs[2] = "/v:Cle=valeur";
+            mesArgs[2] = "/v:Cle=valeur\\";
             mesArgs[3] = "/fic2:c:app avec espace.exe /p";
             mesArgs[4] = "Test55";
             mesArgs[5] = "Test43:Valeur43";
            
             mesVariables = maConsole.Arguments(mesArgs);
             Assert.AreEqual("ON", mesVariables.GetValeurVariable("ON"));
-            Assert.AreEqual("c:app.exe", mesVariables.GetValeurVariable("FICHIER"));
-            Assert.AreEqual("Cle=valeur", mesVariables.GetValeurVariable("V"));
+            Assert.AreEqual("c:app.exe",
+                mesVariables.GetValeurVariable("FICHIER"));
+            Assert.AreEqual("Cle=valeur\\", mesVariables.GetValeurVariable("V"));
             Assert.AreEqual("c:app avec espace.exe /p", mesVariables.GetValeurVariable("FIC2"));
             Assert.AreEqual("Valeur43", mesVariables.GetValeurVariable("TEST43"));
             Assert.AreEqual("Test55", mesVariables.GetValeurVariable("Test55"));
@@ -51,7 +52,8 @@ namespace JCAssertionCoreTest
             String maCle;
             String maValeur;
 
-            Assert.IsTrue(maConsole.ExtraireParam ("/duplex", out maCle , out maValeur ));
+            Assert.IsTrue(maConsole.ExtraireParam 
+                ("/duplex", out maCle , out maValeur ));
             Assert.AreEqual("DUPLEX", maCle );
             Assert.AreEqual("DUPLEX", maValeur);
 
@@ -63,9 +65,9 @@ namespace JCAssertionCoreTest
             Assert.AreEqual("", maCle);
             Assert.AreEqual("", maValeur);
 
-            Assert.IsTrue(maConsole.ExtraireParam("/duplex:c:/test:a", out maCle, out maValeur));
+            Assert.IsTrue(maConsole.ExtraireParam("/duplex:c:/test:a\\", out maCle, out maValeur));
             Assert.AreEqual("DUPLEX", maCle);
-            Assert.AreEqual("c:/test:a", maValeur);
+            Assert.AreEqual("c:/test:a\\", maValeur);
 
             Assert.IsTrue(maConsole.ExtraireParam("TEST55", out maCle, out maValeur));
             Assert.AreEqual("TEST55", maCle);

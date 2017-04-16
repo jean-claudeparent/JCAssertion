@@ -59,14 +59,17 @@ namespace JCASQLODPCore
         public String Resume = "";
         public Boolean ActiverResume = false;
         public Boolean ExceptionDetaillee = true;
+        public String  DernierResultat = ""; //  dernier resultat de certaines méthodes  en texte
+
 
         private Oracle.ManagedDataAccess.Client.OracleConnection maConnection;
         private Oracle.ManagedDataAccess.Client.OracleDataReader monReader;
         private Oracle.ManagedDataAccess.Client.OracleCommand maCommandeSQL =
-            new Oracle.ManagedDataAccess.Client.OracleCommand();
+           new Oracle.ManagedDataAccess.Client.OracleCommand();
+        private JCASQLODPHelper Helper = new JCASQLODPHelper() ;
+        
 
-
-
+        
         /// <summary>
         /// CreerConnectionString : retourne la chaîne de connection
         /// crée à partir des propriétés de la classe. Peut
@@ -160,10 +163,13 @@ namespace JCASQLODPCore
 
         /// <summary>
         /// AssertSQL (CommandeSQL,ResultatAttendu): Fait un select 
+        ///
         /// retournant un nombre  
         /// sur la connection courante et retourne si
         /// la valeur est égale (ou est évaluée avec un autre operateur) au Resultat attendu.
-        /// Si aucune rangée n'est retournée par le select on retourne false
+        /// Si aucune rangée n'est retournée par le select on 
+        /// retourne false. 
+        /// Modifie aussi la propriété DernierResultat
         /// </summary>
         public Boolean AssertSQL(String CommandeSQL, 
             Double  ResultatAttendu,
@@ -179,6 +185,7 @@ namespace JCASQLODPCore
             Double TypeDouble = 0;
             Boolean TypeTrouve = false;
             
+            DernierResultat = "Problème technique";
           Boolean ResultatAssertion = false;
           Operateur = Operateur.ToUpper(); 
           SQLSelect(CommandeSQL);
@@ -186,21 +193,33 @@ namespace JCASQLODPCore
               Resume = Resume +
                   "Valeur attendue : " +
                   ResultatAttendu.ToString() +
-                  Environment.NewLine; 
+                  Environment.NewLine;
           if (!monReader.HasRows)
-              return false;
-          // Si la colonne est null retourner false
+              {
+                DernierResultat = "Le select ne retourne aucune rangées";
+                return false;
+              }
+          
+            // Si la colonne est null retourner false
           if (monReader.IsDBNull(0))
-              return false;
+              {
+                  DernierResultat = "null";
+                return false;
+              }
 
           Double monResultat = 0;
           
+          // Garder le type en traitement pour l'exception
+          String TypeDeColonne = monReader.GetFieldType(0).ToString();
+ 
           // peu importe le type numérique ramener cela en type double
-          // TypeInt64
+          try {
+            // TypeInt64
           if (monReader.GetFieldType(0) == TypeInt64.GetType())
           {
               monResultat = Convert.ToDouble(monReader.GetInt64(0));
               TypeTrouve = true;
+              DernierResultat = monReader.GetInt64(0).ToString(); 
           }
 
           // TypeInt32
@@ -208,6 +227,7 @@ namespace JCASQLODPCore
           {
               monResultat = Convert.ToDouble(monReader.GetInt32(0));
               TypeTrouve = true;
+              DernierResultat = monReader.GetInt32(0).ToString();
           }
 
           // TypeInt16
@@ -215,6 +235,7 @@ namespace JCASQLODPCore
           {
               monResultat = Convert.ToDouble(monReader.GetInt16(0));
               TypeTrouve = true;
+              DernierResultat = monReader.GetInt16(0).ToString();
           }
 
           // TypeInt
@@ -222,6 +243,7 @@ namespace JCASQLODPCore
           {
               monResultat = Convert.ToDouble(monReader.GetInt16(0));
               TypeTrouve = true;
+              DernierResultat = monReader.GetInt16(0).ToString();
           }
 
           // TypeDecimal
@@ -229,13 +251,23 @@ namespace JCASQLODPCore
                   {
                     monResultat = Convert.ToDouble(monReader.GetDecimal(0));
                     TypeTrouve = true;
+                    DernierResultat = monReader.GetDecimal(0).ToString();
                   }
             // TypeDouble
             if (monReader.GetFieldType(0) == TypeDouble.GetType())
             {
                 monResultat = monReader.GetDouble(0);
                 TypeTrouve = true;
+                DernierResultat = Convert.ToString(monReader.GetDouble(0));
             }
+              } catch  (Exception excep)
+                {
+                    throw new JCASQLODPException 
+                    ("Erreur de programmationtype " + TypeDeColonne + " " +
+                  excep.Message ,
+                    excep);
+                }
+
               // TypeString
               if (monReader.GetFieldType(0) == TypeString.GetType())
               {
@@ -244,11 +276,14 @@ namespace JCASQLODPCore
               }
               if (!TypeTrouve)
               {
+                  DernierResultat = "Erreur de programmation : type non supporté " +
+                      TypeDeColonne;
                   throw new JCASQLODPException("La commande SQL retourne un type de données non supporté, commande = " +
                   CommandeSQL +
                   "Type non supporté : " +
                   monReader.GetFieldType(0).ToString ());
               }
+              
 
           switch (Operateur)
           {
@@ -287,9 +322,14 @@ namespace JCASQLODPCore
         public Boolean AssertSQL(String CommandeSQL,
             String  ResultatAttendu)
         {
+
+            DernierResultat = "Erreur rencontrée";
             SQLSelect(CommandeSQL);
             if (!monReader.HasRows)
-                return false;
+                {
+                    DernierResultat = "Le select n'a retourné aucune ligne";
+                    return false;
+                }
             String  monResultat = "";
             
             try
@@ -299,12 +339,15 @@ namespace JCASQLODPCore
             }
             catch (Exception excep)
             {
+                DernierResultat = "Erreur";
                 throw new JCASQLODPException("La connande SQL :" +
               CommandeSQL + ": ne retourne pas un résultat de type chaîne de caractère", excep);
             }
-
+            DernierResultat = monResultat;
             return (ResultatAttendu == monResultat);
         }
+
+        
 
         /// <summary>
         /// SiConnectionOuverte retourne si la connection est ouverte
@@ -315,7 +358,87 @@ namespace JCASQLODPCore
         }
 
         /// <summary>
+        /// ChargeLOB : Charge un Large object
+        /// dans toutes les rangées définies
+        /// par un énoncé SQL.
+        /// </summary>
+        /// <param name="SQL">Énoncé SQL identifiant 1 à n rangées dMune colonne.
+        /// C'est dans cette colonne que leLOB sera chargé</param>
+        /// <param name="Fichier">Nom du fichier qui contient le
+        /// contenu à mettre dans le LOB</param>
+        public Int32  ChargeLOB(
+            String SQL,
+            String Fichier)
+        {
+            System.Data.DataSet monDS = new DataSet();
+            OracleCommandBuilder monCB;
+            Int32 NbRandees = 0;
+
+            
+            Helper.ValideFichier(Fichier ); 
+            
+            // Initialiser la commande sql
+            maCommandeSQL.Connection = maConnection; 
+            maCommandeSQL.CommandText = SQL;
+            maCommandeSQL.CommandType = CommandType.Text;
+
+            // Créer le dataadapter
+            OracleDataAdapter momDA = new OracleDataAdapter(maCommandeSQL );
+            
+
+            // Charger le dataset
+            try {
+                momDA.MissingSchemaAction = 
+                    MissingSchemaAction.AddWithKey;
+                momDA.FillSchema(monDS, SchemaType.Source); 
+                
+               momDA.Fill(monDS);
+               
+               
+
+
+               monCB = 
+                   new OracleCommandBuilder(momDA);
+               
+               // Modifier le dataset et reporter les changements
+               NbRandees = Helper.MAJLOB(ref monDS, Fichier );
+               Helper.ExploreDataset(monDS);
+               momDA.Update(monDS.Tables[0]);
+               
+                 
+            
+            }
+            catch (System.InvalidOperationException excep)
+                {
+                    throw new JCASQLODPException("Erreur dans la commande SQL de sélection  " +
+                        "La commande doit avoir la forme 'select colonnedecle, colonneblob as blob from table' " +
+                    Environment.NewLine + "SQL: " +
+                    SQL + Environment.NewLine +
+                    excep.Message, excep);
+                }
+            catch (Exception excep)
+                {
+                    throw new JCASQLODPException("Erreur d'acces à la base de données " +
+                Environment.NewLine +  "SQL: " +
+                SQL + Environment.NewLine +
+                excep.Message  , excep);
+                }
+
+            
+            
+
+            return NbRandees;
+
+                
+            
+        }
+
+
+
+
+        /// <summary>
         /// Resumer : Resume le datareader dans la propriété Resume
+        /// Sert à débugger
         /// </summary>
         private void  Resumer()
         {
@@ -346,9 +469,25 @@ namespace JCASQLODPCore
                             monReader.GetDecimal(i).ToString()  +
                             Environment.NewLine; 
                         break;
+                    case "System.Int16":
+                        Resultat = Resultat +
+                            monReader.GetInt16(i).ToString() +
+                            Environment.NewLine;
+                        break;
+                    case "System.Int32":
+                        Resultat = Resultat +
+                            monReader.GetInt32(i).ToString() +
+                            Environment.NewLine;
+                        break;
+                    case "System.Int64":
+                        Resultat = Resultat +
+                            monReader.GetInt64(i).ToString() +
+                            Environment.NewLine;
+                        break;
+                    
                     default:
                         Resultat = Resultat +
-                            "Type non implémenté : " +
+                            "Type non implémenté DANS LA FONCTION RESUME : " +
                             monReader.GetFieldType(i).ToString() +
                             Environment.NewLine  ;
                         break; 
@@ -386,5 +525,79 @@ namespace JCASQLODPCore
                     else throw excep; 
                 }
             }
+
+        /// <summary>
+        /// ExporteLOB : Écrit des colonnes BLOB ou CLOB
+        /// dans des fichiers.
+        /// </summary>
+        /// <param name="SQL">Commande SQL spécifiant les noms des fichiers et la colonne LOB à exporter</param>
+        /// <param name="Chemin">Chemin où créer les fichiers</param>
+        /// <param name="TypeEncodage">Type d'encodage de fichier, null = byte8</param>
+        /// <returns>Nombre de LOB exportés en ichier</returns>
+        public Int32 ExporteLOB(
+            String SQL,
+            String Chemin,
+            Encoding  TypeEncodage = null)
+            {
+                System.Data.DataSet monDS = new DataSet();
+                Int32 NbRandees = 0;
+                                
+                // Initialiser la commande sql
+                maCommandeSQL.Connection = maConnection;
+                maCommandeSQL.CommandText = SQL;
+                maCommandeSQL.CommandType = CommandType.Text;
+
+                // Créer le dataadapter
+                OracleDataAdapter momDA = new OracleDataAdapter(maCommandeSQL);
+
+
+                // Charger le dataset
+                try
+                {
+                    //momDA.MissingSchemaAction =
+                      //  MissingSchemaAction.AddWithKey;
+                    momDA.FillSchema(monDS, SchemaType.Source);
+
+                    momDA.Fill(monDS);
+
+
+
+
+                   
+
+                    // Exporter les lob
+                    NbRandees = Helper.ExporteLOB(monDS,Chemin, 
+                        TypeEncodage, ref DernierResultat);
+                    
+                    
+
+
+                }
+                catch (System.InvalidOperationException excep)
+                {
+                    throw new JCASQLODPException("Erreur dans la commande SQL de sélection  " +
+                        "La commande doit avoir la forme 'select colonnedecle, colonneblob as blob from table' " +
+                    Environment.NewLine + "SQL: " +
+                    SQL + Environment.NewLine +
+                    excep.Message, excep);
+                }
+                catch (Exception excep)
+                {
+                    throw new JCASQLODPException("Erreur d'acces à la base de données " +
+                Environment.NewLine + "SQL: " +
+                SQL + Environment.NewLine +
+                excep.Message, excep);
+                }
+
+
+
+
+                return NbRandees;
+
+                
+                
+            }
+
+    
     } // class
 } // namespace

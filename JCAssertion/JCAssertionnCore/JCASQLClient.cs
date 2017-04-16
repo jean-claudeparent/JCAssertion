@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016 Jean-Claude Parent 
+//  Copyright 2016,2017 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //
@@ -49,6 +49,8 @@ namespace JCAssertionCore
 
         private JCASQLODPClient monSQLClientODP = new JCASQLODPClient();
         public enum Action {Aucune, Ouvrir, Fermer };
+        public String DernierResultat = "";
+
         /// <summary>
         /// ConnectionOuverte : Retourne si la connection
         /// courante courante est ouverte.
@@ -88,15 +90,18 @@ namespace JCAssertionCore
         /// </summary>
         /// <param name="SQL">Commande SQL servant pour l'assertion</param>
         /// <param name="ResultatAttendu">Résultat attendu à comparer pour que l'assertion soit vraie.</param>
-        /// <returns>Retourne si l'assertion est vraie</returns>
+        /// <returns>Retourne si l'assertion est vraie
+        /// Modifie aussi l propriété DernierResultat</returns>
         public Boolean SQLAssert(String SQL,
             String ResultatAttendu)
         {
+            DernierResultat = "";
             Boolean Resultat = false;
             Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
             if (!monSQLClientODP.SiConnectionOuverte())
                 monSQLClientODP.OuvrirConnection();
-            Resultat = monSQLClientODP.AssertSQL(SQL, ResultatAttendu); 
+            Resultat = monSQLClientODP.AssertSQL(SQL, ResultatAttendu);
+            DernierResultat = monSQLClientODP.DernierResultat; 
             if (Fermer)
                 monSQLClientODP.FermerConnection();
 
@@ -116,11 +121,13 @@ namespace JCAssertionCore
             String Operateur = "=")
         {
 
+            DernierResultat = "Erreur";
             Boolean Resultat = false;
             Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
             if (!monSQLClientODP.SiConnectionOuverte())
                 monSQLClientODP.OuvrirConnection();
             Resultat = monSQLClientODP.AssertSQL(SQL, ResultatAttendu, Operateur);
+            DernierResultat = monSQLClientODP.DernierResultat; 
             if (Fermer)
                 monSQLClientODP.FermerConnection();
 
@@ -148,5 +155,44 @@ namespace JCAssertionCore
             return Resultat;
         }
 
+        /// <summary>
+        /// Charge un fichier dans une colonne
+        /// qui contient un objet binaire large
+        /// </summary>
+        /// <param name="SQL">SQL indiquant la colonne LOB à renplir ainsi que les rangées à traiter</param>
+        /// <param name="Fichier">Fichier contenant le contenu à charger</param>
+        /// <returns>Nombre de rangées affectées par le chargement</returns>
+        public Int64 SQLChargeLOB(String SQL,
+            String Fichier)
+        {
+
+
+            Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
+
+            if (!monSQLClientODP.SiConnectionOuverte())
+                monSQLClientODP.OuvrirConnection();
+            Int64 Resultat = monSQLClientODP.ChargeLOB(SQL,Fichier);
+            if (Fermer)
+                monSQLClientODP.FermerConnection();
+            return Resultat;
+        }
+
+        public Int64 ExporteLOB(
+            String SQL,
+            String Chemin,
+            Encoding  TypeEncodage = null)
+            {
+                Boolean Fermer = (!monSQLClientODP.SiConnectionOuverte());
+
+                if (!monSQLClientODP.SiConnectionOuverte())
+                    monSQLClientODP.OuvrirConnection();
+            Int64 Resultat = monSQLClientODP.ExporteLOB(
+                SQL,Chemin, TypeEncodage);
+            DernierResultat = monSQLClientODP.DernierResultat; 
+            if (Fermer)
+                monSQLClientODP.FermerConnection();
+            return Resultat;
+        
+            }
     }
 }

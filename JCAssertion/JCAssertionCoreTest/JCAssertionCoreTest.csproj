@@ -63,10 +63,15 @@
     <Compile Include="JCAVariableUnitTest1.cs" />
     <Compile Include="ExecuteCasTest.cs" />
     <Compile Include="JCAMAJVariablesUnitTest1.cs" />
+    <Compile Include="LOB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JCAMiniCore\JCAMiniCore.csproj">
+      <Project>{3ef8fad4-6536-4b2c-979c-e4279d66957d}</Project>
+      <Name>JCAMiniCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JCAssertionnCore\JCAssertionCore.csproj">
       <Project>{2591a9de-e6ec-4be0-afbe-175ae508ad8e}</Project>
       <Name>JCAssertionCore</Name>
@@ -76,7 +81,15 @@
     <Content Include="Ressources\FichierDeCasOK.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Ressources\png.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Ressources\SQLOK.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Ressources\pdf.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

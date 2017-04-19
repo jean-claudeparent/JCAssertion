@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016 Jean-Claude Parent 
+//  Copyright 2016,2017 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //

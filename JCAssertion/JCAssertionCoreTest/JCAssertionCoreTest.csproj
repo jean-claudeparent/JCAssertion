@@ -63,6 +63,7 @@
     <Compile Include="JCAVariableUnitTest1.cs" />
     <Compile Include="ExecuteCasTest.cs" />
     <Compile Include="JCAMAJVariablesUnitTest1.cs" />
+    <Compile Include="JCAXMLUT1.cs" />
     <Compile Include="LOB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLHelper.cs" />

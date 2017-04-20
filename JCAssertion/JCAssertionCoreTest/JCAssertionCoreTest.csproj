@@ -88,6 +88,9 @@
     <Content Include="Ressources\SQLOK.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Ressources\XML1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Ressources\pdf.pdf">

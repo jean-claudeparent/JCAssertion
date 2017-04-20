@@ -42,7 +42,8 @@ namespace JCAssertionCore
     {
         public bool XMLContient(String FichierXML,
             String Noeud,
-            String Operation,
+            String Attribut,
+            String Operateur,
             String Valeur)
             {
                 return false;

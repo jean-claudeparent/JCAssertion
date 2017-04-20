@@ -15,7 +15,17 @@ namespace JCAssertionCoreTest
         public void JCAXMLXMLContientOK()
         {
             JCAXML monJCAXML = new JCAssertionCore.JCAXML();
-             
+            String monFichierTest = Chemin + "XML1.xml";
+            Assert.IsTrue(System.IO.File.Exists(monFichierTest)); 
+            // Chercher un livre avec un titre précis
+            // Oberon's Legacy
+            
+            Assert.IsTrue (monJCAXML.XMLContient(monFichierTest,
+                "Title",null,
+                "B=",
+                "Oberon's Legacy"),
+                "Le titre n'a pas été trouvé");
+
             Assert.Fail("Pas encore implémenté");
         }
     }

@@ -20,11 +20,11 @@ namespace JCAssertionCoreTest
             // Chercher un livre avec un titre précis
             // Oberon's Legacy
             
-            Assert.IsTrue (monJCAXML.XMLContient(monFichierTest,
-                "Title",null,
-                "B=",
+            Assert.IsTrue (monJCAXML.XMLNoeudEgal (monFichierTest,
+                "Title",
                 "Oberon's Legacy"),
-                "Le titre n'a pas été trouvé");
+                "Le titre n'a pas été trouvé" +
+                Environment.NewLine + monJCAXML.DebugInfo  );
 
             Assert.Fail("Pas encore implémenté");
         }

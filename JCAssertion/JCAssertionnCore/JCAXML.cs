@@ -40,14 +40,76 @@ namespace JCAssertionCore
 {
     public class JCAXML
     {
-        public bool XMLContient(String FichierXML,
+
+        public String  DebugInfo = "";
+
+        /// <summary>
+        /// Recherche si il y a au moins un noeud xml
+        /// dont le contenu texte est égal 
+        /// à la valeur recherchée
+        /// </summary>
+        /// <param name="FichierXML">Chemin et nom du fichier
+        /// xml dans lequel on recherche</param>
+        /// <param name="Noeud">Balise xml 
+        /// à rechercher</param>
+        /// <param name="Valeur">Valeur recherchée</param>
+        /// <returns>True si trouvé false autrement</returns>
+        public bool XMLNoeudEgal(String FichierXML,
             String Noeud,
-            String Attribut,
-            String Operateur,
             String Valeur)
             {
-                return false;
-            }
+                XmlDocument monXML = new XmlDocument();
+                monXML.Load(FichierXML);
+                XmlElement monRoot = monXML.DocumentElement;
+                return XMLNoeudEgal(monRoot,
+                    Noeud , Valeur );
+                    
 
+                
+                
+            }
+        
+        
+        public bool XMLNoeudEgal(XmlNode monXMLElement,
+            String Noeud,
+            String Valeur)
+            {
+
+                DebugInfo = "Nom de l'élément : " +
+                    monXMLElement.Name;
+                
+                if (monXMLElement.GetType().ToString() != 
+                    "System.Xml.XmlElement")
+                    return false;
+
+                if ((monXMLElement.Name == Noeud) &&
+                    (monXMLElement.InnerText == Valeur))
+                    return true;
+
+                if (!monXMLElement.HasChildNodes)
+                    return false;
+
+            // traiter recursivememt 
+            // try {
+                DebugInfo = DebugInfo + " Juste avant foreach";
+                foreach (XmlNode  monEnfant in monXMLElement.ChildNodes)
+                    {
+                        DebugInfo = DebugInfo + " dans foreach";
+                        DebugInfo = "Nom de l'élément enfant:" + 
+                            monEnfant.Name + Environment .NewLine;
+                        if (monEnfant.GetType().ToString() ==
+                            "System.Xml.XmlElement")
+                            {
+                                if (XMLNoeudEgal(monEnfant,Noeud, Valeur  ))
+                                    return true;
+                            }
+                    }
+                //} catch (Exception excep) {
+                //    throw new Exception(" Erreur  : Info:" + DebugInfo + Environment.NewLine +
+                //         excep.Message,
+                //        excep);
+                //}
+                return false; 
+            }
     }
 }

@@ -12,19 +12,20 @@ namespace JCAssertionCoreTest
                 "Ressources\\";
 
         [TestMethod]
-        public void JCAXMLXMLContientOK()
+        public void JCAXMLAssertXPathOK()
         {
             JCAXML monJCAXML = new JCAssertionCore.JCAXML();
             String monFichierTest = Chemin + "XML1.xml";
             Assert.IsTrue(System.IO.File.Exists(monFichierTest)); 
-            // Chercher un livre avec un titre précis
-            // Oberon's Legacy
-            
-            Assert.IsTrue (monJCAXML.XMLNoeudEgal (monFichierTest,
-                "Title",
-                "Oberon's Legacy"),
-                "Le titre n'a pas été trouvé" +
-                Environment.NewLine + monJCAXML.DebugInfo  );
+            // Cas 1 il existe au moins un book
+
+            Int64 ResultatReel = 0;
+
+            Assert.IsTrue (monJCAXML.AssertXPath (monFichierTest,
+                "//book",
+                "pg", 0, ref  ResultatReel),
+                "Aucun livre (book) trouvé " +
+                ResultatReel.ToString()  );
 
             Assert.Fail("Pas encore implémenté");
         }

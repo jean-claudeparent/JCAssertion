@@ -79,6 +79,26 @@ namespace JCAssertionCore
                 { 
                     case "=":
                         return (ResultatReel == ResultatAttendu);
+                    case "PG":
+                        return (ResultatReel > ResultatAttendu);
+                    case "PP":
+                        return (ResultatReel < ResultatAttendu);
+                    case ">":
+                        return (ResultatReel > ResultatAttendu);
+                    case "<":
+                        return (ResultatReel < ResultatAttendu);
+                    case ">=":
+                        return (ResultatReel >= ResultatAttendu);
+                    case "<=":
+                        return (ResultatReel <= ResultatAttendu);
+                    case "PG=":
+                        return (ResultatReel >= ResultatAttendu);
+                    case "PP=":
+                        return (ResultatReel <= ResultatAttendu);
+                    case "!=":
+                        return (ResultatAttendu != ResultatReel);
+                    case "<>":
+                        return (ResultatAttendu != ResultatReel);
                     default :
                         throw new JCAssertionException(
                             "Pour une assertion XPath l'opérateur '" +

@@ -164,5 +164,28 @@ namespace JCAssertionCoreTest
 
             
         }
+
+        [TestMethod]
+        public void JCAXMLAssertXPathOK2()
+        {
+            JCAXML monJCAXML = new JCAssertionCore.JCAXML();
+            String monFichierTest = Chemin + "XML1.xml";
+            Assert.IsTrue(System.IO.File.Exists(monFichierTest)); 
+            // Cas 1 il existe au moins un book
+
+            Int64 ResultatReel = 0;
+            // Il y a plus de 0 livres publiés en 2009
+            // Operateur PG par défaut si pêrateur null
+            Assert.IsTrue (monJCAXML.AssertXPath (monFichierTest,
+                "//book/publish_date",
+                "PG" , 0 , ref  ResultatReel,
+                "2009"),
+                "Aucun livre publiés en 2009  (book) trouvé " +
+                ResultatReel.ToString()  );
+
+            Assert.Fail("Pas encore implémenté"); 
+
+        }
+
     }
 }

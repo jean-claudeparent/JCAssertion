@@ -60,21 +60,29 @@ namespace JCAssertionCore
             String XPath,
             String Operateur,
             Int64 ResultatAttendu,
-            ref Int64 ResultatReel)
+            ref Int64 ResultatReel,
+            String Recherche = null,
+            Boolean SensibleCase = true )
             {
+                if (Recherche == "")
+                    Recherche = null;
+
                 if (Operateur == null)
                     Operateur = "PG";
                 if (Operateur == "")
                     Operateur = "PG";
                 Operateur = Operateur.ToUpper();
-                if (ResultatAttendu == null)
-                    ResultatAttendu = 0;
+                
 
                 XmlDocument monXML = new XmlDocument();
                 monXML.Load(FichierXML);
                 
                 XmlNodeList maListe = monXML.SelectNodes(XPath );
-                ResultatReel = maListe.Count;
+                if (Recherche == null)
+                    ResultatReel = maListe.Count;
+                else
+                    ResultatReel = XMLRecherche(maListe,
+                        Recherche , SensibleCase );
                 switch  (Operateur) 
                 { 
                     case "=":
@@ -107,6 +115,15 @@ namespace JCAssertionCore
 
                     }
                 
+            }
+
+
+        private Int64 XMLRecherche(
+            XmlNodeList ListeNoeud,
+            String ChaineRecherche,
+            Boolean SensibleCase = true )
+            {
+                return 0;
             }
     }
 }

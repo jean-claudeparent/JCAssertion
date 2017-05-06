@@ -123,7 +123,22 @@ namespace JCAssertionCore
             String ChaineRecherche,
             Boolean SensibleCase = true )
             {
-                return 0;
+                Int64 Resultat = 0;
+                foreach (XmlElement  monNoeud in ListeNoeud)
+                    {
+                        
+                        if ((SensibleCase) && (
+                            monNoeud.InnerText.Contains(ChaineRecherche)))
+                            Resultat = Resultat + 1;
+                        else
+                            if ((!SensibleCase) && (
+                            monNoeud.InnerText.ToUpper().Contains(
+                            ChaineRecherche.ToUpper())))
+                                Resultat = Resultat + 1;
+
+                    }
+                
+                return Resultat;
             }
     }
 }

@@ -179,11 +179,54 @@ namespace JCAssertionCoreTest
             Assert.IsTrue (monJCAXML.AssertXPath (monFichierTest,
                 "//book/publish_date",
                 "PG" , 0 , ref  ResultatReel,
-                "2009"),
+                "2000"),
                 "Aucun livre publiés en 2009  (book) trouvé " +
                 ResultatReel.ToString()  );
+            
+            
+            // Trouver auteur partiel "Ralls"
+            Assert.IsTrue(monJCAXML.AssertXPath(monFichierTest,
+                "//book/author",
+                "=", 1, ref  ResultatReel,
+                "Rall"),
+                "Aucun livre avec l'auteur partiel  (book) trouvé " +
+                ResultatReel.ToString());
 
-            Assert.Fail("Pas encore implémenté"); 
+
+            // la case fait que l,on ne trouve rien
+            // Trouver auteur partiel "Ralls"avec valeur défaut de sensiblecase
+
+            Assert.IsTrue(monJCAXML.AssertXPath(monFichierTest,
+                "//book/author",
+                "=", 0, ref  ResultatReel,
+                "RALl"),
+                "Aucun livre avec l'auteur partiel  (book) n'aurait du être  trouvé " +
+                ResultatReel.ToString());
+
+            // la case fait que l,on ne trouve rien
+            // Trouver auteur partiel "Ralls"avec vaexplicite de sensiblecase
+
+            Assert.IsTrue(monJCAXML.AssertXPath(monFichierTest,
+                "//book/author",
+                "=", 0, ref  ResultatReel,
+                "RALl",
+                true ),
+                "Aucun livre avec l'auteur partiel  (book) n'aurait du être  trouvé " +
+                ResultatReel.ToString());
+
+            // la case ne compte plus et on trouve un livre
+            
+            Assert.IsTrue(monJCAXML.AssertXPath(monFichierTest,
+                "//book/author",
+                "=", 1, ref  ResultatReel,
+                "RALl",
+                false ),
+                "Aucun livre avec l'auteur partiel  (book) n'a été   trouvé " +
+                ResultatReel.ToString());
+
+
+
+             
 
         }
 

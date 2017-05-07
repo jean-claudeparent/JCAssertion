@@ -65,6 +65,9 @@ namespace JCAssertionCoreTest
         [TestMethod]
         public void AssertXPathExcepparxml()
         {
+            // todo pas de balise Fichier
+            // todo pas de balise Expression
+
             Assert.Fail("Pas encore implémenté");
         }
     }

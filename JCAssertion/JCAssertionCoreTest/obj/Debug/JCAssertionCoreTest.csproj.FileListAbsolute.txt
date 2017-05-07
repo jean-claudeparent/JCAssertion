@@ -22,3 +22,4 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debu
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAMiniCore.dll
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAMiniCore.pdb
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\XML1.xml
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\XML2.xml

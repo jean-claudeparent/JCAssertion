@@ -42,7 +42,7 @@ using JCAssertionCore;
 
 namespace JCAssertionCore
 {
-    public   class JCAPontXML
+    public partial    class JCAPontXML
     {
 
 
@@ -688,14 +688,7 @@ namespace JCAssertionCore
             return true;
         }
 
-        public bool JCAAssertXPath(XmlNode monXMLNode,
-            ref string Message,
-            ref  Dictionary<String, String> Variables,
-            ref string MessageEchec,
-            ref JCASQLClient monSQLClient)
-        {
-            return false;
-        }
+        
 
 
     }

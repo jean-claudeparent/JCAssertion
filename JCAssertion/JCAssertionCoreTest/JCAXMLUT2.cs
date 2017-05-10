@@ -44,12 +44,12 @@ namespace JCAssertionCoreTest
 
 
             monCas.InnerXml = "<Assertion>" +
-                   "<Type>AssertionXPath</Type>" +
+                   "<Type>AssertXPath</Type>" +
                    "<Fichier>{{monFichier}}xml</Fichier>" +
-                   "<Operateur>pg{monOperateur}}</Operateur>" +
+                   "<Operateur>pg{{monOperateur}}</Operateur>" +
                    "<Resultat>{{monResultat}}</Resultat>" +
-                   "<Expression>{monXPath}}ID</Expression>" +
-                   "<MessageEchec>{moMessageEchech}} ceci ne vient pas de la variable.</MessageEchec>" +
+                   "<Expression>{{monXPath}}ID</Expression>" +
+                   "<MessageEchec>{{moMessageEchech}} ceci ne vient pas de la variable.</MessageEchec>" +
                    "</Assertion>"; 
             
             Assert.IsTrue(monCore.ExecuteCas(monCas),
@@ -67,6 +67,7 @@ namespace JCAssertionCoreTest
         {
             // todo pas de balise Fichier
             // todo pas de balise Expression
+            // erreur de conversion en numerique de resultatattendu
 
             Assert.Fail("Pas encore implémenté");
         }

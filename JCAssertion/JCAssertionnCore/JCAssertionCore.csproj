@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="JCAConsole.cs" />
     <Compile Include="JCACore.cs" />
+    <Compile Include="JCAPontXML02.cs" />
     <Compile Include="JCASQLClient.cs" />
     <Compile Include="JCAPontXML.cs" />
     <Compile Include="JCAssertionException.cs" />

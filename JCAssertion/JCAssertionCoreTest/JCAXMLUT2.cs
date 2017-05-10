@@ -57,8 +57,25 @@ namespace JCAssertionCoreTest
                 monCore.Message + Environment.NewLine  +
                 monCore.MessageEchec);
 
+            Assert.IsTrue(monCore.Message.Contains(
+                "Assertion : 3 pg= 0") &&
+            monCore.Message.Contains("Expression XPath : //ID") &&
+            monCore.Message.Contains("Assertion AssertXPath") &&
+            monCore.Message.Contains("Fichier XML à traiter :") &&
+            monCore.Message.Contains("XML2.xml") &&
+           (!monCore.Message.Contains("ceci ne vient")),
+                "Mauvais contenu de Message : " + Environment.NewLine +
+                monCore.Message);  
 
 
+            // cas qui  fait une assertion fausse 
+            //  pour vérifier le messahe d'échec
+
+
+
+            // cas avec Contient
+
+            // cas avec ContientMaj
             Assert.Fail("Pas encore implémenté");
         }
 

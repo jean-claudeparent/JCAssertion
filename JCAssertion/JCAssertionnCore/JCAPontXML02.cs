@@ -128,6 +128,14 @@ namespace JCAssertionCore
                 Convert.ToString(ResultatReel) + " " +
                 monOperateur + " " +
                     Convert.ToString(monResultatAttendu)  ;
+            // ytaiter l'échec
+            if (! Resultat)
+                {
+                    MessageEchec = monMessageEchec;
+                    
+                }
+            Message = Message + Environment.NewLine;
+ 
 
             return Resultat;
         }

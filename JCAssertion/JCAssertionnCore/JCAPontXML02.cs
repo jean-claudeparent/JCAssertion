@@ -107,28 +107,55 @@ namespace JCAssertionCore
             String monExpression = ValeurBalise(monXMLNode, "Expression");
             monExpression = JCAVariable.SubstituerVariables(
                     monExpression, Variables);
-
+            // Traiter Contient et ContientMajus
+            bool monSensibleCase = true;
+            String monContient = "";
+            monContient = ValeurBalise(monXMLNode, "ContientMajus");
+            monContient = JCAVariable.SubstituerVariables(
+                    monContient, Variables);
+            if (monContient != "")
+                monSensibleCase = false;
+            else
+                {
+                    monContient = ValeurBalise(monXMLNode, "Contient");
+                    monContient = JCAVariable.SubstituerVariables(
+                            monContient, Variables);
+                }
             // Construire le message
             Message = Message + Environment.NewLine +
                 "Fichier XML à traiter : " + monFichier ;
             Message = Message + Environment.NewLine +
                 "Expression XPath : " + monExpression;
-            
+            if (monContient != "")
+                {
+                Message = Message + Environment.NewLine +
+                    "Chercher les noeuds qui contiennent : " +
+                    monContient + Environment.NewLine;
+                if (!monSensibleCase)
+                    Message = Message + 
+                        "Comparer en ne tenant pas compte des majuscules et minuscules";
+                }
             // appeler la métgode
             Int64 ResultatReel = 0;
             Boolean Resultat = false;
-
-            Resultat = monJCAXML.AssertXPath(monFichier ,
-                monExpression, monOperateur,
-                monResultatAttendu,ref ResultatReel  ); 
+            if (monContient == "")
+                Resultat = monJCAXML.AssertXPath(monFichier ,
+                    monExpression, monOperateur,
+                    monResultatAttendu,ref ResultatReel);
+            else
+                Resultat = monJCAXML.AssertXPath(monFichier,
+                    monExpression, monOperateur,
+                    monResultatAttendu, ref ResultatReel,
+                    monContient  ,monSensibleCase );
             
             // Finir le message
             Message = Message + Environment.NewLine +
                 "Assertion : " +
-                Convert.ToString(ResultatReel) + " " +
+                Convert.ToString(ResultatReel) + " (Réel) " +
                 monOperateur + " " +
-                    Convert.ToString(monResultatAttendu)  ;
-            // ytaiter l'échec
+                    Convert.ToString(monResultatAttendu) +
+                    " (Attendu)";
+            // traiter l'échec
             if (! Resultat)
                 {
                     MessageEchec = monMessageEchec;

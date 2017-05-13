@@ -8,7 +8,7 @@
   </Assertion>
   <Assertion>
     <ID>Si fichier existe cas 2</ID>
-    <Description>Ce cas est vrai car lefichier existe</Description>
+    <Description>Ce cas est vrai car lefichier existe(cas 2)</Description>
     <Type>FichierExiste</Type>
     <Fichier>{{Fichier}}fichierinexistant.pasla</Fichier>
   </Assertion>

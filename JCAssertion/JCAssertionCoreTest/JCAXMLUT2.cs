@@ -230,11 +230,118 @@ namespace JCAssertionCoreTest
         [TestMethod]
         public void AssertXPathExcepparxml()
         {
-            // todo pas de balise Fichier
-            // todo pas de balise Expression
-            // erreur de conversion en numerique de resultatattendu
+            JCACore monCore = new JCACore();
+            XmlDocument monCas = new XmlDocument();
 
-            Assert.Fail("Pas encore implémenté");
+
+            // pas de balise Fichier
+            monCas.InnerXml = "<Assertion>" +
+                   "<Type>AssertXPath</Type>" +
+                   "<Operateur>{{monOperateur}}</Operateur>" +
+                   "<ResultatAttendu>1</ResultatAttendu>" +
+                   "<Expression>{{monXPath}}Description</Expression>" +
+                   "<Contient>{{CONTIENT}} 2</Contient>" +
+                   "<MessageEchec>{{moMessageEchech}} ceci ne vient pas de la variable.</MessageEchec>" +
+                   "</Assertion>";
+            try {
+                Assert.IsTrue(monCore.ExecuteCas(monCas),
+                    "L'assertion aurait dûe être vraie. " +
+                    monCore.Message + Environment.NewLine +
+                    monCore.MessageEchec);
+                Assert.Fail("Une exception aurait dûe se produire");
+            } catch (Exception excep)
+                {
+                    Assert.IsTrue(
+                        excep.Message.Contains(
+                        "Le XML ne contient pas la balise Fichier"),
+                        "Mauvais contenu de message " +
+                        excep.Message  );  
+                }
+
+
+            // pas de balise Expression
+            monCas.InnerXml = "<Assertion>" +
+                   "<Type>AssertXPath</Type>" +
+                   "<Fichier>{{monFichier}}xml</Fichier>" +
+                   "<Operateur>{{monOperateur}}</Operateur>" +
+                   "<ResultatAttendu>1</ResultatAttendu>" +
+                   "<Contient>{{CONTIENT}} 2</Contient>" +
+                   "<MessageEchec>{{moMessageEchech}} ceci ne vient pas de la variable.</MessageEchec>" +
+                   "</Assertion>";
+
+            try
+            {
+                Assert.IsTrue(monCore.ExecuteCas(monCas),
+                    "L'assertion aurait dûe être vraie. " +
+                    monCore.Message + Environment.NewLine +
+                    monCore.MessageEchec);
+                Assert.Fail("Une exception aurait dûe se produire");
+            }
+            catch (Exception excep)
+            {
+                Assert.IsTrue(
+                    excep.Message.Contains(
+                    "Le XML ne contient pas la balise Expression"),
+                    "Mauvais contenu de message " +
+                    excep.Message);
+            }
+
+            // erreur de conversion en numerique de resultatattendu
+            monCas.InnerXml = "<Assertion>" +
+                   "<Type>AssertXPath</Type>" +
+                   "<Fichier>test.xml</Fichier>" +
+                   "<Operateur>{{monOperateur}}</Operateur>" +
+                   "<ResultatAttendu>Comment çava?</ResultatAttendu>" +
+                   "<Contient>CONTIENT0</Contient>" +
+                   "<Expression>//Description</Expression>" +
+                   "<MessageEchec>ceci ne vient pas de la variable.</MessageEchec>" +
+                   "</Assertion>";
+
+            try
+            {
+                Assert.IsTrue(monCore.ExecuteCas(monCas),
+                    "L'assertion aurait dûe être vraie. " +
+                    monCore.Message + Environment.NewLine +
+                    monCore.MessageEchec);
+                Assert.Fail("Une exception aurait dûe se produire");
+            }
+            catch (Exception excep)
+            {
+                Assert.IsTrue(
+                    excep.Message.Contains(
+                    "Impossible de convertir le résultat attendu 'Comment çava?' en un nombre"),
+                    "Mauvais contenu de message " +
+                    excep.Message);
+            }
+
+
+            // erreur de lecture de fichier
+
+            monCas.InnerXml = "<Assertion>" +
+                   "<Type>AssertXPath</Type>" +
+                   "<Fichier>dl:::test.xml</Fichier>" +
+                   "<Operateur>=</Operateur>" +
+                   "<Contient>CONTIENT0</Contient>" +
+                   "<Expression>//Description</Expression>" +
+                   "<MessageEchec>ceci ne vient pas de la variable.</MessageEchec>" +
+                   "</Assertion>";
+
+            try
+            {
+                Assert.IsTrue(monCore.ExecuteCas(monCas),
+                    "L'assertion aurait dûe être vraie. " +
+                    monCore.Message + Environment.NewLine +
+                    monCore.MessageEchec);
+                Assert.Fail("Une exception aurait dûe se produire");
+            }
+            catch (Exception excep)
+            {
+                Assert.IsTrue(
+                    excep.Message.Contains(
+                    "a"),
+                    "Mauvais contenu de message " +
+                    excep.Message);
+            }
         }
     }
 }

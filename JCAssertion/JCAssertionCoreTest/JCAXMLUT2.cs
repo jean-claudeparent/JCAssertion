@@ -58,7 +58,7 @@ namespace JCAssertionCoreTest
                 monCore.MessageEchec);
 
             Assert.IsTrue(monCore.Message.Contains(
-                "Assertion : 3 pg= 1") &&
+                "Assertion : 3 (Réel) pg= 1 (Attendu)") &&
             monCore.Message.Contains("Expression XPath : //ID") &&
             monCore.Message.Contains("Assertion AssertXPath") &&
             monCore.Message.Contains("Fichier XML à traiter :") &&
@@ -88,7 +88,7 @@ namespace JCAssertionCoreTest
                 monCore.MessageEchec);
 
             Assert.IsTrue(monCore.Message.Contains(
-                "Assertion : 3 = 111") &&
+                "Assertion : 3 (Réel) = 111 (Attendu)") &&
             monCore.Message.Contains("Expression XPath : //ID") &&
             monCore.Message.Contains("Assertion AssertXPath") &&
             monCore.Message.Contains("Fichier XML à traiter :") &&
@@ -198,12 +198,28 @@ namespace JCAssertionCoreTest
 
 
 
-           // cas 3 qio marche quand on ne tient pas
+           // cas 3 qui marche quand on ne tient pas
            //  compte de la case
+            monCas.InnerXml = "<Assertion>" +
+                   "<Type>AssertXPath</Type>" +
+                   "<Fichier>{{monFichier}}xml</Fichier>" +
+                   "<Operateur>=</Operateur>" +
+                   "<ResultatAttendu>1</ResultatAttendu>" +
+                   "<Expression>{{monXPath}}Description</Expression>" +
+                   "<ContientMajus>CAS 2</ContientMajus>" +
+                   "<MessageEchec>{{moMessageEchech}} ceci ne vient pas de la variable.</MessageEchec>" +
+                   "</Assertion>";
 
+            Assert.IsTrue(monCore.ExecuteCas(monCas),
+                "L'assertion aurait dûe être vraie. " +
+                monCore.Message + Environment.NewLine +
+                monCore.MessageEchec);
+
+            Assert.IsTrue(monCore.Message.Contains(
+                "Comparer en ne tenant pas compte des majuscules et minuscules"),
+                "Mauvais contenu de message " + monCore.Message );
            
-            Assert.Fail("Pas fini d'implémenter");  
-
+            
 
 
 

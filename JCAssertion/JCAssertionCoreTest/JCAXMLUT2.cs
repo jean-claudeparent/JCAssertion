@@ -127,7 +127,7 @@ namespace JCAssertionCoreTest
 
             monCore.Variables.MAJVariable(
                "moMessageEchech",
-               "Ceci est le mssahe d'échec provemamt d'une variable ");
+               "Ceci est le mssage d'échec provemamt d'une variable ");
 
 
 
@@ -150,12 +150,12 @@ namespace JCAssertionCoreTest
                 monCore.MessageEchec);
 
             Assert.IsTrue(monCore.Message.Contains(
-                "Assertion : 3 pg= 1") &&
-            monCore.Message.Contains("Expression XPath : //ID") &&
+                "Chercher les noeuds qui contiennent : cas 2") &&
+            monCore.Message.Contains("Expression XPath : /ListeDAssertion/Assertion/Description") &&
             monCore.Message.Contains("Assertion AssertXPath") &&
             monCore.Message.Contains("Fichier XML à traiter :") &&
-            monCore.Message.Contains("XML2.xml") &&
-           (!monCore.Message.Contains("ceci ne vient")),
+            monCore.Message.Contains("Assertion : 1 (Réel) = 1 (Attendu)") &&
+           (!monCore.Message.Contains("Comparer en ne tenant pas compte des majuscules et minuscules")),
                 "Cas 1 Mauvais contenu de Message : " + Environment.NewLine +
                 monCore.Message);
 
@@ -169,8 +169,9 @@ namespace JCAssertionCoreTest
                    "<Type>AssertXPath</Type>" +
                    "<Fichier>{{monFichier}}xml</Fichier>" +
                    "<Operateur>=</Operateur>" +
-                   "<ResultatAttendu>111</ResultatAttendu>" +
-                   "<Expression>{{monXPath}}ID</Expression>" +
+                   "<ResultatAttendu>1</ResultatAttendu>" +
+                   "<Expression>{{monXPath}}Description</Expression>" +
+                   "<Contient>CAS</Contient>" +
                    "<MessageEchec>{{moMessageEchech}} ceci ne vient pas de la variable.</MessageEchec>" +
                    "</Assertion>";
 
@@ -180,8 +181,9 @@ namespace JCAssertionCoreTest
                 monCore.MessageEchec);
 
             Assert.IsTrue(monCore.Message.Contains(
-                "Assertion : 3 = 111") &&
-            monCore.Message.Contains("Expression XPath : //ID") &&
+                "Assertion : 0 (Réel) = 1 (Attendu)") &&
+            monCore.Message.Contains(
+            "Chercher les noeuds qui contiennent : CAS") &&
             monCore.Message.Contains("Assertion AssertXPath") &&
             monCore.Message.Contains("Fichier XML à traiter :") &&
             monCore.Message.Contains("XML2.xml") &&
@@ -190,7 +192,7 @@ namespace JCAssertionCoreTest
                 monCore.Message);
 
             Assert.IsTrue(monCore.MessageEchec.Contains(
-                "Ceci est le mssahe d'échec provemamt d'une variable  ceci ne vient pas de la variable."),
+                "Ceci est le mssage d'échec provemamt d'une variable  ceci ne vient pas de la variable."),
                 "Cas 2 mauvais message d'échec : " +
                 Environment.NewLine + monCore.MessageEchec);
 

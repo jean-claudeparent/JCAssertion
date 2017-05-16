@@ -32,7 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
- 
+using JCAMC;
 using System.Threading.Tasks;
 using System.IO;
 using System.Data;
@@ -339,26 +339,30 @@ namespace JCASQLODPCore
                             throw new JCASQLODPException(
                             "Il n'y a aucune colonne identifiée par un alias BLOB ou CLOB dans la commande SQL");
                     }
+                String FichierCourant = "";
+
                     for (Int32 i = 1; (i <= (NBRangees)) 
                     && (NBRangees > 0); i++)
                 {
                     if (monDS.Tables[0].Rows[i - 1][monTypeLOB] != DBNull.Value   )
                         {
+                            FichierCourant = JCAMiniCore.NomValide( 
+                                monDS.Tables[0].Rows[i - 1][ColonneNomFichier].ToString());
                             NbFichierExportes = NbFichierExportes + 1;
                         ListeFichier = ListeFichier +
                         Chemin +
-                        monDS.Tables[0].Rows[i - 1][ColonneNomFichier] +
+                        FichierCourant +
                         Environment.NewLine  ;
                         if (monTypeLOB == "CLOB")
                             EcrireFichierTexte(
                             Chemin +
-                            monDS.Tables[0].Rows[i - 1][ColonneNomFichier],
+                            FichierCourant,
                             monDS.Tables[0].Rows[i - 1][monTypeLOB].ToString(),
                             TypeEncodage);
                         if (monTypeLOB == "BLOB")
                             EcrireFichierBinaire(
                             Chemin +
-                            monDS.Tables[0].Rows[i - 1][ColonneNomFichier],
+                            FichierCourant,
                             ConvertirByteArray (
                             monDS.Tables[0].Rows[i - 1][monTypeLOB]));
                         } // endif

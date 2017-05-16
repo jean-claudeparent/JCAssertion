@@ -10,3 +10,5 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\J
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCASQLODPCore.dll
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\Oracle.ManagedDataAccess.dll
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCASQLODPCore.pdb
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAMiniCore.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAMiniCore.pdb

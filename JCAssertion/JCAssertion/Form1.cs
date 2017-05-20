@@ -154,7 +154,8 @@ namespace JCAssertion
             if (Severe)
                 {
                     Message = Environment.NewLine + Texte;
-                    if ((Interactif) || (Avertir)) System.Windows.Forms.MessageBox.Show(Texte);
+                    if ((Interactif) || (Avertir))
+                        BackgroundThreadMessageBox( this  , Texte);
                       
                 }
         }
@@ -177,6 +178,24 @@ namespace JCAssertion
             }
         }
 
+        private DialogResult BackgroundThreadMessageBox(
+            IWin32Window owner, 
+            string text)
+        {
+
+            if (this.InvokeRequired)
+            {
+                return (DialogResult)this.Invoke(new
+          Func<DialogResult>(
+                                       () => 
+                                       { return MessageBox.Show(owner, text); }));
+
+            }
+            else
+            {
+                return MessageBox.Show(owner, text);
+            }
+        }
 
         public delegate void NAJtbxFAssertionCallBack(String Texte);
 

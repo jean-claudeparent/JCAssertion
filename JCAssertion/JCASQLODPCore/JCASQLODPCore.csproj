@@ -65,6 +65,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JCAMiniCore\JCAMiniCore.csproj">
+      <Project>{3ef8fad4-6536-4b2c-979c-e4279d66957d}</Project>
+      <Name>JCAMiniCore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

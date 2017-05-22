@@ -41,12 +41,14 @@
   <ItemGroup>
     <Compile Include="JCAConsole.cs" />
     <Compile Include="JCACore.cs" />
+    <Compile Include="JCAPontXML02.cs" />
     <Compile Include="JCASQLClient.cs" />
     <Compile Include="JCAPontXML.cs" />
     <Compile Include="JCAssertionException.cs" />
     <Compile Include="JCAUtilitaireFichier.cs" />
     <Compile Include="JCAUtilitaires.cs" />
     <Compile Include="JCAVariable.cs" />
+    <Compile Include="JCAXML.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

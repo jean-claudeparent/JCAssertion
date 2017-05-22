@@ -70,7 +70,7 @@ namespace JCAssertionCore
         /// </summary>
         public class Constantes
         {
-            public const String Version = "1.0.7";
+            public const String Version = "1.0.8";
 
         }
         
@@ -269,6 +269,16 @@ namespace JCAssertionCore
                                     ref  MessageEchec,
                                     ref monSQLClient);
                                 Journalise(Message);
+                                return Resultat;
+                            case "AssertXPath":
+                                Resultat = monPontXML.JCAAssertXPath
+                                    (XMLCas,
+                                    ref  Message,
+                                    ref  Variables.Variables,
+                                    ref  MessageEchec);
+                                Journalise(Message);
+                                if (!Resultat)
+                                    Journalise(MessageEchec );
                                 return Resultat;
                         default:
                             MessageAjoutter("Type inconnu");

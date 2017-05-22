@@ -306,7 +306,7 @@ namespace JCASQLODPCoreTest
             try
             {
                 monSQLClient.ExporteLOB(
-                    "select '::::idtest', typeblob as BLOB  from JCATest",
+                    "select '', typeblob as BLOB  from JCATest",
                     Chemin );
                 Assert.Fail(
                 "L'exception prévue n'est pas arrivée id = 1004");
@@ -499,6 +499,24 @@ namespace JCASQLODPCoreTest
                         Encoding.UTF8),
                         "Nauvais nombre de clob exportés"); 
 
+            // Test avec un select qui donne des caractères
+            // invalides dans un  nom de fichier
+            Menage(Chemin + "LOBUT1_2_&_;_____ [0].txt"); 
+            Assert.AreEqual(3,
+                monSQLClient.ExporteLOB(
+                        "select IDTEST||':&:;:|*\\\" [0].txt' , TYPECLOB AS CLOB " +
+                        " FROM JCATEST WHERE IDTEST LIKE 'LOBUT1_%'",
+                        Chemin,
+                        Encoding.UTF8),
+                        "Nauvais nombre de clob exportés");
+
+            Assert.IsTrue(System.IO.File.Exists(
+                Chemin + "LOBUT1_2_&_;_____ [0].txt")); 
+
+
+
+
+            
 
 
  

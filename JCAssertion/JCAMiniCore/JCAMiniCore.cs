@@ -60,6 +60,10 @@ namespace JCAMC
                 
             } // Encodage
 
+        /// <summary>
+        /// Efface un fichier s'il existe
+        /// </summary>
+        /// <param name="NomFichier">Nom du fichier à efface avec son chemin</param>
         public static void EffaceFichier(
             String NomFichier)
             {
@@ -67,6 +71,20 @@ namespace JCAMC
                     System.IO.File.Delete(NomFichier );   
             }
 
+        public static String NomValide(
+            String NomFichier) 
+            {
+                String Resultat = "";
+                Resultat = NomFichier.Replace(":","_");
+                Resultat = Resultat.Replace("*","_");
+                Resultat = Resultat.Replace("?", "_");
+                Resultat = Resultat.Replace("\\", "_");
+                Resultat = Resultat.Replace("\"", "_");
+                
+                Resultat = Resultat.Replace("|", "_");
+                
+                return Resultat; 
+            }
         
     } // class
 } // namespace

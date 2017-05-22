@@ -42,7 +42,7 @@ using JCAssertionCore;
 
 namespace JCAssertionCore
 {
-    public   class JCAPontXML
+    public partial    class JCAPontXML
     {
 
 
@@ -688,6 +688,7 @@ namespace JCAssertionCore
             return true;
         }
 
+        
 
 
     }

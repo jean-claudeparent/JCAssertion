@@ -55,6 +55,7 @@
     <Compile Include="CoreUnitTest.cs" />
     <Compile Include="ExtraireVariableUnitTest.cs" />
     <Compile Include="JCAConsoleUnitTest.cs" />
+    <Compile Include="JCAMiniCoreUT1.cs" />
     <Compile Include="JCAODPSQLClientUT1.cs" />
     <Compile Include="JCASQLAssertUT1.cs" />
     <Compile Include="JCASQLExecuteUT1.cs" />
@@ -80,6 +81,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Ressources\CompteFichiers\SousDossiers\TextFile1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressources\CompteFichiers\SousDossiers\TextFile2.xml.autre.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressources\CompteFichiers\SousDossiers\Txmlminuscules.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressources\CompteFichiers\SousDossiers\xmlFile2.XML">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressources\CompteFichiers\TextFile1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Ressources\FichierDeCasOK.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

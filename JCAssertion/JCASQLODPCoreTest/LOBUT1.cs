@@ -487,8 +487,8 @@ namespace JCASQLODPCoreTest
 
             Assert.IsTrue(
               UtilitairesUT.FichierBinairePareils(FichierBLOB,
-              Chemin + "LOBUT1_3.pdf"),
-              "LOBUT3_1.pdf a été altéré ");
+              Chemin + "LOBUT1_3.JPG"),
+              "LOBUT1_3.jpg a été altéré ");
 
             // test avec un select qui ne retourne aucune rangée
             Assert.AreEqual(0,

@@ -85,6 +85,21 @@ namespace JCAMC
                 
                 return Resultat; 
             }
+
+        public static Int64 CompteFichiers(
+            String Repertoire,
+            String  Pattern = "*.*")
+            {
+                if(System.IO.Directory.Exists(Repertoire ))
+                    {
+                        return 
+                            Directory.GetFiles(
+                            Repertoire, Pattern  , 
+                            SearchOption.AllDirectories).Length;;
+                    }
+            else
+                return 0;
+            }
         
     } // class
 } // namespace

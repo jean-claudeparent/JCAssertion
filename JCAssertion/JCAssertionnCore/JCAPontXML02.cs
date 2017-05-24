@@ -44,7 +44,17 @@ namespace JCAssertionCore
     {
         JCAXML monJCAXML = new JCAXML();
 
-        
+        /// <summary>
+        /// Évalue une assertion basée
+        /// sur la sélection de noeuds dans un document xml.
+        /// Les noeuds sont choisis avec une expression XPath
+        /// et optionnellement avec une recherche  de texte
+        /// </summary>
+        /// <param name="monXMLNode">Assertion définie dans un ocument xml</param>
+        /// <param name="Message">Message donnant de l'information sur le traitement de l'assertion</param>
+        /// <param name="Variables">Dictionnaire de variables et leur valeurs</param>
+        /// <param name="MessageEchec">Message donnant de l'information lorsuqe l'assertion est fausse</param>
+        /// <returns>Si l'assertion est vraie ou fausse</returns>
         public bool JCAAssertXPath(XmlNode monXMLNode,
             ref string Message,
             ref  Dictionary<String, String> Variables,
@@ -166,6 +176,130 @@ namespace JCAssertionCore
 
             return Resultat;
         }
+
+        public bool JCACompteFichiers(XmlNode monXMLNode,
+            ref string Message,
+            ref  Dictionary<String, String> Variables,
+            ref string MessageEchec)
+        {
+            Message = "Assertion AssertXPath" +
+                Environment.NewLine;
+
+            MessageEchec = "";
+
+            if (monXMLNode == null)
+                throw new JCAssertionException("Le XML est vide.");
+            ValideBalise(monXMLNode, "Fichier");
+            ValideBalise(monXMLNode, "Expression");
+            // Valeur par défaut pour le résultat attendu
+
+
+            Int64 monResultatAttendu = 0;
+
+            // Continuer le traitement
+            // Message d'échec
+            String monMessageEchec = ValeurBalise(monXMLNode, "MessageEchec");
+            monMessageEchec = JCAVariable.SubstituerVariables(
+                    monMessageEchec, Variables);
+
+            // Fichier
+            String monFichier = ValeurBalise(monXMLNode, "Fichier");
+            monFichier = JCAVariable.SubstituerVariables(
+                    monFichier, Variables);
+            if (monFichier == "")
+                throw new JCAssertionException("Le fichier n'a pa été spécifié corrrectemeent");
+
+            // Resu;tat Attendu
+            String monResultatStr = ValeurBalise(monXMLNode, "ResultatAttendu");
+            monResultatStr = JCAVariable.SubstituerVariables(
+                    monResultatStr, Variables);
+            if (monResultatStr == "")
+                monResultatStr = "0";
+            try
+            {
+                monResultatAttendu = Convert.ToInt64(monResultatStr);
+
+            }
+            catch (Exception excep)
+            {
+                MessageEchec = "";
+                throw new JCAssertionException(
+                    "Impossible de convertir le " +
+                "résultat attendu '" +
+                monResultatStr +
+                "' en un nombre. Détail: " +
+                excep.Message);
+            }
+            // Operateur
+            String monOperateur = ValeurBalise(monXMLNode, "Operateur");
+            monOperateur = JCAVariable.SubstituerVariables(
+                    monOperateur, Variables);
+            if (monOperateur == "")
+                monOperateur = "PG";
+            // Expression
+            String monExpression = ValeurBalise(monXMLNode, "Expression");
+            monExpression = JCAVariable.SubstituerVariables(
+                    monExpression, Variables);
+            // Traiter Contient et ContientMajus
+            bool monSensibleCase = true;
+            String monContient = "";
+            monContient = ValeurBalise(monXMLNode, "ContientMajus");
+            monContient = JCAVariable.SubstituerVariables(
+                    monContient, Variables);
+            if (monContient != "")
+                monSensibleCase = false;
+            else
+            {
+                monContient = ValeurBalise(monXMLNode, "Contient");
+                monContient = JCAVariable.SubstituerVariables(
+                        monContient, Variables);
+            }
+            // Construire le message
+            Message = Message + Environment.NewLine +
+                "Fichier XML à traiter : " + monFichier;
+            Message = Message + Environment.NewLine +
+                "Expression XPath : " + monExpression;
+            if (monContient != "")
+            {
+                Message = Message + Environment.NewLine +
+                    "Chercher les noeuds qui contiennent : " +
+                    monContient + Environment.NewLine;
+                if (!monSensibleCase)
+                    Message = Message +
+                        "Comparer en ne tenant pas compte des majuscules et minuscules";
+            }
+            // appeler la métgode
+            Int64 ResultatReel = 0;
+            Boolean Resultat = false;
+            if (monContient == "")
+                Resultat = monJCAXML.AssertXPath(monFichier,
+                    monExpression, monOperateur,
+                    monResultatAttendu, ref ResultatReel);
+            else
+                Resultat = monJCAXML.AssertXPath(monFichier,
+                    monExpression, monOperateur,
+                    monResultatAttendu, ref ResultatReel,
+                    monContient, monSensibleCase);
+
+            // Finir le message
+            Message = Message + Environment.NewLine +
+                "Assertion : " +
+                Convert.ToString(ResultatReel) + " (Réel) " +
+                monOperateur + " " +
+                    Convert.ToString(monResultatAttendu) +
+                    " (Attendu)";
+            // traiter l'échec
+            if (!Resultat)
+            {
+                MessageEchec = monMessageEchec;
+
+            }
+            Message = Message + Environment.NewLine;
+
+
+            return Resultat;
+        }
+
 
 
         /// <summary>

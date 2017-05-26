@@ -52,6 +52,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JCAMiniCore\JCAMiniCore.csproj">
+      <Project>{3ef8fad4-6536-4b2c-979c-e4279d66957d}</Project>
+      <Name>JCAMiniCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JCASQLODPCore\JCASQLODPCore.csproj">
       <Project>{3e6da294-1737-4eaa-affe-85fc3e1cb136}</Project>
       <Name>JCASQLODPCore</Name>

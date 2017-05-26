@@ -35,6 +35,7 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using JCAssertionCore;
+using JCAMC;
 
 
 
@@ -182,15 +183,14 @@ namespace JCAssertionCore
             ref  Dictionary<String, String> Variables,
             ref string MessageEchec)
         {
-            Message = "Assertion AssertXPath" +
+            Message = "Assertion CompteFichiers" +
                 Environment.NewLine;
 
             MessageEchec = "";
 
             if (monXMLNode == null)
                 throw new JCAssertionException("Le XML est vide.");
-            ValideBalise(monXMLNode, "Fichier");
-            ValideBalise(monXMLNode, "Expression");
+            ValideBalise(monXMLNode, "Repertoire");
             // Valeur par défaut pour le résultat attendu
 
 
@@ -202,12 +202,12 @@ namespace JCAssertionCore
             monMessageEchec = JCAVariable.SubstituerVariables(
                     monMessageEchec, Variables);
 
-            // Fichier
-            String monFichier = ValeurBalise(monXMLNode, "Fichier");
-            monFichier = JCAVariable.SubstituerVariables(
-                    monFichier, Variables);
-            if (monFichier == "")
-                throw new JCAssertionException("Le fichier n'a pa été spécifié corrrectemeent");
+            // Repertoire
+            String monRepertoire = ValeurBalise(monXMLNode, "Repertoire");
+            monRepertoire = JCAVariable.SubstituerVariables(
+                    monRepertoire, Variables);
+            if (monRepertoire == "")
+                throw new JCAssertionException("Le répertoire n'a pa été spécifié correctement");
 
             // Resu;tat Attendu
             String monResultatStr = ValeurBalise(monXMLNode, "ResultatAttendu");
@@ -236,50 +236,16 @@ namespace JCAssertionCore
                     monOperateur, Variables);
             if (monOperateur == "")
                 monOperateur = "PG";
-            // Expression
-            String monExpression = ValeurBalise(monXMLNode, "Expression");
-            monExpression = JCAVariable.SubstituerVariables(
-                    monExpression, Variables);
-            // Traiter Contient et ContientMajus
-            bool monSensibleCase = true;
-            String monContient = "";
-            monContient = ValeurBalise(monXMLNode, "ContientMajus");
-            monContient = JCAVariable.SubstituerVariables(
-                    monContient, Variables);
-            if (monContient != "")
-                monSensibleCase = false;
-            else
-            {
-                monContient = ValeurBalise(monXMLNode, "Contient");
-                monContient = JCAVariable.SubstituerVariables(
-                        monContient, Variables);
-            }
+                
             // Construire le message
             Message = Message + Environment.NewLine +
-                "Fichier XML à traiter : " + monFichier;
-            Message = Message + Environment.NewLine +
-                "Expression XPath : " + monExpression;
-            if (monContient != "")
-            {
-                Message = Message + Environment.NewLine +
-                    "Chercher les noeuds qui contiennent : " +
-                    monContient + Environment.NewLine;
-                if (!monSensibleCase)
-                    Message = Message +
-                        "Comparer en ne tenant pas compte des majuscules et minuscules";
-            }
+                "Réopertoire à traiter : " + monRepertoire;
+            
             // appeler la métgode
             Int64 ResultatReel = 0;
             Boolean Resultat = false;
-            if (monContient == "")
-                Resultat = monJCAXML.AssertXPath(monFichier,
-                    monExpression, monOperateur,
-                    monResultatAttendu, ref ResultatReel);
-            else
-                Resultat = monJCAXML.AssertXPath(monFichier,
-                    monExpression, monOperateur,
-                    monResultatAttendu, ref ResultatReel,
-                    monContient, monSensibleCase);
+            ResultatReel = JCAMiniCore.CompteFichiers(monRepertoire)  ;
+
 
             // Finir le message
             Message = Message + Environment.NewLine +
@@ -300,15 +266,24 @@ namespace JCAssertionCore
             return Resultat;
         }
 
+        public Boolean AssertCF(
+            String Repertoire,
+            String Patterm,
+            String Operateur,
+            Int64 ResultatAttendu,
+            ref Int64 ResultatReel)
+            {
+                ResultatReel =
+                    JCAMiniCore.CompteFichiers(
+                    Repertoire, Patterm  ); 
 
 
-        /// <summary>
-        /// Retourne le texte d'une balise XML
-        /// ou une chaîne vide si on ne trouve pas la balise
-        /// </summary>
-        /// <param name="monXMLNode">Un document xml ou une autre structure XML qui peuut contenir la balise recherchée</param>
-        /// <param name="maBalise">Balise à rechercher</param>
-        /// <returns>La valeur de la balise ou ""</returns>
+                return false; 
+            }
 
+
+
+
+               
     }
 }

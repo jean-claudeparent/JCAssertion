@@ -280,6 +280,17 @@ namespace JCAssertionCore
                                 if (!Resultat)
                                     Journalise(MessageEchec );
                                 return Resultat;
+                            case "CompteFichiers":
+                                Resultat = monPontXML.JCACompteFichiers
+                                    (XMLCas,
+                                    ref  Message,
+                                    ref  Variables.Variables,
+                                    ref  MessageEchec);
+                                Journalise(Message);
+                                if (!Resultat)
+                                    Journalise(MessageEchec);
+                                return Resultat;
+                        
                         default:
                             MessageAjoutter("Type inconnu");
                             MessageEchec =

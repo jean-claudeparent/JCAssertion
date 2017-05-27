@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JCACompare.cs" />
     <Compile Include="JCAConsole.cs" />
     <Compile Include="JCACore.cs" />
     <Compile Include="JCAPontXML02.cs" />

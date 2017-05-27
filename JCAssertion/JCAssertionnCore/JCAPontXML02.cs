@@ -44,6 +44,7 @@ namespace JCAssertionCore
     public partial class JCAPontXML
     {
         JCAXML monJCAXML = new JCAXML();
+        JCACompare monCompare = new JCACompare(); 
 
         /// <summary>
         /// Évalue une assertion basée
@@ -230,6 +231,13 @@ namespace JCAssertionCore
                 "' en un nombre. Détail: " +
                 excep.Message);
             }
+            // traiter pattern
+            String monPattern = TraiterBalise(
+            monXMLNode,
+            "Pattern",
+            Variables,
+            "*.*");
+
             // Operateur
             String monOperateur = ValeurBalise(monXMLNode, "Operateur");
             monOperateur = JCAVariable.SubstituerVariables(
@@ -239,13 +247,17 @@ namespace JCAssertionCore
                 
             // Construire le message
             Message = Message + Environment.NewLine +
-                "Réopertoire à traiter : " + monRepertoire;
+                "Répertoire à traiter : " + monRepertoire;
             
-            // appeler la métgode
+            // appeler la méthode
             Int64 ResultatReel = 0;
             Boolean Resultat = false;
-            ResultatReel = JCAMiniCore.CompteFichiers(monRepertoire)  ;
-
+            Resultat =  AssertCF(
+            monRepertoire,
+            monPattern,
+            monOperateur,
+            monResultatAttendu,
+            ref ResultatReel);
 
             // Finir le message
             Message = Message + Environment.NewLine +
@@ -275,11 +287,56 @@ namespace JCAssertionCore
             {
                 ResultatReel =
                     JCAMiniCore.CompteFichiers(
-                    Repertoire, Patterm  ); 
+                    Repertoire, Patterm  );
 
-
-                return false; 
+                Boolean Resultat =
+                    monCompare.Compare(
+                    ResultatAttendu,
+                    Operateur,
+                    ResultatAttendu);
+                return Resultat; 
             }
+
+
+        /// <summary>
+        /// Retourne la valeur d'une balise
+        /// avec substitutionde variables
+        /// Optionnellement initialise avec une valeur
+        /// par défaut et fait des validations
+        /// </summary>
+        /// <param name="xmlNode">XML d'où extraire la valeur de la balise</param>
+        /// <param name="Balise">Balise à extraire</param>
+        /// <param name="Variables">Dictionnaire de variables pour ébventuellementcompléter la valeur</param>
+        /// <param name="ValeurParDefaut">Valeur par défaut si la balise est vide ou inexistante</param>
+        /// <param name="Obligatoire">Indique de faire un exception si la balise n'est pas dans le xml</param>
+        /// <param name="ExceptionSiVide">Indique de faire une exception  si la baleur trouvée est une cha¸ine vide</param>
+        /// <returns>Valeur de la balise</returns>
+        public String TraiterBalise (
+            XmlNode  xmlNode,
+            String Balise,
+            Dictionary<String, String> Variables,
+            String ValeurParDefaut = "",
+            Boolean Obligatoire = false ,
+            Boolean ExceptionSiVide = false 
+            )
+            {
+                if (Obligatoire)
+                    ValideBalise(xmlNode, Balise);
+ 
+            String Resultat = ValeurBalise(xmlNode , Balise);
+            Resultat  = JCAVariable.SubstituerVariables(
+                    Resultat , Variables);
+            if ((Resultat  == "") &&
+                (ExceptionSiVide))
+                throw new JCAssertionException(
+                    "La balise <" +
+                    Balise +
+              "> n'a pa été spécifié correctement");
+            if (Resultat == "")
+                Resultat = ValeurParDefaut;
+            
+            return Resultat;     
+        }
 
 
 

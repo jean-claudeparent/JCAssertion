@@ -40,12 +40,12 @@ namespace JCAssertionCoreTest
                    "<Repertoire>{{monRepertoire}}CompteFichiers</Repertoire>" +
                    "<Operateur>pg{{monOperateur}}</Operateur>" +
                    "<ResultatAttendu>{{monResultat}}</ResultatAttendu>" +
-                   "<Expression>{{monXPath}}ID</Expression>" +
                    "<MessageEchec>{{moMessageEchech}} ceci ne vient pas de la variable.</MessageEchec>" +
                    "</Assertion>";
 
             Assert.IsTrue(monCore.ExecuteCas(monCas),
                 "L'assertion aurait dûe être vraie. " +
+                Environment.NewLine +
                 monCore.Message + Environment.NewLine +
                 monCore.MessageEchec);
 

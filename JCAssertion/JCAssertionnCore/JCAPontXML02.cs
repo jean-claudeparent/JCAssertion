@@ -247,7 +247,10 @@ namespace JCAssertionCore
                 
             // Construire le message
             Message = Message + Environment.NewLine +
-                "Répertoire à traiter : " + monRepertoire;
+                "Répertoire à traiter : " + monRepertoire +
+                Environment.NewLine +
+                "Pattern des fichiers à compter : "+
+                monPattern ;
             
             // appeler la méthode
             Int64 ResultatReel = 0;
@@ -265,7 +268,8 @@ namespace JCAssertionCore
                 Convert.ToString(ResultatReel) + " (Réel) " +
                 monOperateur + " " +
                     Convert.ToString(monResultatAttendu) +
-                    " (Attendu)";
+                    " (Attendu)" +
+                    Environment.NewLine  ;
             // traiter l'échec
             if (!Resultat)
             {
@@ -278,6 +282,16 @@ namespace JCAssertionCore
             return Resultat;
         }
 
+        /// <summary>
+        /// Évalue une assertion sur le nombre de fichiers
+        /// comptés dans un répertoire
+        /// </summary>
+        /// <param name="Repertoire">Répertoire où compter les fichiers</param>
+        /// <param name="Patterm">Pattern des fichiers à compter, par exemple "*.xml"</param>
+        /// <param name="Operateur">Operateur de comparaison entre le résultat réel des fichiers comptés et le résultat attendu, par exemple pg pour plus grand</param>
+        /// <param name="ResultatAttendu">Résultat à comparer au résultat réel avec l'opérateur</param>
+        /// <param name="ResultatReel">Retourne le nombre de fichiers comptés avec le pattern</param>
+        /// <returns>Si l'assertion est vraie ou fausse</returns>
         public Boolean AssertCF(
             String Repertoire,
             String Patterm,
@@ -291,7 +305,7 @@ namespace JCAssertionCore
 
                 Boolean Resultat =
                     monCompare.Compare(
-                    ResultatAttendu,
+                    ResultatReel,
                     Operateur,
                     ResultatAttendu);
                 return Resultat; 

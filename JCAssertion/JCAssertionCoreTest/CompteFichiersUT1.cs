@@ -50,11 +50,14 @@ namespace JCAssertionCoreTest
                 monCore.MessageEchec);
 
             Assert.IsTrue(monCore.Message.Contains(
-                "Assertion : 3 (Réel) pg= 1 (Attendu)") &&
-            monCore.Message.Contains("Expression XPath : //ID") &&
-            monCore.Message.Contains("Assertion AssertXPath") &&
-            monCore.Message.Contains("Fichier XML à traiter :") &&
-            monCore.Message.Contains("XML2.xml") &&
+                "Assertion : 5 (Réel) pg= 1 (Attendu)") &&
+            monCore.Message.Contains(
+            "Assertion CompteFichiers") &&
+            monCore.Message.Contains(
+            "Répertoire à traiter :") &&
+            monCore.Message.Contains(
+            "Pattern des fichiers à compter : *.*") &&
+            monCore.Message.Contains("\\CompteFichiers") &&
            (!monCore.Message.Contains("ceci ne vient")),
                 "Cas 1 Mauvais contenu de Message : " + Environment.NewLine +
                 monCore.Message);

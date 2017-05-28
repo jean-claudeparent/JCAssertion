@@ -69,11 +69,10 @@ namespace JCAssertionCoreTest
 
 
             monCas.InnerXml = "<Assertion>" +
-                   "<Type>AssertXPath</Type>" +
-                   "<Fichier>{{monFichier}}xml</Fichier>" +
+                   "<Type>CompteFichiers</Type>" +
+                   "<Repertoire>{{monRepertoire}}CompteFichiers</Repertoire>" +
                    "<Operateur>=</Operateur>" +
-                   "<ResultatAttendu>111</ResultatAttendu>" +
-                   "<Expression>{{monXPath}}ID</Expression>" +
+                   "<ResultatAttendu>{{monResultat}}1111</ResultatAttendu>" +
                    "<MessageEchec>{{moMessageEchech}} ceci ne vient pas de la variable.</MessageEchec>" +
                    "</Assertion>";
 
@@ -83,22 +82,19 @@ namespace JCAssertionCoreTest
                 monCore.MessageEchec);
 
             Assert.IsTrue(monCore.Message.Contains(
-                "Assertion : 3 (Réel) = 111 (Attendu)") &&
-            monCore.Message.Contains("Expression XPath : //ID") &&
-            monCore.Message.Contains("Assertion AssertXPath") &&
-            monCore.Message.Contains("Fichier XML à traiter :") &&
-            monCore.Message.Contains("XML2.xml") &&
-           (!monCore.Message.Contains("ceci ne vient")),
+                "Assertion : 5 (Réel) = 11111 (Attendu)") &&
+            !monCore.Message.Contains(
+            "ceci ne vient"),
                 "Cas 2 Mauvais contenu de Message : " + Environment.NewLine +
                 monCore.Message);
 
             Assert.IsTrue(monCore.MessageEchec.Contains(
-                "Ceci est le mssahe d'échec provemamt d'une variable  ceci ne vient pas de la variable."),
+                "Ceci est le mssage d'échec provemamt d'une variable  ceci ne vient pas de la variable."),
                 "Cas 2 mauvais message d'échec : " +
                 Environment.NewLine + monCore.MessageEchec);
 
 
-            Assert.Fail("Pas encore implémenté");
+            
 
 
         }

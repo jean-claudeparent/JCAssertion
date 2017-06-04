@@ -191,7 +191,7 @@ namespace JCAssertionCore
 
             if (monXMLNode == null)
                 throw new JCAssertionException("Le XML est vide.");
-            ValideBalise(monXMLNode, "Repertoire");
+            //ValideBalise(monXMLNode, "Repertoire");
             // Valeur par défaut pour le résultat attendu
 
 
@@ -204,12 +204,14 @@ namespace JCAssertionCore
                     monMessageEchec, Variables);
 
             // Repertoire
-            String monRepertoire = ValeurBalise(monXMLNode, "Repertoire");
+            String monRepertoire = TraiterBalise(
+                monXMLNode, "Repertoire",
+                Variables,
+                "",
+                true, true);
             monRepertoire = JCAVariable.SubstituerVariables(
                     monRepertoire, Variables);
-            if (monRepertoire == "")
-                throw new JCAssertionException("Le répertoire n'a pa été spécifié correctement");
-
+            
             // Resu;tat Attendu
             String monResultatStr = ValeurBalise(monXMLNode, "ResultatAttendu");
             monResultatStr = JCAVariable.SubstituerVariables(

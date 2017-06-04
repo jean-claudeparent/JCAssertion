@@ -99,5 +99,54 @@ namespace JCAssertionCoreTest
 
         }
 
+
+        [TestMethod]
+        public void CompteFichiersparxmlexcep()
+        {
+            JCACore monCore = new JCACore();
+            XmlDocument monCas = new XmlDocument();
+            // La méthoode ExecuteCas traite
+            // lres exception comme des échecs
+
+            // Pas de balise répertoire
+
+            monCas.InnerXml = "<Assertion>" +
+                   "<Type>CompteFichiers</Type>" +
+                   "<Operateur>pg{{monOperateur}}</Operateur>" +
+                   "<ResultatAttendu>{{monResultat}}</ResultatAttendu>" +
+                   "<MessageEchec>ceci ne vient pas de la variable.</MessageEchec>" +
+                   "</Assertion>";
+
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "L'assertion arait due etre fausse");
+            Assert.IsTrue(monCore.Message.Contains(
+                "XML ne contient pas la balise Repertoire"),
+                "Nauvais message " +
+                monCore.Message  );  
+            
+            
+            // balise répertoire existe mais vide
+
+            monCas.InnerXml = "<Assertion>" +
+                   "<Type>CompteFichiers</Type>" +
+                   "<Repertoire>{{monRepertoire}}CompteFichiers</Repertoire>" +
+                   "<Operateur>pg{{monOperateur}}</Operateur>" +
+                   "<ResultatAttendu>{{monResultat}}</ResultatAttendu>" +
+                   "<MessageEchec>{{moMessageEchech}} ceci ne vient pas de la variable.</MessageEchec>" +
+                   "</Assertion>";
+
+            
+            // pêrateur invalide
+
+            // Resultat attendunonconvertissable en entier
+
+            // Resultat attendu décimal
+
+            // Pattern invalide "LLL:::"
+
+
+            Assert.Fail("Pas encore implémenté"); 
+        }
+
     }
 }

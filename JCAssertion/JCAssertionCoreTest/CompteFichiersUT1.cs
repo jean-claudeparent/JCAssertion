@@ -122,22 +122,59 @@ namespace JCAssertionCoreTest
             Assert.IsTrue(monCore.Message.Contains(
                 "XML ne contient pas la balise Repertoire"),
                 "Nauvais message " +
-                monCore.Message  );  
+                monCore.Message  );
+
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "XML ne contient pas la balise Repertoire"),
+                "Nauvais message " +
+                monCore.MessageEchec);
+              
             
             
             // balise répertoire existe mais vide
 
             monCas.InnerXml = "<Assertion>" +
                    "<Type>CompteFichiers</Type>" +
-                   "<Repertoire>{{monRepertoire}}CompteFichiers</Repertoire>" +
+                   "<Repertoire></Repertoire>" +
                    "<Operateur>pg{{monOperateur}}</Operateur>" +
                    "<ResultatAttendu>{{monResultat}}</ResultatAttendu>" +
-                   "<MessageEchec>{{moMessageEchech}} ceci ne vient pas de la variable.</MessageEchec>" +
+                   "<MessageEchec>{moMessageEchech} ceci ne vient pas de la variable.</MessageEchec>" +
                    "</Assertion>";
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "L'assertion arait due etre fausse");
+            Assert.IsTrue(monCore.Message.Contains(
+                "La balise Repertoire est vide"),
+                "Nauvais message " +
+                monCore.Message);
 
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "La balise Repertoire est vide"),
+                "Nauvais message " +
+                monCore.MessageEchec);
+              
             
-            // pêrateur invalide
+            // Opêrateur invalide
 
+            monCas.InnerXml = "<Assertion>" +
+                   "<Type>CompteFichiers</Type>" +
+                   "<Repertoire>12</Repertoire>" +
+                   "<Operateur>pgx}}</Operateur>" +
+                   "<ResultatAttendu>12</ResultatAttendu>" +
+                   "<MessageEchec>{moMessageEchech} ceci ne vient pas de la variable.</MessageEchec>" +
+                   "</Assertion>";
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "L'assertion arait due etre fausse");
+            Assert.IsTrue(monCore.Message.Contains(
+                "Pour cette comparaison l'opérateur 'PGX}}' n'est pas un opérateur valide"),
+                "Nauvais message " +
+                monCore.Message);
+
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "Pour cette comparaison l'opérateur 'PGX}}' n'est pas un opérateur valide"),
+                "Nauvais message " +
+                monCore.MessageEchec);
+              
+            
             // Resultat attendunonconvertissable en entier
 
             // Resultat attendu décimal

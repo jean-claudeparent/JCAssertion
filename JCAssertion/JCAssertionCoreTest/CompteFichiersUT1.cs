@@ -176,13 +176,61 @@ namespace JCAssertionCoreTest
               
             
             // Resultat attendunonconvertissable en entier
+            monCas.InnerXml = "<Assertion>" +
+                   "<Type>CompteFichiers</Type>" +
+                   "<Repertoire>12</Repertoire>" +
+                   "<Operateur>=</Operateur>" +
+                   "<ResultatAttendu>xux</ResultatAttendu>" +
+                   "<MessageEchec>{moMessageEchech} ceci ne vient pas de la variable.</MessageEchec>" +
+                   "</Assertion>";
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "L'assertion arait due etre fausse");
+            Assert.IsTrue(monCore.Message.Contains(
+                "Impossible de convertir le résultat attendu 'xux' en un nombre"),
+                "Nauvais message " +
+                monCore.Message);
 
-            // Resultat attendu décimal
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "Impossible de convertir le résultat attendu 'xux' en un nombre"),
+                "Nauvais message " +
+                monCore.MessageEchec);
+              
+            
 
+            
             // Pattern invalide "LLL:::"
+            // Produit une exception qui n'est pas une JCAssertionException
 
+            monCas.InnerXml = "<Assertion>" +
+                   "<Type>CompteFichiers</Type>" +
+                   "<Repertoire>" +
+                   Chemin +  "</Repertoire>" +
+                   "<Operateur>=</Operateur>" +
+                   "<ResultatAttendu>1012</ResultatAttendu>" +
+                   "<Pattern>LLL:::</Pattern>" +
+                   "<MessageEchec>{moMessageEchech} ceci ne vient pas de la variable.</MessageEchec>" +
+                   "</Assertion>";
+            try {
+                Assert.IsFalse(monCore.ExecuteCas(monCas),
+                    "L'assertion arait due etre fausse");
+                Assert.Fail("Une exception aurait du se produire");
+                }
+            catch (Exception excep)
+                {
+                    Assert.IsTrue(excep.Message.Contains("a")   );  
+                }
+            Assert.IsTrue(monCore.Message.Contains(
+                "Pattern des fichiers à compter : LLL:::"),
+                "Nauvais message " +
+                monCore.Message);
 
-            Assert.Fail("Pas encore implémenté"); 
+            Assert.IsTrue(monCore.MessageEchec == "",
+                "Nauvais message " +
+                monCore.MessageEchec);
+              
+            
+
+             
         }
 
     }

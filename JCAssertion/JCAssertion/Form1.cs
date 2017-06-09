@@ -409,7 +409,7 @@ namespace JCAssertion
                                 "Fin du détail de l'échec de l'assertion");
                             NombreEchec = NombreEchec + 1;
                         }
-                    i = i++;
+                    i = i + 1;
                 }
             Informer("Fin de l'exécution");
             Informer("Cas réussis : " + NombreReussi.ToString() + " sur " + NombreCas.ToString()  );
@@ -516,6 +516,11 @@ namespace JCAssertion
                 "(C)opyright 2016,2017 Jean-Claude Parent" +
                 Environment.NewLine +
                 "http://www.jcassertion.org");
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
 
         }
     }

@@ -71,6 +71,13 @@ namespace JCAMC
                     System.IO.File.Delete(NomFichier );   
             }
 
+        /// <summary>
+        /// Remplace les catactères invalides dans
+        /// un nom de fichier par des soulignées
+        /// Exemple "Fichier:01" deviendra "Fichier_-1"
+        /// </summary>
+        /// <param name="NomFichier">Nom du fichier à rendre conforme</param>
+        /// <returns>Nom compatible avec le système de fichier de windows</returns>
         public static String NomValide(
             String NomFichier) 
             {
@@ -101,5 +108,11 @@ namespace JCAMC
                 return 0;
             }
         
+        public static String  DateHeure()
+            {
+                return DateTime.Now.ToLongDateString() + " " +  
+                   DateTime.Now.ToLongTimeString();
+            }
+
     } // class
 } // namespace

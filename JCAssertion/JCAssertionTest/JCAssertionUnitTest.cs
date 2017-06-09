@@ -62,7 +62,12 @@ namespace JCAssertionTest
             Assert.IsTrue(Activite.Contains("Assertion vraie"), "Assertion vraie");
             Assert.IsTrue(Activite.Contains("Cas réussis :"), "Cas réussis :");
             Assert.IsTrue(Activite.Contains("Cas en échec :"), "Cas en échec :");
+
+            Assert.IsTrue(Activite.Contains(
+                "Exécution du cas 5"),
+                "Cas en échec :" + Activite);
             
+
             // Fichier de jourmal
             Assert.IsTrue (System.IO.File.Exists (FichierJournal),
                 "Le fichier de journal devrait exister"   );

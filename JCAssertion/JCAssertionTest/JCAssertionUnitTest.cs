@@ -48,7 +48,16 @@ namespace JCAssertionTest
             mesVariables.EcrireFichier(FichierVar );
             
             // Faire le test
-            int Resultat = monProgramme.Execute();
+            int Resultat = 0;
+            try { 
+                    Resultat = monProgramme.Execute();
+                } catch (Exception excep)
+                {
+                    throw new Exception(
+                        excep.Message +
+                        monProgramme.gettxbActivite(),
+                        excep ); 
+                }
             System.IO.File.WriteAllText(FichierActivite, monProgramme.gettxbActivite());
 
             Assert.AreEqual(0, Resultat,

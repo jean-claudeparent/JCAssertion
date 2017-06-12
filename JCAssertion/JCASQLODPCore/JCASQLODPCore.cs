@@ -106,8 +106,17 @@ namespace JCASQLODPCore
         /// </summary>
         public void OuvrirConnection()
         {
-            if (maConnection == null )
-                maConnection = new Oracle.ManagedDataAccess.Client.OracleConnection(CreerConnectionString());
+            if (ConnectionOuverte)
+                {
+                    maConnection.Close();
+                    maConnection.Dispose(); 
+                    ConnectionOuverte = false;
+                    
+                }
+            maConnection = new
+                    Oracle.ManagedDataAccess.Client.OracleConnection(
+                    CreerConnectionString());
+            
             maConnection.Open();
             ConnectionOuverte = true;
 

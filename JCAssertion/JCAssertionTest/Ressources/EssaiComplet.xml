@@ -18,9 +18,50 @@
     <Description>Ce cas est vrai car lefichier existe</Description>
     <Fichier>{{Fichier}}</Fichier>
   </Assertion>
-  
-  
+
+  <!-- Test de connectionOracle sans action -->>
   <Assertion>
+    <Type>ConnectionOracle</Type>
+    <User>JCA</User>
+    <Password>JCA</Password>
+</Assertion>
+
+  <Assertion>
+      <Type>AssertSQL</Type>
+      <SQL>
+      select count(*)
+      from JCATest
+    </SQL>
+      <Operateur>pg=</Operateur>
+      <AttenduNombre>0</AttenduNombre>
+      <MessageEchec>Problème avec la première connection .</MessageEchec>
+  </Assertion>
+
+
+  <Assertion>
+      <Description>Ouvrir la connection à la base de données. </Description>
+      <Type>ConnectionOracle</Type>
+      <User>JCA2</User>
+      <Password>JCA2</Password>
+      
+  </Assertion>
+
+  <Assertion>
+      <Type>AssertSQL</Type>
+      <SQL>
+      select count(*)
+      from JCATableExiste
+    </SQL>
+      <Operateur>pg=</Operateur>
+      <AttenduNombre>0</AttenduNombre>
+      <MessageEchec>Problème avec la première connection .</MessageEchec>
+  </Assertion>
+
+
+  <!-- Test de connectionOracle avec action -->>
+
+
+<Assertion>
       <Description>Ouvrir la connection à la base de données. </Description>
       <Type>ConnectionOracle</Type>
       <User>JCA</User>

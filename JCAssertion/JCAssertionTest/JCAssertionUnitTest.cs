@@ -110,5 +110,85 @@ namespace JCAssertionTest
             
 
         }
+
+        [TestMethod]
+        public void JCAssertionTestEchec()
+        {
+            // Créer et configurer l'instance delaclasse qui fait letravail du form load
+            JCAssertion.JCAssertion monProgramme = new JCAssertion.JCAssertion();
+            monProgramme.setUnitTest();
+
+
+
+            monProgramme.setInteractif(false);
+            monProgramme.args = new String[4];
+            Assert.IsTrue(monProgramme.gettxbActivite().Contains("Démarrage"));
+            // Définir les fichiers
+            String FichierVar = Chemin + "TestEchec.Var.xml";
+            String FichierAssertion = Chemin + "TestEchec.xml";
+            String FichierActivite = Chemin + "\\TestEchec.activite.txt";
+            String FichierJournal = Chemin + "JCAssertion_Journal.TestEchech.txt";
+
+            // Effacer les fichiers de résultats de l'essai précédent
+            UF.EffaceSiExiste(FichierActivite);
+            UF.EffaceSiExiste(FichierJournal);
+
+            // Simuler les arguments de ligne de commande du programme
+            monProgramme.args[0] = "/FV:" + FichierVar;
+            monProgramme.args[1] = "/fa:" + FichierAssertion;
+            monProgramme.args[2] = "/j:" + FichierJournal;
+            monProgramme.args[3] = "/Max:3";
+
+            // Créer le fichier de valeurs de variables
+            JCAssertionCore.JCAVariable mesVariables =
+                new JCAssertionCore.JCAVariable();
+            mesVariables.MAJVariable("Fichier", FichierVar);
+            mesVariables.EcrireFichier(FichierVar);
+
+            // Faire le test
+            int Resultat = 0;
+            try
+            {
+                Resultat = monProgramme.Execute();
+            }
+            catch (Exception excep)
+            {
+                throw new Exception(
+                    excep.Message +
+                    monProgramme.gettxbActivite(),
+                    excep);
+            }
+            System.IO.File.WriteAllText(FichierActivite, monProgramme.gettxbActivite());
+
+            Assert.AreEqual(1, Resultat,
+                "Erreur technique" + monProgramme.gettxbActivite());
+            String Activite = monProgramme.gettxbActivite();
+
+            Assert.IsTrue(Activite.Contains(
+                "Arrêter d'évaluer les assertions après 3 échecs"),
+                "Échec du message /Max:3 " +
+                Activite);
+            Assert.IsTrue(Activite.Contains(
+                "3 assertion(s) ont échouées, l'évaluation des assertions a été arrêtée."), "Nombre de cas à traiter :");
+            Assert.IsTrue(Activite.Contains("Lecture du fichier de variables :"), "Lecture du fichier de variables :");
+            Assert.IsTrue(Activite.Contains("Exécution du cas 1"), "Exécution du cas 1");
+            Assert.IsTrue(Activite.Contains("Assertion vraie"), "Assertion vraie");
+            Assert.IsTrue(Activite.Contains("Cas réussis :"), "Cas réussis :");
+            Assert.IsTrue(Activite.Contains("Cas en échec :"), "Cas en échec :");
+
+            Assert.IsTrue(Activite.Contains(
+                "Exécution du cas 5"),
+                "Cas en échec :" + Activite);
+
+
+            // Fichier de jourmal
+            Assert.IsTrue(System.IO.File.Exists(FichierJournal),
+                "Le fichier de journal devrait exister");
+            String ContenuJournal = System.IO.File.ReadAllText(FichierJournal);
+            Assert.IsTrue(ContenuJournal.Contains("Le fichier existe."));
+
+
+        }
+        
     }
 }

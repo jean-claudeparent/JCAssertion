@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ListeDAssertion>
+  <Assertion>
+    <ID>Si fichier existe</ID>
+    <Type>FichierExiste</Type>
+    <Description>Ce cas est vrai car lefichier existe</Description>
+    <Fichier>{{Fichier}}.existepas.yxy</Fichier>
+  </Assertion>
+  <Assertion>
+    <ID>Si fichier existe</ID>
+    <Type>FichierExiste</Type>
+    <Description>Ce cas est vrai car lefichier existe</Description>
+    <Fichier>{{Fichier}}</Fichier>
+  </Assertion>
+  <Assertion>
+    <ID>Si fichier existe</ID>
+    <Type>FichierExiste</Type>
+    <Description>Ce cas est vrai car lefichier existe</Description>
+    <Fichier>{{Fichier}}.pasla.yxy</Fichier>
+  </Assertion>
+
+  <!-- Test de connectionOracle sans action -->>
+  <Assertion>
+      <Type>ConnectionOracle</Type>
+      <User>JCA</User>
+      <Password>JCA</Password>
+  </Assertion>
+
+  <Assertion>
+      <Type>AssertSQL</Type>
+      <SQL>
+      select count(*)
+      from JCATest
+    </SQL>
+      <Operateur>pp</Operateur>
+      <AttenduNombre>0</AttenduNombre>
+      <MessageEchec>Problème avec la première connection .</MessageEchec>
+  </Assertion>
+
+
+  <Assertion>
+      <Description>Ouvrir la connection à la base de données. </Description>
+      <Type>ConnectionOracle</Type>
+      <User>JCA2</User>
+      <Password>JCA2</Password>
+      
+  </Assertion>
+
+  <Assertion>
+      <Type>AssertSQL</Type>
+      <SQL>
+      select count(*)
+      from JCATableExiste
+    </SQL>
+      <Operateur>pg=</Operateur>
+      <AttenduNombre>0</AttenduNombre>
+      <MessageEchec>Problème avec la première connection .</MessageEchec>
+  </Assertion>
+
+
+  <!-- Test de connectionOracle avec action -->>
+
+
+  <Assertion>
+      <Description>Ouvrir la connection à la base de données. </Description>
+      <Type>ConnectionOracle</Type>
+      <User>JCA</User>
+      <Password>JCA</Password>
+      <Action>Ouvrir</Action>
+  </Assertion>
+
+  <Assertion>
+      <Type>AssertSQL</Type>
+      <SQL>
+      select count(*)
+      from JCATest
+    </SQL>
+      <Operateur>pp</Operateur>
+      <AttenduNombre>0</AttenduNombre>
+      <MessageEchec>Problème avec la première connection .</MessageEchec>
+  </Assertion>
+
+  <Assertion>
+      <Description>Ouvrir la connection à la base de données. </Description>
+      <Type>ConnectionOracle</Type>
+      <User>JCA</User>
+      <Password>JCA</Password>
+      <Action>Fermer</Action>
+  </Assertion>
+
+
+  <Assertion>
+      <Description>Ouvrir la connection à la base de données. </Description>
+      <Type>ConnectionOracle</Type>
+      <User>JCA2</User>
+      <Password>JCA2</Password>
+      <Action>Ouvrir</Action>
+  </Assertion>
+
+  <Assertion>
+      <Type>AssertSQL</Type>
+      <SQL>
+      select count(*)
+      from JCATableExiste
+    </SQL>
+      <Operateur>pg=</Operateur>
+      <AttenduNombre>0</AttenduNombre>
+      <MessageEchec>Problème avec la première connection .</MessageEchec>
+  </Assertion>
+
+  <Assertion>
+      <Description>Ouvrir la connection à la base de données. </Description>
+      <Type>ConnectionOracle</Type>
+      <User>JCAq</User>
+      <Password>JCAq</Password>
+      <Action>Fermer</Action>
+  </Assertion>
+
+
+
+
+
+</ListeDAssertion>

@@ -114,5 +114,16 @@ namespace JCAMC
                    DateTime.Now.ToLongTimeString();
             }
 
+        public static Int32  ConvertirSansErreur(
+            String Nombre)
+        {
+            try {
+                return Convert.ToInt32(Nombre); 
+                } catch
+                {
+                    return 0;
+                }
+            
+        }
     } // class
 } // namespace

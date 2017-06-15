@@ -43,7 +43,7 @@ using System.IO;
 using System.Xml;
 using System.Timers;
 using System.Threading;
-
+using JCAMC;
 
 
 namespace JCAssertion
@@ -76,6 +76,8 @@ namespace JCAssertion
 
         public static  Boolean AnnulerExecution = false ;
         public string[] args = new string[0];
+        public static Int32  EchecsMaximum = 0 ;
+        
         
 
         // Variables dans chaque thread
@@ -320,6 +322,14 @@ namespace JCAssertion
                 throw new Exception(
                     "Exception déclenchée volontairement par l'argument /D0 ");
             }
+
+            if ((mesArguments.GetValeurVariable("MAX") != null) &&
+                (mesArguments.GetValeurVariable("MAX") != ""))
+            {
+                EchecsMaximum = JCAMiniCore.ConvertirSansErreur(
+                    mesArguments.GetValeurVariable("MAX"));
+                
+            }
            
             // Vérifier qu'au moins le nom de fichier d'assertion est fourni
             
@@ -368,7 +378,13 @@ namespace JCAssertion
                Informer("Date de l'exécution : " +
                    DateTime.Now.ToLongDateString() + " " +  
                    DateTime.Now.ToLongTimeString());
+            
+            // Informer des config intéressantes
 
+               if (EchecsMaximum > 0)
+                   Informer("Arrêter d'évaluer les assertions après "+
+                       EchecsMaximum.ToString()+
+                       " échecs"); 
             // commencer le traitementproprement dit
             NAJtbxFAssertion(FichierAssertion);
             MAJtbxFVariables(FichierVariable) ;

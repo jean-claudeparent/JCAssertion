@@ -424,6 +424,15 @@ namespace JCAssertion
                                 Environment.NewLine +
                                 "Fin du détail de l'échec de l'assertion");
                             NombreEchec = NombreEchec + 1;
+                            if ((EchecsMaximum != 0) &&
+                                (NombreEchec >= EchecsMaximum ))
+                                {
+                                    Informer(Environment.NewLine+
+                                        NombreEchec.ToString() +
+                                        " assertion(s) ont échouées ce qui dépasse le maximum d'échecs spécifié, l'évaluation des assertions a été arrêtée."+
+                                        Environment.NewLine  );
+                                    break;
+                                }
                         }
                     i = i + 1;
                 }

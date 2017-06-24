@@ -169,7 +169,7 @@ namespace JCAssertionTest
                 "Échec du message /Max:3 " +
                 Activite);
             Assert.IsTrue(Activite.Contains(
-                "3 assertion(s) ont échouées, l'évaluation des assertions a été arrêtée."),
+                "3 assertion(s) ont échouées ce qui dépasse le maximum d'échecs spécifié, l'évaluation des assertions a été arrêtée."),
                 "erreur 3 assertion(s)... " +
                 Activite );
             

@@ -438,7 +438,13 @@ namespace JCAssertion
                 }
             Informer("Fin de l'exécution");
             Informer("Cas réussis : " + NombreReussi.ToString() + " sur " + NombreCas.ToString()  );
-            Informer("Cas en échec : " + NombreEchec.ToString() + " sur " + NombreCas.ToString());
+            Informer("Cas en échec : " + NombreEchec.ToString() + 
+                " sur " + NombreCas.ToString());
+            if((NombreEchec + NombreReussi) != NombreCas)
+                Informer("Cas non évalués : " + 
+                    (NombreCas -  (NombreEchec + NombreReussi )).ToString() + 
+                " sur " + NombreCas.ToString());
+
             if(NombreEchec > 0) 
                 return 1;
             else
@@ -545,6 +551,11 @@ namespace JCAssertion
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
         {
 
         }

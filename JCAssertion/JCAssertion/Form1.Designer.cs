@@ -95,6 +95,7 @@
             this.label4.Size = new System.Drawing.Size(98, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "Fichier de variables";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // tbxFVariables
             // 

@@ -43,7 +43,7 @@ using System.IO;
 using System.Xml;
 using System.Timers;
 using System.Threading;
-
+using JCAMC;
 
 
 namespace JCAssertion
@@ -76,6 +76,8 @@ namespace JCAssertion
 
         public static  Boolean AnnulerExecution = false ;
         public string[] args = new string[0];
+        public static Int32  EchecsMaximum = 0 ;
+        
         
 
         // Variables dans chaque thread
@@ -320,6 +322,14 @@ namespace JCAssertion
                 throw new Exception(
                     "Exception déclenchée volontairement par l'argument /D0 ");
             }
+
+            if ((mesArguments.GetValeurVariable("MAX") != null) &&
+                (mesArguments.GetValeurVariable("MAX") != ""))
+            {
+                EchecsMaximum = JCAMiniCore.ConvertirSansErreur(
+                    mesArguments.GetValeurVariable("MAX"));
+                
+            }
            
             // Vérifier qu'au moins le nom de fichier d'assertion est fourni
             
@@ -368,7 +378,13 @@ namespace JCAssertion
                Informer("Date de l'exécution : " +
                    DateTime.Now.ToLongDateString() + " " +  
                    DateTime.Now.ToLongTimeString());
+            
+            // Informer des config intéressantes
 
+               if (EchecsMaximum > 0)
+                   Informer("Arrêter d'évaluer les assertions après "+
+                       EchecsMaximum.ToString()+
+                       " échecs"); 
             // commencer le traitementproprement dit
             NAJtbxFAssertion(FichierAssertion);
             MAJtbxFVariables(FichierVariable) ;
@@ -408,12 +424,27 @@ namespace JCAssertion
                                 Environment.NewLine +
                                 "Fin du détail de l'échec de l'assertion");
                             NombreEchec = NombreEchec + 1;
+                            if ((EchecsMaximum != 0) &&
+                                (NombreEchec >= EchecsMaximum ))
+                                {
+                                    Informer(Environment.NewLine+
+                                        NombreEchec.ToString() +
+                                        " assertion(s) ont échouées ce qui dépasse le maximum d'échecs spécifié, l'évaluation des assertions a été arrêtée."+
+                                        Environment.NewLine  );
+                                    break;
+                                }
                         }
-                    i = i++;
+                    i = i + 1;
                 }
             Informer("Fin de l'exécution");
             Informer("Cas réussis : " + NombreReussi.ToString() + " sur " + NombreCas.ToString()  );
-            Informer("Cas en échec : " + NombreEchec.ToString() + " sur " + NombreCas.ToString());
+            Informer("Cas en échec : " + NombreEchec.ToString() + 
+                " sur " + NombreCas.ToString());
+            if((NombreEchec + NombreReussi) != NombreCas)
+                Informer("Cas non évalués : " + 
+                    (NombreCas -  (NombreEchec + NombreReussi )).ToString() + 
+                " sur " + NombreCas.ToString());
+
             if(NombreEchec > 0) 
                 return 1;
             else
@@ -516,6 +547,16 @@ namespace JCAssertion
                 "(C)opyright 2016,2017 Jean-Claude Parent" +
                 Environment.NewLine +
                 "http://www.jcassertion.org");
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
 
         }
     }

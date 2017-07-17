@@ -35,6 +35,7 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using JCAssertionCore;
+using JCAMC;
 
 
 
@@ -43,8 +44,19 @@ namespace JCAssertionCore
     public partial class JCAPontXML
     {
         JCAXML monJCAXML = new JCAXML();
+        JCACompare monCompare = new JCACompare(); 
 
-        
+        /// <summary>
+        /// Évalue une assertion basée
+        /// sur la sélection de noeuds dans un document xml.
+        /// Les noeuds sont choisis avec une expression XPath
+        /// et optionnellement avec une recherche  de texte
+        /// </summary>
+        /// <param name="monXMLNode">Assertion définie dans un ocument xml</param>
+        /// <param name="Message">Message donnant de l'information sur le traitement de l'assertion</param>
+        /// <param name="Variables">Dictionnaire de variables et leur valeurs</param>
+        /// <param name="MessageEchec">Message donnant de l'information lorsuqe l'assertion est fausse</param>
+        /// <returns>Si l'assertion est vraie ou fausse</returns>
         public bool JCAAssertXPath(XmlNode monXMLNode,
             ref string Message,
             ref  Dictionary<String, String> Variables,
@@ -167,14 +179,184 @@ namespace JCAssertionCore
             return Resultat;
         }
 
+        public bool JCACompteFichiers(XmlNode monXMLNode,
+            ref string Message,
+            ref  Dictionary<String, String> Variables,
+            ref string MessageEchec)
+        {
+            Message = "Assertion CompteFichiers" +
+                Environment.NewLine;
+
+            MessageEchec = "";
+
+            if (monXMLNode == null)
+                throw new JCAssertionException("Le XML est vide.");
+            //ValideBalise(monXMLNode, "Repertoire");
+            // Valeur par défaut pour le résultat attendu
+
+
+            Int64 monResultatAttendu = 0;
+
+            // Continuer le traitement
+            // Message d'échec
+            String monMessageEchec = ValeurBalise(monXMLNode, "MessageEchec");
+            monMessageEchec = JCAVariable.SubstituerVariables(
+                    monMessageEchec, Variables);
+
+            // Repertoire
+            String monRepertoire = TraiterBalise(
+                monXMLNode, "Repertoire",
+                Variables,
+                "",
+                true, true);
+            monRepertoire = JCAVariable.SubstituerVariables(
+                    monRepertoire, Variables);
+            
+            // Resu;tat Attendu
+            String monResultatStr = ValeurBalise(monXMLNode, "ResultatAttendu");
+            monResultatStr = JCAVariable.SubstituerVariables(
+                    monResultatStr, Variables);
+            if (monResultatStr == "")
+                monResultatStr = "0";
+            try
+            {
+                monResultatAttendu = Convert.ToInt64(monResultatStr);
+
+            }
+            catch (Exception excep)
+            {
+                MessageEchec = "";
+                throw new JCAssertionException(
+                    "Impossible de convertir le " +
+                "résultat attendu '" +
+                monResultatStr +
+                "' en un nombre. Détail: " +
+                excep.Message);
+            }
+            // traiter pattern
+            String monPattern = TraiterBalise(
+            monXMLNode,
+            "Pattern",
+            Variables,
+            "*.*");
+
+            // Operateur
+            String monOperateur = ValeurBalise(monXMLNode, "Operateur");
+            monOperateur = JCAVariable.SubstituerVariables(
+                    monOperateur, Variables);
+            if (monOperateur == "")
+                monOperateur = "PG";
+                
+            // Construire le message
+            Message = Message + Environment.NewLine +
+                "Répertoire à traiter : " + monRepertoire +
+                Environment.NewLine +
+                "Pattern des fichiers à compter : "+
+                monPattern ;
+            
+            // appeler la méthode
+            Int64 ResultatReel = 0;
+            Boolean Resultat = false;
+            Resultat =  AssertCF(
+            monRepertoire,
+            monPattern,
+            monOperateur,
+            monResultatAttendu,
+            ref ResultatReel);
+
+            // Finir le message
+            Message = Message + Environment.NewLine +
+                "Assertion : " +
+                Convert.ToString(ResultatReel) + " (Réel) " +
+                monOperateur + " " +
+                    Convert.ToString(monResultatAttendu) +
+                    " (Attendu)" +
+                    Environment.NewLine  ;
+            // traiter l'échec
+            if (!Resultat)
+            {
+                MessageEchec = monMessageEchec;
+
+            }
+            Message = Message + Environment.NewLine;
+
+
+            return Resultat;
+        }
 
         /// <summary>
-        /// Retourne le texte d'une balise XML
-        /// ou une chaîne vide si on ne trouve pas la balise
+        /// Évalue une assertion sur le nombre de fichiers
+        /// comptés dans un répertoire
         /// </summary>
-        /// <param name="monXMLNode">Un document xml ou une autre structure XML qui peuut contenir la balise recherchée</param>
-        /// <param name="maBalise">Balise à rechercher</param>
-        /// <returns>La valeur de la balise ou ""</returns>
+        /// <param name="Repertoire">Répertoire où compter les fichiers</param>
+        /// <param name="Patterm">Pattern des fichiers à compter, par exemple "*.xml"</param>
+        /// <param name="Operateur">Operateur de comparaison entre le résultat réel des fichiers comptés et le résultat attendu, par exemple pg pour plus grand</param>
+        /// <param name="ResultatAttendu">Résultat à comparer au résultat réel avec l'opérateur</param>
+        /// <param name="ResultatReel">Retourne le nombre de fichiers comptés avec le pattern</param>
+        /// <returns>Si l'assertion est vraie ou fausse</returns>
+        public Boolean AssertCF(
+            String Repertoire,
+            String Patterm,
+            String Operateur,
+            Int64 ResultatAttendu,
+            ref Int64 ResultatReel)
+            {
+                ResultatReel =
+                    JCAMiniCore.CompteFichiers(
+                    Repertoire, Patterm  );
 
+                Boolean Resultat =
+                    monCompare.Compare(
+                    ResultatReel,
+                    Operateur,
+                    ResultatAttendu);
+                return Resultat; 
+            }
+
+
+        /// <summary>
+        /// Retourne la valeur d'une balise
+        /// avec substitutionde variables
+        /// Optionnellement initialise avec une valeur
+        /// par défaut et fait des validations
+        /// </summary>
+        /// <param name="xmlNode">XML d'où extraire la valeur de la balise</param>
+        /// <param name="Balise">Balise à extraire</param>
+        /// <param name="Variables">Dictionnaire de variables pour ébventuellementcompléter la valeur</param>
+        /// <param name="ValeurParDefaut">Valeur par défaut si la balise est vide ou inexistante</param>
+        /// <param name="Obligatoire">Indique de faire un exception si la balise n'est pas dans le xml</param>
+        /// <param name="ExceptionSiVide">Indique de faire une exception  si la baleur trouvée est une cha¸ine vide</param>
+        /// <returns>Valeur de la balise</returns>
+        public String TraiterBalise (
+            XmlNode  xmlNode,
+            String Balise,
+            Dictionary<String, String> Variables,
+            String ValeurParDefaut = "",
+            Boolean Obligatoire = false ,
+            Boolean ExceptionSiVide = false 
+            )
+            {
+                if (Obligatoire)
+                    ValideBalise(xmlNode, Balise);
+ 
+            String Resultat = ValeurBalise(xmlNode , Balise);
+            Resultat  = JCAVariable.SubstituerVariables(
+                    Resultat , Variables);
+            if ((Resultat  == "") &&
+                (ExceptionSiVide))
+                throw new JCAssertionException(
+                    "La balise <" +
+                    Balise +
+              "> n'a pa été spécifié correctement");
+            if (Resultat == "")
+                Resultat = ValeurParDefaut;
+            
+            return Resultat;     
+        }
+
+
+
+
+               
     }
 }

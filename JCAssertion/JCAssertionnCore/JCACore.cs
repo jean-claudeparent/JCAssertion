@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016 Jean-Claude Parent 
+//  Copyright 2016,2017 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //
@@ -70,7 +70,7 @@ namespace JCAssertionCore
         /// </summary>
         public class Constantes
         {
-            public const String Version = "1.0.8";
+            public const String Version = "1.0.9";
 
         }
         
@@ -280,6 +280,17 @@ namespace JCAssertionCore
                                 if (!Resultat)
                                     Journalise(MessageEchec );
                                 return Resultat;
+                            case "CompteFichiers":
+                                Resultat = monPontXML.JCACompteFichiers
+                                    (XMLCas,
+                                    ref  Message,
+                                    ref  Variables.Variables,
+                                    ref  MessageEchec);
+                                Journalise(Message);
+                                if (!Resultat)
+                                    Journalise(MessageEchec);
+                                return Resultat;
+                        
                         default:
                             MessageAjoutter("Type inconnu");
                             MessageEchec =

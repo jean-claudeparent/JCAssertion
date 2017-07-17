@@ -56,6 +56,7 @@
             this.label1.Size = new System.Drawing.Size(91, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Fichier d\'assertion";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // tbxFAssertion
             // 
@@ -94,6 +95,7 @@
             this.label4.Size = new System.Drawing.Size(98, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "Fichier de variables";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // tbxFVariables
             // 

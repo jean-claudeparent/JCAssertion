@@ -23,3 +23,8 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debu
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAMiniCore.pdb
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\XML1.xml
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\XML2.xml
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\CompteFichiers\SousDossiers\TextFile1.txt
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\CompteFichiers\SousDossiers\TextFile2.xml.autre.txt
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\CompteFichiers\SousDossiers\xmlFile2.XML
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\CompteFichiers\TextFile1.txt
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\CompteFichiers\SousDossiers\Txmlminuscules.xml

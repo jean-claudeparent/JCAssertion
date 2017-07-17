@@ -54,7 +54,7 @@ namespace JCAssertionTest
             mesVariables.MAJVariable("Fichier", FichierVar);
             mesVariables.EcrireFichier(FichierVar);
             
-
+            
             // lancer et attendre la fin du thread
             maForm.LancerThread();
             while (maForm.monThreadIsAlive())

@@ -70,7 +70,7 @@ namespace JCAssertionCore
         /// </summary>
         public class Constantes
         {
-            public const String Version = "1.0.9";
+            public const String Version = "1.1.0";
 
         }
         

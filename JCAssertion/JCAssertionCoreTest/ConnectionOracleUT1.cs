@@ -17,14 +17,15 @@ namespace JCAssertionCoreTest
         [TestMethod]
         public void OuvrirSansActionConnectionOracle()
         {
+            JCAXMLHelper monXMLH = new JCAXMLHelper();
+
             // Définir connection
             XmlDocument monCas = new XmlDocument();
-            monCas.InnerXml = "<Assertion>" +
-               "<Type>ConnectionOracle</Type>" +
-               "<User>JCA</User>" +
-               "<Password>JCA</Password>" +
-               "<Serveur>instance.test</Serveur>" +
-               "</Assertion>";
+            monCas.InnerXml = monXMLH.xmlConnectionOracle(
+                "JCA",
+                "JCA",
+                "instance.test",
+                null);
 
             JCACore monCore = new JCACore();
             monCore.ExecuteCas(monCas);
@@ -116,6 +117,78 @@ namespace JCAssertionCoreTest
 
 
         }
+
+
+
+        /// <summary>
+        /// Test de l'assertion ConnectionOracle avec
+        /// action. ce qui connecte 
+        /// immédiatement `la BD.
+        /// La balise cache est utilisée
+        /// pour cacher le user et password
+        /// </summary>
+        [TestMethod]
+        public void OuvrirCacheConnectionOracle()
+        {
+            JCACore monCore = new JCACore();
+            JCAXMLHelper monxmlH = new JCAXMLHelper();
+
+            // Définir connection
+            XmlDocument monCas = new XmlDocument();
+            monCas.InnerXml = monxmlH.xmlConnectionOracle(
+                "JCA",
+                "JCA",
+                "localhost",
+                "Ouvrir",
+                "Oui");
+
+
+            monCore.ExecuteCas(monCas);
+
+            // assertions
+
+            Assert.IsTrue(monCore.Message.Contains(
+                "User : (Caché)"),
+                "Le message devrait contenir User : (Caché)");
+            Assert.IsTrue(monCore.Message.Contains(
+                "Password : (Caché)"),
+                "Le message devrait contenir Password : (Caché)");
+            Assert.IsTrue(monCore.Message.Contains(
+                "Serveur/instance : localhost"),
+                "Le message devrait contenir Serveur/instance : localhost");
+
+            Assert.IsTrue(monCore.Message.Contains(
+                "Assertion ConnectionOracle"),
+                "Le message devrait contenir Assertion ConnectionOracle");
+
+
+
+
+            Assert.IsTrue(
+                monCore.ODPSQLConnectionOuverte(),
+                "Le connection devrai être ouverte");
+            // Fermer la connection
+
+            monCas.InnerXml = monxmlH.xmlConnectionOracle(
+                "JCA2",
+                "JCA2",
+                "localhost2",
+                "Fermer",
+                "cacher");
+
+
+            monCore.ExecuteCas(monCas);
+
+            Assert.IsFalse(
+                monCore.ODPSQLConnectionOuverte(),
+                "La connection devrait êtrefermée");
+
+
+        }
+
+
+
+
 
 
 

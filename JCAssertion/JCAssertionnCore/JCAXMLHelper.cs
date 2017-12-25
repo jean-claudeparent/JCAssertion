@@ -14,7 +14,8 @@ namespace JCAssertionCore
             String User,
             String Password,
             String Serveur,
-            String Action)
+            String Action,
+            String Cache = null)
         {
             String Resultat = "";
             Resultat = "<Assertion>" 

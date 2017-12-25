@@ -381,74 +381,7 @@ namespace JCAssertionCore
             return true ;
         }
 
-        public bool JCAConnectionOracle(XmlNode monXMLNode, 
-            ref string Message, ref  Dictionary<String, String> Variables,
-            ref string MessageEchec,
-            ref JCASQLClient monODPSQLClient)
-            {
-                Message = Message + Environment.NewLine +
-                "Assertion ConnectionOracle" + Environment.NewLine;
-                MessageEchec = "";
-                if (monXMLNode == null) 
-                    throw new JCAssertionException("Le XML est vide.");
-                ValideBalise(monXMLNode, "User");
-                ValideBalise(monXMLNode, "Password");
-                string MonUser = ValeurBalise(monXMLNode, "User");
-                string MonPassword = ValeurBalise(monXMLNode, "Password");
-                string MonServeur = ValeurBalise(monXMLNode, "Serveur");
-                string MonActionTexte = ValeurBalise(monXMLNode, "Action");
-                
-                // remplacer les variables
-                MonUser = JCAVariable.SubstituerVariables(
-                    MonUser, Variables);
-                MonPassword = JCAVariable.SubstituerVariables(
-                    MonPassword, Variables);
-                MonServeur = JCAVariable.SubstituerVariables(
-                    MonServeur, Variables);
-                // Donner du feedback
-                Message = Message + Environment.NewLine +
-                    "User : " + MonUser + Environment.NewLine +
-                    "Password : " + MonPassword + Environment.NewLine +
-                    "Serveur/instance : " + MonServeur + Environment.NewLine  ;
-
-                // Traiter l'action
-                MonActionTexte = JCAVariable.SubstituerVariables(
-                    MonActionTexte, Variables).ToUpper() ;
-                JCASQLClient.Action monAction =
-                    JCASQLClient.Action.Aucune;
-                if (MonActionTexte.Contains("OUVRIR"))
-                    {
-                        monAction =
-                            JCASQLClient.Action.Ouvrir ;
-                        Message = Message +
-                            "Ouvrir la connection à la base de données" +
-                            Environment.NewLine; 
-                    }
-                if (MonActionTexte.Contains("FERMER"))
-                    {
-                        monAction =
-                            JCASQLClient.Action.Fermer ;
-                        Message = Message +
-                                "Fermer la connection à la base de données" +
-                                Environment.NewLine; 
-                    }
-                try 
-                {
-                   monODPSQLClient.InitConnection(MonUser,
-                    MonPassword,
-                    MonServeur,
-                    monAction);
-                } catch (Exception excep) 
-                {
-                    throw new JCAssertionException(
-                        "Erreur technique lors de la connection au serveur Oracle " +
-                    excep.Message , excep  );
-                }
-            // La seule facon que cette assertion retourne false
-            // c'est qu'une exception se produise
-                return true;
-            }
-
+        
      
         public bool JCAAssertSQL(XmlNode monXMLNode, 
             ref string Message, 

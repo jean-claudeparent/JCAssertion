@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AssertCFUt1.cs" />
     <Compile Include="CompteFichiersUT1.cs" />
+    <Compile Include="ConnectionOracleUT1.cs" />
     <Compile Include="ContenuFichierUnitTest1.cs" />
     <Compile Include="CoreUnitTest.cs" />
     <Compile Include="ExtraireVariableUnitTest.cs" />

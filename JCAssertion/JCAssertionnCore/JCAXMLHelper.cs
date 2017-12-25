@@ -47,6 +47,13 @@ namespace JCAssertionCore
                     Action + "</Action>" 
                     + Environment.NewLine;
 
+            if (Cache != null)
+                Resultat =
+                    Resultat
+                    + "<Cache>" +
+                    Cache + "</Cache>"
+                    + Environment.NewLine;
+
             Resultat = Resultat +
                 "</Assertion>";
 

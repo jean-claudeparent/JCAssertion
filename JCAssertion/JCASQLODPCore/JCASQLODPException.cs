@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace JCASQLODPCore
 {
+    [Serializable]
     public class JCASQLODPException : Exception 
     {
          public JCASQLODPException()

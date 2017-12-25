@@ -51,6 +51,7 @@
     <Compile Include="JCAUtilitaires.cs" />
     <Compile Include="JCAVariable.cs" />
     <Compile Include="JCAXML.cs" />
+    <Compile Include="JCAXMLHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

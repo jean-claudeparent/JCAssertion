@@ -45,6 +45,7 @@
     <Compile Include="JCACore.cs" />
     <Compile Include="JCAPontXML02.cs" />
     <Compile Include="JCAPontXMLConnectionOracle.cs" />
+    <Compile Include="JCAPontXMLAssertSQL.cs" />
     <Compile Include="JCASQLClient.cs" />
     <Compile Include="JCAPontXML.cs" />
     <Compile Include="JCAssertionException.cs" />

@@ -15,12 +15,10 @@ namespace JCAssertionCoreTest
         public void InitTest()
         {
             // Définir connection
+            JCAXMLHelper monXMLH = new JCAXMLHelper();
             monCas = new XmlDocument();
-            monCas.InnerXml = "<Assertion>" +
-               "<Type>ConnectionOracle</Type>" + 
-               "<User>JCA</User>" + 
-               "<Password>JCA</Password>" +
-               "</Assertion>"; 
+            monCas.InnerXml = monXMLH.xmlConnectionOracle( 
+                "JCA","JCA",null,null); 
  
             monCore = new JCACore();
             monCore.ExecuteCas(monCas);

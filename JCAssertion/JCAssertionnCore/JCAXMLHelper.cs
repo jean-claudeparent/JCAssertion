@@ -105,8 +105,7 @@ namespace JCAssertionCore
         public string xmlAssertSQL(
             String SQL,
             String Operateur,
-            Int64 AttenduNombre = 0,
-            bool UtiliseNombre = true,
+            String AttenduNombre,
             String AttenduTexte = null,
             String MessageEchec = null)
         {
@@ -127,10 +126,10 @@ namespace JCAssertionCore
                     Resultat
                     + "<Operateur>" +
                     Operateur + "</Operateur>" + Environment.NewLine;
-            if (UtiliseNombre)
+            if (AttenduNombre != null)
                 Resultat =
                     Resultat
-                    + "<AttenduNombre>" + AttenduNombre.ToString()
+                    + "<AttenduNombre>" + AttenduNombre
                     + "</AttenduNombre>" + Environment.NewLine;
 
             if (AttenduTexte  != null)

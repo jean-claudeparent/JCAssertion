@@ -48,15 +48,10 @@ namespace JCAssertionCore
             ref string MessageEchec,
             ref JCASQLClient monODPSQLClient)
         {
-            // Créer un objet variable
-            // pour pouvoir modifier les valeurs
-            // des variables autogénérées
-            JCAVariable VariableTemp = 
-                new JCAVariable();
-            VariableTemp.Variables = Variables;
-
+            
 
             // Initialisations
+
             Message = Message + Environment.NewLine +
             "Assertion AssertSQL" + Environment.NewLine;
             MessageEchec = "";
@@ -96,11 +91,12 @@ namespace JCAssertionCore
                 String monANString = "";
                 try
                 {
-                    monANString = ValeurBalise(
+                    monANString = 
+                        ValeurBalise(
                         monXMLNode, "AttenduNombre");
                     monANString = JCAVariable.SubstituerVariables(
                     monANString, Variables);
-                     VariableTemp.MAJVariable(
+                    MAJVariable(ref Variables,
                          "JCA.ValeurAttendue",
                         monANString);
 
@@ -123,7 +119,7 @@ namespace JCAssertionCore
                     Environment.NewLine;
                 Resultat = monODPSQLClient.SQLAssert(monSQL,
                         ResultatAttendu, monOperateur);
-                VariableTemp.MAJVariable(
+                MAJVariable(ref Variables,
                     "JCA.ValeurReelle",
                     monODPSQLClient.DernierResultat); 
 
@@ -133,19 +129,16 @@ namespace JCAssertionCore
                      monODPSQLClient.DernierResultat +
                     Environment.NewLine;
                 // créer l'expressions
-                VariableTemp.MAJVariable(
+                MAJVariable(ref Variables,
                     "JCA.Expression",
                     "(Valeur Réelle):" +
-                    VariableTemp.GetValeurVariable(
+                    getValeurVariable(Variables,
                         "JCA.ValeurReelle") +
                     " " + monOperateur + " " +
-                    VariableTemp.GetValeurVariable(
+                    getValeurVariable(Variables,
                         "JCA.ValeurAttendue") +
                         " :(Valeur attendue)");
                       
-                // remettre les variables modifiées
-                // dans les variables by ref en paramètres
-                Variables = VariableTemp.Variables; 
                 MessageEchec = JCAVariable.SubstituerVariables(
                     ValeurBalise(
                     monXMLNode, "MessageEchec"), Variables);

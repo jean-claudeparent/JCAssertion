@@ -74,7 +74,9 @@ namespace JCAssertionCore
         /// <param name="monXMLNode">Document ou structure xnl où chercher</param>
         /// <param name="maBalise">Nom de la balise à rechercher</param>
         /// <returns>Trouvé ou non</returns>
-        public static Boolean  SiBaliseExiste(XmlNode monXMLNode, String maBalise)
+        public static Boolean  SiBaliseExiste(
+            XmlNode monXMLNode, 
+            String maBalise)
             {
                 if (monXMLNode == null)
                     return false;
@@ -95,7 +97,9 @@ namespace JCAssertionCore
         /// </summary>
         /// <param name="monXMLNode">Docuememt ou structure xml à valider</param>
         /// <param name="maBalise">Nom de la balise qui doit exister</param>
-        public static void ValideBalise(XmlNode monXMLNode, String maBalise)
+        public static void ValideBalise(
+            XmlNode monXMLNode, 
+            String maBalise)
             {
                 if (monXMLNode == null)
                     throw new JCAssertionException("Le XML est vide.");
@@ -341,7 +345,8 @@ namespace JCAssertionCore
             return Resultat;
         }
 
-        public static bool JCAMAJVariables(XmlNode monXMLNode,
+        public static bool JCAMAJVariables(
+            XmlNode monXMLNode,
             ref string Message, 
             ref  Dictionary<String, String> Variables,
             ref String MessageEchec)

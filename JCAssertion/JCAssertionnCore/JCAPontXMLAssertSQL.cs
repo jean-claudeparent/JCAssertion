@@ -48,9 +48,20 @@ namespace JCAssertionCore
             ref string MessageEchec,
             ref JCASQLClient monODPSQLClient)
         {
+            // Créer un objet variable
+            // pour pouvoir modifier les valeurs
+            // des variables autogénérées
+            JCAVariable VariableTemp = 
+                new JCAVariable();
+            VariableTemp.Variables = Variables;
+
+
+            // Initialisations
             Message = Message + Environment.NewLine +
             "Assertion AssertSQL" + Environment.NewLine;
             MessageEchec = "";
+
+            // Validations de base
             if (monXMLNode == null)
                 throw new JCAssertionException("Le XML est vide.");
             ValideBalise(monXMLNode, "SQL");
@@ -62,6 +73,8 @@ namespace JCAssertionCore
                 (SiBaliseExiste(monXMLNode, "AttenduTexte")))
                 throw new JCAssertionException(
                     "Une seule des deux balises suivantes doit exister dans le xml :AttenduNombre ou AttenduTexte ");
+            // les validations de bases sont passées
+
             String monSQL = ValeurBalise(monXMLNode, "SQL");
             monSQL = JCAVariable.SubstituerVariables(
                     monSQL, Variables);
@@ -87,6 +100,9 @@ namespace JCAssertionCore
                         monXMLNode, "AttenduNombre");
                     monANString = JCAVariable.SubstituerVariables(
                     monANString, Variables);
+                     VariableTemp.MAJVariable(
+                         "JCA.ValeurAttendue",
+                        monANString);
 
                     ResultatAttendu = Convert.ToDouble(monANString);
 
@@ -107,12 +123,29 @@ namespace JCAssertionCore
                     Environment.NewLine;
                 Resultat = monODPSQLClient.SQLAssert(monSQL,
                         ResultatAttendu, monOperateur);
+                VariableTemp.MAJVariable(
+                    "JCA.ValeurReelle",
+                    monODPSQLClient.DernierResultat); 
 
                 if (!(Resultat))
                     Message = Message +
                     "Valeur réelle : " +
                      monODPSQLClient.DernierResultat +
                     Environment.NewLine;
+                // créer l'expressions
+                VariableTemp.MAJVariable(
+                    "JCA.Expression",
+                    "(Valeur Réelle):" +
+                    VariableTemp.GetValeurVariable(
+                        "JCA.ValeurReelle") +
+                    " " + monOperateur + " " +
+                    VariableTemp.GetValeurVariable(
+                        "JCA.ValeurAttendue") +
+                        " :(Valeur attendue)");
+                      
+                // remettre les variables modifiées
+                // dans les variables by ref en paramètres
+                Variables = VariableTemp.Variables; 
                 MessageEchec = JCAVariable.SubstituerVariables(
                     ValeurBalise(
                     monXMLNode, "MessageEchec"), Variables);

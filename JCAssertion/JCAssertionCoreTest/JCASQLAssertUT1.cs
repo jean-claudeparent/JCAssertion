@@ -10,15 +10,17 @@ namespace JCAssertionCoreTest
     {
         XmlDocument monCas;
         JCACore monCore;
+        JCAXMLHelper monXMLH = new JCAXMLHelper();
+
 
         [TestInitialize]
         public void InitTest()
         {
             // Définir connection
-            JCAXMLHelper monXMLH = new JCAXMLHelper();
+            // JCAXMLHelper monXMLH = new JCAXMLHelper();
             monCas = new XmlDocument();
             monCas.InnerXml = monXMLH.xmlConnectionOracle( 
-                "JCA","JCA",null,null); 
+                "JCA","JCA"); 
  
             monCore = new JCACore();
             monCore.ExecuteCas(monCas);
@@ -38,7 +40,7 @@ namespace JCAssertionCoreTest
         [TestCleanup]
         public void CleanTest()
         {
-            // FermerConnection
+            // rien à faire pour l'ibnstant
 
         }
     

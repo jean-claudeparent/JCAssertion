@@ -54,8 +54,8 @@ namespace JCAssertionCore
         public string xmlConnectionOracle(
             String User,
             String Password,
-            String Serveur,
-            String Action,
+            String Serveur = null,
+            String Action = null,
             String Cache = null)
         {
             String Resultat = "";

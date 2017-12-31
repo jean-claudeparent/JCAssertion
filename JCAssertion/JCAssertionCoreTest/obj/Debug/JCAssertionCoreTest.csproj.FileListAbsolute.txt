@@ -32,3 +32,5 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debu
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCASQLODPCore.dll.config
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\fr\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.csproj.CoreCompileInputs.cache
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAssertionCoreTest.dll.CodeAnalysisLog.xml
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAssertionCoreTest.dll.lastcodeanalysissucceeded

@@ -162,7 +162,7 @@ namespace JCASQLODPCore
                     throw new JCASQLODPException("Commande SQL:" + Environment.NewLine +
                     maCommandeSQLString + Environment.NewLine +
                     excep.Message, excep);
-                else throw excep;
+                else throw;
             }
             if (ActiverResume) Resumer();
              
@@ -531,7 +531,7 @@ namespace JCASQLODPCore
                         throw new JCASQLODPException("Commande SQL:" + Environment.NewLine +
                         SQL + Environment.NewLine +
                         excep.Message  , excep);
-                    else throw excep; 
+                    else throw; 
                 }
             }
 

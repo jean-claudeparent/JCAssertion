@@ -113,7 +113,7 @@ namespace JCAssertion
                     ExceptionGlobale = excep ;
                     ExceptionRencontree = true;
                     CodeDeRetour = 99;
-                    throw excep;
+                    throw;
                 }
               } // ! init
             

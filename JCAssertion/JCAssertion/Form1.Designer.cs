@@ -24,6 +24,10 @@
             {
                 components.Dispose();
             }
+            if (disposing && (monJCACore != null))
+            {
+                monJCACore.Dispose();
+            }
             base.Dispose(disposing);
         }
 

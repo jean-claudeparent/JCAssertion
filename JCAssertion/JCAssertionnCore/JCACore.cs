@@ -44,7 +44,7 @@ namespace JCAssertionCore
     /// <summary>
     /// Classe principale pour diriger l'exécution des assertions
     /// </summary>
-    public class JCACore
+    public class JCACore : IDisposable
     {
         public String FichierDeCas;
         public string FichierJournal;
@@ -73,7 +73,26 @@ namespace JCAssertionCore
             public const String Version = "1.1.0";
 
         }
-        
+
+
+        protected virtual void Dispose(bool Tout)
+        {
+            if (Tout)
+            {
+                monSQLClient.Dispose();
+            } else
+            {
+                monSQLClient.Dispose();
+            };
+        }
+
+        public void Dispose()
+        {
+            Dispose(true); 
+        }
+
+
+
         /// <summary>
         /// Ajoute un texte à la propriété globale
         /// de message

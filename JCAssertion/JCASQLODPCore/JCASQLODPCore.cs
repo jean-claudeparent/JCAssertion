@@ -50,7 +50,7 @@ namespace JCASQLODPCore
     /// JCASQLODPCore : Classe définissant les propriétés et méthodes
     /// pour accéder une base de données oracle avec le oracle data provider.
     /// </summary>
-    public class JCASQLODPClient
+    public class JCASQLODPClient : IDisposable
     {
         public String Serveur;
         public String User;
@@ -69,7 +69,29 @@ namespace JCASQLODPCore
         private JCASQLODPHelper Helper = new JCASQLODPHelper() ;
         
 
-        
+        public void Dispose()
+        {
+            Dispose(true);  
+             
+        }
+
+        protected virtual void Dispose(bool tout)
+        {
+            if (tout)
+            {
+                // disposer les natifs et managed 
+                maConnection.Dispose();
+                maCommandeSQL.Dispose();
+            } else
+            {
+                // disposer juste les natifs
+                maConnection.Dispose();
+                maCommandeSQL.Dispose();
+            }
+
+        }
+
+
         /// <summary>
         /// CreerConnectionString : retourne la chaîne de connection
         /// crée à partir des propriétés de la classe. Peut

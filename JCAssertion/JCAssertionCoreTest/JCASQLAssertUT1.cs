@@ -42,6 +42,11 @@ namespace JCAssertionCoreTest
         {
             // tester dispose
             monCore.Dispose();
+            // Vérifier que plusieurs dispose
+            // me causemt pas d'exception
+            monCore.Dispose();
+            monCore.Dispose();
+
 
         }
 

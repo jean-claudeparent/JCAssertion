@@ -40,7 +40,8 @@ namespace JCAssertionCoreTest
         [TestCleanup]
         public void CleanTest()
         {
-            // rien à faire pour l'ibnstant
+            // tester dispose
+            monCore.Dispose();
 
         }
 

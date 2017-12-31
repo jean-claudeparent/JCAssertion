@@ -80,13 +80,17 @@ namespace JCASQLODPCore
             if (tout)
             {
                 // disposer les natifs et managed 
-                maConnection.Dispose();
-                maCommandeSQL.Dispose();
+                if (maConnection != null)
+                    maConnection.Dispose();
+                if (maCommandeSQL != null)
+                    maCommandeSQL.Dispose();
             } else
             {
                 // disposer juste les natifs
-                maConnection.Dispose();
-                maCommandeSQL.Dispose();
+                if (maConnection != null)
+                    maConnection.Dispose();
+                if (maCommandeSQL != null)
+                    maCommandeSQL.Dispose();
             }
 
         }

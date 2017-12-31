@@ -79,10 +79,12 @@ namespace JCAssertionCore
         {
             if (Tout)
             {
-                monSQLClient.Dispose();
+                if (monSQLClient != null)
+                    monSQLClient.Dispose();
             } else
             {
-                monSQLClient.Dispose();
+                if (monSQLClient != null)
+                    monSQLClient.Dispose();
             };
         }
 

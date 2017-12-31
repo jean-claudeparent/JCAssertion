@@ -55,10 +55,12 @@ namespace JCAssertionCore
         {
             if (Tout)
             {
-                monSQLClientODP.Dispose();
+                if (monSQLClientODP != null)
+                    monSQLClientODP.Dispose();
             } else
             {
-                monSQLClientODP.Dispose();
+                if (monSQLClientODP != null)
+                    monSQLClientODP.Dispose();
             };
         }
 

@@ -131,13 +131,15 @@ namespace JCAssertionCore
                 // créer l'expressions
                 MAJVariable(ref Variables,
                     "JCA.Expression",
-                    "(Valeur Réelle):" +
-                    getValeurVariable(Variables,
-                        "JCA.ValeurReelle") +
-                    " " + monOperateur + " " +
-                    getValeurVariable(Variables,
-                        "JCA.ValeurAttendue") +
-                        " :(Valeur attendue)");
+                    FormaterExpression(
+                        getValeurVariable(
+                            Variables,
+                            "JCA.ValeurReelle"),
+                    monOperateur,
+                    getValeurVariable(
+                        Variables,
+                        "JCA.ValeurAttendue")));
+                        
                       
                 MessageEchec = JCAVariable.SubstituerVariables(
                     ValeurBalise(
@@ -148,16 +150,39 @@ namespace JCAssertionCore
             } // if
             else
             {
+                // Le résultat attendu est une string
+
                 String ResultatnAttenduTexte = ValeurBalise(
                         monXMLNode, "AttenduTexte");
                 ResultatnAttenduTexte = JCAVariable.SubstituerVariables(
                     ResultatnAttenduTexte, Variables);
+                MAJVariable(ref Variables,
+                    "JCA.ValeurAttendue",
+                    ResultatnAttenduTexte); 
                 Message = Message +
                 "Valeur attendue : " +
                 ResultatnAttenduTexte +
                 Environment.NewLine;
-                Resultat = monODPSQLClient.SQLAssert(monSQL,
-                        ResultatnAttenduTexte);
+                Resultat = monODPSQLClient.SQLAssert(
+                    monSQL,
+                    ResultatnAttenduTexte);
+                MAJVariable(ref Variables ,
+                    "JCA.ValeurReelle",
+                    monODPSQLClient.DernierResultat);
+
+                MAJVariable(ref Variables,
+                    "JCA.Expression",
+                    FormaterExpression(
+                        getValeurVariable(
+                            Variables,
+                            "JCA.ValeurReelle"),
+                    "=",
+                    getValeurVariable(
+                        Variables,
+                        "JCA.ValeurAttendue"),
+                    true));
+
+
                 if (!(Resultat))
                     MessageEchec = JCAVariable.SubstituerVariables(
                         ValeurBalise(
@@ -172,6 +197,12 @@ namespace JCAssertionCore
                     Environment.NewLine;
             else
                 Message = Message +
+                    "Valeur réelle : " +
+                    getValeurVariable(
+                            Variables,
+                            "JCA.ValeurReelle") +
+                    Environment.NewLine +
+                    Environment.NewLine +
                     "L'expression évaluée est fausse" +
                     Environment.NewLine;
 

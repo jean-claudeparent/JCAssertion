@@ -76,5 +76,42 @@ namespace JCAssertionCore
             return VariablesTemp.GetValeurVariable(Cle);  
         }
 
-    }
-}
+        /// <summary>
+        /// retourne une expression d'assertion
+        /// formattée.
+        /// </summary>
+        /// <param name="ValeurReelle"></param>
+        /// <param name="Operateur"></param>
+        /// <param name="ValeurAttendue"></param>
+        /// <param name="TypeString">Indique si les valeurs sont des strings plutôt que des nombres</param>
+        /// <returns>Expression formattée</returns>
+        private string FormaterExpression(
+            string ValeurReelle,
+            string Operateur,
+            string ValeurAttendue,
+            bool TypeString = false)
+        {
+            string Resultat =
+                "(Valeur Réelle):";
+            if (TypeString)
+                Resultat = Resultat + "\"";
+            Resultat = Resultat +
+                ValeurReelle;
+            if (TypeString)
+                Resultat = Resultat + "\"";
+            Resultat = Resultat +
+                " " + Operateur + " ";
+            if (TypeString)
+                Resultat = Resultat + "\"";
+            Resultat = Resultat +
+                ValeurAttendue;
+            if (TypeString)
+                Resultat = Resultat + "\"";
+            Resultat = Resultat  +
+                " :(Valeur attendue)";
+            return Resultat;
+        }
+    
+
+    } // classe
+} // namespace

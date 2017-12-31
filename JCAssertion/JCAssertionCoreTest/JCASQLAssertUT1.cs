@@ -136,15 +136,18 @@ namespace JCAssertionCoreTest
 
 
             Assert.IsTrue(monCore.MessageEchec.Contains(
-                "Expresssion : (Valeur Réelle):1 pg 1 :(Valeur attendue)") &&
+                "Expresssion : (Valeur Réelle):\"Valeur de test\" = \"Test pas pareil\" :(Valeur attendue)") &&
                 monCore.MessageEchec.Contains(
-                    "Valeur attendue : 1") &&
+                    "Valeur attendue : Test pas pareil") &&
                     monCore.MessageEchec.Contains(
-                        "Valeur réelle : 1"),
+                        "Valeur réelle : Valeur de test"),
                         "Mauvais message d'échec : " +
                         monCore.MessageEchec);
 
-
+            Assert.IsTrue (
+                monCore.Message.Contains(
+                    "Valeur réelle : Valeur de test"),   
+                monCore.Message  ); 
 
         }
 

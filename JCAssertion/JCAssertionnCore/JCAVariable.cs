@@ -51,26 +51,49 @@ namespace JCAssertionCore
             public const String JCA_FichierDeVariables = "JCA.FichierDeVariables";
         
             }
-
+        /// <summary>
+        /// Retourne le nom de  la prochaine variable
+        /// trouvée dans le texte.
+        /// Les variables sont délimitées par
+        /// "{{" et "}}"
+        /// </summary>
+        /// <param name="Argument">Texte dans lequel rechercher la variable</param>
+        /// <returns>Retourne le nom de la première variable trouvée dans le texte. Retourne une cha¸ine vide si aucune n'est trouvée.</returns>
         public static   String ExtraireVariable(String  Argument)
         {
-            // retourne le nom dela prochaine variable ou "" si aucune
-            int ouverture = Argument.IndexOf("{{");
-            int Fermeture = Argument.IndexOf("}}");
-            if ((Fermeture < 1) || (Fermeture < ouverture) || (ouverture < 0)) return "";
-            if ((Fermeture < 1) || (Fermeture < ouverture) || (ouverture < 0)) return "";
+            int ouverture = Argument.IndexOf(
+                "{{");
+            int Fermeture = Argument.IndexOf(
+                "}}");
+            if ((Fermeture < 1) || 
+                (Fermeture < ouverture) || 
+                (ouverture < 0))
+                return "";
             return Argument.Substring(ouverture  +2, (Fermeture - 2) - ouverture  );
-        }       
+        }
 
 
+        /// <summary>
+        /// Remplace toutes
+        /// les balises de variable
+        /// par le contenu du dictionnaire
+        /// des valeurs de variables.
+        /// Si la variable n'est pas
+        /// dans le dictionnaire cela lance une exception.
+        /// </summary>
+        /// <param name="Argument">Texte dans lequel on doit remplacer les balises de variables</param>
+        /// <param name="Variables">Le dictionnaire des clés versus valeurs des variables.</param>
+        /// <returns>Le texte avec les balises remplacées par le contenu ou une exception</returns>
         public static String SubstituerVariables(String Argument, Dictionary<String, String> Variables)
-            {
-                String ProchaineVariable = ExtraireVariable(Argument );
-                while (ProchaineVariable != "")
-                    {
-                        if (!(Variables.ContainsKey(ProchaineVariable))  ) 
+        {
+            String ProchaineVariable = ExtraireVariable(Argument );
+            while (ProchaineVariable != "")
+                {
+                   if (!(Variables.ContainsKey(ProchaineVariable))  ) 
                             throw new JCAssertionException("La variable " + ProchaineVariable  + " n'a pas eu de valeur fournie.")  ;
-                        Argument = Argument.Replace("{{" + ProchaineVariable + "}}", Variables[ProchaineVariable]);
+                        Argument = Argument.Replace(
+                            "{{" + ProchaineVariable + "}}", 
+                            Variables[ProchaineVariable]);
                         ProchaineVariable = ExtraireVariable(Argument);
                 }
                 return Argument;
@@ -78,7 +101,6 @@ namespace JCAssertionCore
 
         public void MAJVariable(String Cle, String Valeur)
         {
-            // ajoute la paire au dictionnaire si absent,modifierla valeursiprésent
             if (Variables.ContainsKey(Cle)) Variables.Remove(Cle);
             Variables.Add(Cle,Valeur);
             Trier();

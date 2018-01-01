@@ -14,5 +14,3 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\J
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAMiniCore.pdb
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCASQLODPCore.dll.config
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionCore.csproj.CoreCompileInputs.cache
-D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.dll.CodeAnalysisLog.xml
-D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.dll.lastcodeanalysissucceeded

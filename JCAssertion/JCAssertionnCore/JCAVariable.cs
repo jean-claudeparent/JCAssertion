@@ -99,27 +99,43 @@ namespace JCAssertionCore
                 return Argument;
             }
 
-        public void MAJVariable(String Cle, String Valeur)
+        /// <summary>
+        /// Si la clé existe dans le dictionnaire
+        /// de contenu de variables, la
+        /// valeur est mise à jour.
+        /// Sinon la clé et la veleur sont crées 
+        /// dans le dictionnaire.
+        /// Le dictionnaire est ensuite trié.
+        /// </summary>
+        /// <param name="Cle">Clé de la variables</param>
+        /// <param name="Valeur">Valeur de la variable</param>
+        public void MAJVariable(
+            String Cle, 
+            String Valeur)
         {
-            if (Variables.ContainsKey(Cle)) Variables.Remove(Cle);
+            if (Variables.ContainsKey(Cle))
+                Variables.Remove(Cle);
             Variables.Add(Cle,Valeur);
             Trier();
             
         }
 
-       
+       /// <summary>
+       /// Retourne le nombre de variables
+       /// dans le dictionnaire.
+       /// </summary>
+       /// <returns>Nombre de variables dans le dictionnaire</returns>
         public int NombreVariables()
         {
             return Variables.Count;
         }
-        
-        
+
+
         /// <summary>
         /// GetValeurVariable : retourne la valeur d'une clé identifiant une variable 
         /// </summary>
-        public String  GetValeurVariable(String Cle)
         /// <returns>Retourne la valeur asociée à ka cké dans le dictionnaire des variables. Retourne null si la lcé n'existe pas.</returns>
-
+        public String  GetValeurVariable(String Cle)
         {
             
             String valeur;
@@ -128,14 +144,24 @@ namespace JCAssertionCore
             else return null;
         }
 
+        /// <summary>
+        /// retourne le dictionnaire des variables
+        /// </summary>
+        /// <returns>Dictionnaire des variables</returns>
         public Dictionary<String, String> GetDictionnaireVariable()
         {
             return Variables;
         }
 
+        /// <summary>
+        /// Écrit le dictionnaire
+        /// des variables comme un
+        /// document xml dans un fichier xml. 
+        /// Le dictionnaire est trié.
+        /// </summary>
+        /// <param name="NomFichier">Nom du fichier avec le chemin</param>
         public void  EcrireFichier(String NomFichier)
         {
-            // Créer le document xml desvariables
             Trier();
             XmlDocument monXMLDeVariables = new XmlDocument();
             XmlDeclaration maDeclaration = monXMLDeVariables.CreateXmlDeclaration("1.0","UTF-8", null);
@@ -159,7 +185,22 @@ namespace JCAssertionCore
             monXMLDeVariables.Save(NomFichier );
 
         }
-
+        
+        /// <summary>
+        /// Lit un fichier xml
+        /// définissant le dictionnaire de variable
+        /// et le met dans le dictionnaire.
+        /// </summary>
+        /// <param name="NomFichier">
+        /// Nom du fichier xml contenant le dictionnaire en format xml
+        /// </param>
+        /// <param name="Ajouter">
+        /// Si true le contenu du fichier
+        /// sera ajouté au dictionnaire existant.
+        /// Si une clé existe dans le dictionnaire
+        /// actuel la valeur sera remplacée par celle du fichier.
+        /// Si fakse seul le contenu du fichier sera conservé
+        /// dans le dictionnaire.</param>
         public void LireFichier(String NomFichier, Boolean Ajouter = false )
         {
             if(! Ajouter) Variables = new Dictionary<String, String>();
@@ -185,7 +226,11 @@ namespace JCAssertionCore
         }
         
 
-         public void Trier()
+        /// <summary>
+        /// trie le dictionnaire des variables
+        /// par ordre croissant  alphabétique de clé.
+        /// </summary>
+        public void Trier()
         {
             var maListe = Variables.Keys.ToList();
             maListe.Sort();
@@ -198,7 +243,21 @@ namespace JCAssertionCore
 
         }
 
-        public Boolean EstEgal(Dictionary<String, String> VarAcomparer, out String Detail )
+        /// <summary>
+        /// Compare deux dictionnaires
+        /// de variables.  
+        /// </summary>
+        /// <param name="VarAcomparer">Dictionnaire à comparer</param>
+        /// <param name="Detail">
+        /// Si les deux 
+        /// dictionnaires sont différents.
+        /// retourne Une string comportant
+        /// l'explication des différences en sortie</param>
+        /// <returns>true si les deux dictionnaires sont pareils,
+        /// false si non</returns>
+        public Boolean EstEgal(
+            Dictionary<String,String> VarAcomparer, 
+            out String Detail)
         {
             Detail = "Égal";
             if (Variables.Count() != VarAcomparer.Count() )
@@ -225,18 +284,59 @@ namespace JCAssertionCore
             return true ;
         }
 
-        public   String ExtrairePaire(String  Argument, out String Valeur)
+        /// <summary>
+        /// retourne la clé 
+        /// et dans une variable de sortie
+        /// la valeur d'une paire sous la forme
+        /// cle=valeur
+        /// si jamais la clause = valeur n'existe pas
+        /// la valeur retournée sera la clé
+        /// </summary>
+        /// <param name="Argument">Texte à analyser
+        /// sous la forma cle=valeur ou cle</param>
+        /// <param name="Valeur"></param>
+        /// <returns></returns>
+        public   String ExtrairePaire(
+            String  Argument, 
+            out String Valeur)
         {
             Valeur = "";
-            if ((Argument == null ) || (Argument == "")) return "";
-            if(Argument.IndexOf("=") < 0 ) Argument = Argument + "=" + Argument;
-            //todo enlever la prochaine ligne pour permettre lesstring vides dan lesarhuments
-            //if(Argument.IndexOf("=") == (Argument.Length - 1) ) Argument = Argument + "=" + Argument.Substring (0, Argument.Length - 1);
+            if ((Argument == null ) || 
+                (Argument == ""))
+                  return "";
+            if(Argument.IndexOf("=") < 0 )
+                Argument = Argument + "=" + Argument;
             String Cle = Argument.Substring (0,Argument.IndexOf ("="));
             Valeur = Argument.Substring (Argument.IndexOf("=") + 1 , Argument.Length - 1 - Cle.Length );
             return Cle;
         }
         
+        /// <summary>
+        /// retourne si une clé
+        /// existe dans le dictionnaire
+        /// de variables
+        /// </summary>
+        /// <param name="Cle">Clé de l'entrée au dictionnaire</param>
+        /// <returns>True si la clé existe dans le dicyionnaire, false sinon</returns>
+        public bool CleExiste(
+            string Cle)
+        {
+            return Variables.ContainsKey(Cle);
+
+        }
+        /// <summary>
+        /// Enlève une clé et
+        /// sa valeur du dictionnaire de variables.
+        /// Si la clé n'existe pas il n'y a pas d'exception de lancée.
+        /// </summary>
+        /// <param name="Cle">Clé à emlever</param>
+        public void EnleverCle (
+            string Cle)
+        {
+            if (Variables.ContainsKey(Cle))
+                Variables.Remove(Cle);
+            
+        }
 
 
     }

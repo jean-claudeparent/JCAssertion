@@ -335,6 +335,7 @@ namespace JCAssertionCore
         {
             if (Variables.ContainsKey(Cle))
                 Variables.Remove(Cle);
+            Trier();
             
         }
 

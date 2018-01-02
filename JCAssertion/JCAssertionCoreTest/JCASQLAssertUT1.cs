@@ -161,36 +161,18 @@ namespace JCAssertionCoreTest
 
 
         [TestMethod]
-        public void SQLAssertOK()
+        public void AssertSQLTexteTrue()
         {
-            // Cas 1 Assert un nombre et retourne true
-            monCas.InnerXml = "<Assertion>" +
-               "<Type>AssertSQL</Type>" +
-               "<SQL>{{dual}}</SQL>" +
-               "<AttenduNombre>{{un}}</AttenduNombre>" +
-               "</Assertion>";
-            Assert.IsTrue(monCore.ExecuteCas(monCas),
-                "Échec du cas 1 de de ODPSQLAssertOK(). true attendu " +
-                monCore.Message +
-                " " + monCore.MessageEchec );
-            Assert.IsTrue(monCore.Message.Contains(
-                "select count(*) from dual"), "Le message devrait contenir select count(*) from dual");
-            Assert.IsTrue(monCore.Message.Contains(
-                "Opérateur : ="),
-                "Le message devrait contenir Opérateur : =");
-            Assert.IsTrue(monCore.Message.Contains(
-                "Valeur attendue : 1"),
-                "Le message devrait contenir Valeur attendue : 1");
 
-
+            // Cas : Assert un texte et retourne true
+            monCas.InnerXml = monXMLH.xmlAssertSQL(
+                "select '{{Test}}'" +
+               Environment.NewLine + "from dual",
+                null,
+                null,
+               "{{Test}}",
+               null);
             
-            // Cas 3 Assert un texte et retourne true
-            monCas.InnerXml = "<Assertion>" +
-               "<Type>AssertSQL</Type>" +
-               "<SQL>select '{{Test}}'" +
-               Environment.NewLine   +"from dual</SQL>" +
-               "<AttenduTexte>{{Test}}</AttenduTexte>" +
-               "</Assertion>";
             Assert.IsTrue(monCore.ExecuteCas(monCas),
                 "Échec du cas 3 de de ODPSQLAssertOK(). true attendu " +
                 monCore.Message +
@@ -217,6 +199,58 @@ namespace JCAssertionCoreTest
             
            
         }
+
+        [TestMethod]
+        public void SQLAssertNombreTrue()
+        {
+            // Cas : Assert un nombre et retourne true
+            monCas.InnerXml = monXMLH.xmlAssertSQL(
+                "{{dual}}",
+                null,
+                "{{un}}",
+                null);
+            // Les variables générées automatiquement ne devraient pas exister
+            Assert.IsFalse(monCore.Variables.CleExiste(
+                "JCA.Expression"));
+            Assert.IsFalse(monCore.Variables.CleExiste(
+                "JCA.ValeurAttendue"));
+            Assert.IsFalse(monCore.Variables.CleExiste(
+                            "JCA.ValeurReelle"));
+
+
+            // exécution de l'assertion
+            Assert.IsTrue(monCore.ExecuteCas(monCas),
+                "Échec du cas 1 de de ODPSQLAssertOK(). true attendu " +
+                monCore.Message +
+                " " + monCore.MessageEchec);
+            // Assertions
+            // Les variables générées automatiquement ne devraient pas exister
+            Assert.IsTrue(monCore.Variables.CleExiste(
+                "JCA.Expression"));
+            Assert.IsTrue(monCore.Variables.CleExiste(
+                "JCA.ValeurAttendue"));
+            Assert.IsTrue(monCore.Variables.CleExiste(
+                            "JCA.ValeurReelle"));
+
+
+            Assert.IsTrue(monCore.Message.Contains(
+                "select count(*) from dual"), "Le message devrait contenir select count(*) from dual");
+            Assert.IsTrue(monCore.Message.Contains(
+                "Opérateur : ="),
+                "Le message devrait contenir Opérateur : =");
+            Assert.IsTrue(monCore.Message.Contains(
+                "Valeur attendue : 1"),
+                "Le message devrait contenir Valeur attendue : 1");
+
+
+
+            
+            Assert.IsTrue(monCore.MessageEchec == "",
+                "Cas 3 Le message d'échec devrait être vide mais contient :" +
+                monCore.MessageEchec);
+            
+        }
+
 
         [TestMethod]
         public void ODPSQLAssertPasOK()

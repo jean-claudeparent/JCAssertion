@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016,2017 Jean-Claude Parent 
+//  Copyright 2016-2018 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //
@@ -544,7 +544,7 @@ namespace JCAssertion
             MessageBox.Show  ("JCAssertion "+
                 JCAssertionCore.JCACore.Constantes.Version +
                 Environment.NewLine +
-                "(C)opyright 2016,2017 Jean-Claude Parent" +
+                "(C)opyright 2016-2018 Jean-Claude Parent" +
                 Environment.NewLine +
                 "http://www.jcassertion.org");
 

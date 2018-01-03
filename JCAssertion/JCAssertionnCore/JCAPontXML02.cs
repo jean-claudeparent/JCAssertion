@@ -44,8 +44,21 @@ namespace JCAssertionCore
     public partial class JCAPontXML
     {
         
-        
-        public bool JCACompteFichiers(XmlNode monXMLNode,
+        /// <summary>
+        /// Cette méthode évalue une assertion
+        /// de type CompteFichiers
+        /// définie par im document xml.
+        /// </summary>
+        /// <param name="monXMLNode">Assertion définie en xml</param>
+        /// <param name="Message">Message qui retournera de l'information sur 
+        /// l'évaluation de l'assertion</param>
+        /// <param name="Variables">Dictionnaire des valeurs de variables</param>
+        /// <param name="MessageEchec">Information supplémentaire
+        /// si l'assertion est fausse</param>
+        /// <returns>true si l'assertion est vraie, 
+        /// false autrement. Peutt lancr des exceptions</returns>
+        public bool JCACompteFichiers(
+            XmlNode monXMLNode,
             ref string Message,
             ref  Dictionary<String, String> Variables,
             ref string MessageEchec)
@@ -78,7 +91,7 @@ namespace JCAssertionCore
             monRepertoire = JCAVariable.SubstituerVariables(
                     monRepertoire, Variables);
             
-            // Resu;tat Attendu
+            // Resultat Attendu
             String monResultatStr = ValeurBalise(monXMLNode, "ResultatAttendu");
             monResultatStr = JCAVariable.SubstituerVariables(
                     monResultatStr, Variables);
@@ -152,7 +165,10 @@ namespace JCAssertionCore
 
         /// <summary>
         /// Évalue une assertion sur le nombre de fichiers
-        /// comptés dans un répertoire
+        /// comptés dans un répertoire. Cette méthode
+        /// est utilisée en passant des paramètres
+        /// du bon type et non pas
+        /// un document xml définisssant l'assertion.
         /// </summary>
         /// <param name="Repertoire">Répertoire où compter les fichiers</param>
         /// <param name="Patterm">Pattern des fichiers à compter, par exemple "*.xml"</param>

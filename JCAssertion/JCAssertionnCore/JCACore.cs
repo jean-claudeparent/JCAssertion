@@ -70,7 +70,11 @@ namespace JCAssertionCore
         /// </summary>
         public class Constantes
         {
-            public const String Version = "1.1.0";
+            public const String Version = "1.1.1";
+            public const String JCAUserOracleTest = "JCA";
+            public const String JCAPasswordOracleTest = "JCA";
+            public const String JCAServeurOracleTest = "localhost";
+
 
         }
 

@@ -10,17 +10,17 @@ namespace JCAssertionCoreTest
     {
         XmlDocument monCas;
         JCACore monCore;
+        JCAXMLHelper monXMLH = new JCAXMLHelper();
+
 
         [TestInitialize]
         public void InitTest()
         {
             // Définir connection
+            // JCAXMLHelper monXMLH = new JCAXMLHelper();
             monCas = new XmlDocument();
-            monCas.InnerXml = "<Assertion>" +
-               "<Type>ConnectionOracle</Type>" + 
-               "<User>JCA</User>" + 
-               "<Password>JCA</Password>" +
-               "</Assertion>"; 
+            monCas.InnerXml = monXMLH.xmlConnectionOracle( 
+                "JCA","JCA"); 
  
             monCore = new JCACore();
             monCore.ExecuteCas(monCas);
@@ -40,68 +40,139 @@ namespace JCAssertionCoreTest
         [TestCleanup]
         public void CleanTest()
         {
-            // FermerConnection
+            // tester dispose
+            monCore.Dispose();
+            // Vérifier que plusieurs dispose
+            // me causemt pas d'exception
+            monCore.Dispose();
+            monCore.Dispose();
+
 
         }
-    
 
-
+        /// <summary>
+        /// Assert un nombre et retourne false.
+        /// Utilise les variables définies automatiquement.
+        /// </summary>
         [TestMethod]
-        public void ODPSQLAssertOK()
+        public void SQLAssertNombreFalse()
         {
-            // Cas 1 Assert un nombre et retourne true
-            monCas.InnerXml = "<Assertion>" +
-               "<Type>AssertSQL</Type>" +
-               "<SQL>{{dual}}</SQL>" +
-               "<AttenduNombre>{{un}}</AttenduNombre>" +
-               "</Assertion>";
-            Assert.IsTrue(monCore.ExecuteCas(monCas),
-                "Échec du cas 1 de de ODPSQLAssertOK(). true attendu " +
-                monCore.Message +
-                " " + monCore.MessageEchec );
-            Assert.IsTrue(monCore.Message.Contains(
-                "select count(*) from dual"), "Le message devrait contenir select count(*) from dual");
-            Assert.IsTrue(monCore.Message.Contains(
-                "Opérateur : ="),
-                "Le message devrait contenir Opérateur : =");
-            Assert.IsTrue(monCore.Message.Contains(
-                "Valeur attendue : 1"),
-                "Le message devrait contenir Valeur attendue : 1");
 
-
-            // Cas 2 Assert un nombre et retourne false
-            monCas.InnerXml = "<Assertion>" +
-               "<Type>AssertSQL</Type>" +
-               "<SQL>{{dual}}</SQL>" +
-                "<Operateur>pg</Operateur>" +
-               "<AttenduNombre>{{un}}</AttenduNombre>" +
-               "<MessageEchec>{{echec}}</MessageEchec>" +
-               "</Assertion>";
+            monCas.InnerXml = monXMLH.xmlAssertSQL(
+               "{{dual}}",
+               "pg",
+               "{{un}}",
+               null,
+               "{{echec}}" +Environment.NewLine +
+               "Valeur attendue : {{JCA.ValeurAttendue}}" + Environment.NewLine +
+               "Valeur réelle : {{JCA.ValeurReelle}}" + Environment.NewLine +
+               "Expresssion : {{JCA.Expression}}");
+            
             Assert.IsFalse(monCore.ExecuteCas(monCas),
                 "Échec du cas 2 de de ODPSQLAssertOK(). true attendu " +
                 monCore.Message +
                 " " + monCore.MessageEchec);
 
-            Assert.IsTrue   (
-                monCore.Message.Contains (
+            Assert.IsTrue(
+                monCore.Message.Contains(
                 "Valeur réelle : 1"),
                 "erreurr attendu Valeur réelle : 1 mais " +
-                monCore.Message  );
+                monCore.Message);
 
             Assert.IsTrue(monCore.MessageEchec.Contains(
                 "Ceci est le message d'échec de test."),
-                "Le message d'échec aurait du contenir :" 
+                "Le message d'échec aurait du contenir :"
                 + " Ceci est le message d'échec de test. Contient : " +
-                monCore.MessageEchec  );
+                monCore.MessageEchec);
+
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "Expresssion : (Valeur Réelle):1 pg 1 :(Valeur attendue)") &&
+                monCore.MessageEchec.Contains(
+                    "Valeur attendue : 1") &&
+                    monCore.MessageEchec.Contains(
+                        "Valeur réelle : 1"),
+                        "Mauvais message d'échec : " +
+                        monCore.MessageEchec ); 
+
+             
+        }
+
+        /// <summary>
+        /// Fait un SQLAssert avec
+        /// un résultat de type texte
+        /// et retourne faux.
+        /// Les 3 variables auto générées
+        /// sont utilisées dans le messahe 
+        /// d.erreur (MessageEchec).
+        /// </summary>
+        [TestMethod]
+        public void SQLAssertTexteFalse()
+        {
+
+            monCas.InnerXml = monXMLH.xmlAssertSQL(
+               "select '{{Test}}'" +
+               Environment.NewLine + "from dual",
+               null, null,
+               "Test pas pareil",
+               "{{echec}}" + Environment.NewLine +
+               "Valeur attendue : {{JCA.ValeurAttendue}}" + Environment.NewLine +
+               "Valeur réelle : {{JCA.ValeurReelle}}" + Environment.NewLine +
+               "Expresssion : {{JCA.Expression}}");
+            
+            Assert.IsFalse(monCore.ExecuteCas(monCas),
+                "Échec du cas 4 de de ODPSQLAssertOK(). true attendu " +
+                monCore.Message +
+                " " + monCore.MessageEchec);
+
+            Assert.IsTrue(monCore.Message.Contains(
+                "select 'Valeur de test'"),
+                "Cas 4 Le message devrait contenir select 'Valeur de test'" +
+                " mais contient : " +
+                monCore.Message);
+            Assert.IsTrue(monCore.Message.Contains(
+                "Valeur attendue : Test pas pareil"),
+                "Cas 4 Le message devrait contenir Valeur attendue : Test pas pareil" +
+                " mais contient : " +
+                monCore.Message);
+
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "Ceci est le message d'échec de test"),
+                "Cas 4 Le message d'échec devrait contenir :Ceci est le message d'échec de test: mais contient :" +
+                monCore.MessageEchec);
 
 
-            // Cas 3 Assert un texte et retourne true
-            monCas.InnerXml = "<Assertion>" +
-               "<Type>AssertSQL</Type>" +
-               "<SQL>select '{{Test}}'" +
-               Environment.NewLine   +"from dual</SQL>" +
-               "<AttenduTexte>{{Test}}</AttenduTexte>" +
-               "</Assertion>";
+            Assert.IsTrue(monCore.MessageEchec.Contains(
+                "Expresssion : (Valeur Réelle):\"Valeur de test\" = \"Test pas pareil\" :(Valeur attendue)") &&
+                monCore.MessageEchec.Contains(
+                    "Valeur attendue : Test pas pareil") &&
+                    monCore.MessageEchec.Contains(
+                        "Valeur réelle : Valeur de test"),
+                        "Mauvais message d'échec : " +
+                        monCore.MessageEchec);
+
+            Assert.IsTrue (
+                monCore.Message.Contains(
+                    "Valeur réelle : Valeur de test"),   
+                monCore.Message  ); 
+
+        }
+
+
+
+
+        [TestMethod]
+        public void AssertSQLTexteTrue()
+        {
+
+            // Cas : Assert un texte et retourne true
+            monCas.InnerXml = monXMLH.xmlAssertSQL(
+                "select '{{Test}}'" +
+               Environment.NewLine + "from dual",
+                null,
+                null,
+               "{{Test}}",
+               null);
+            
             Assert.IsTrue(monCore.ExecuteCas(monCas),
                 "Échec du cas 3 de de ODPSQLAssertOK(). true attendu " +
                 monCore.Message +
@@ -122,40 +193,64 @@ namespace JCAssertionCoreTest
                 "Cas 3 Le message d'échec devrait être vide mais contient :" +
                 monCore.MessageEchec);
 
-            // Cas 4 Assert un texte et retourne false
-            monCas.InnerXml = "<Assertion>" +
-               "<Type>AssertSQL</Type>" +
-               "<SQL>select '{{Test}}'" +
-               Environment.NewLine + "from dual</SQL>" +
-               "<AttenduTexte>Test pas pareil</AttenduTexte>" +
-               "<MessageEchec>{{echec}}</MessageEchec>" +
-               "</Assertion>";
-            Assert.IsFalse(monCore.ExecuteCas(monCas),
-                "Échec du cas 4 de de ODPSQLAssertOK(). true attendu " +
-                monCore.Message +
-                " " + monCore.MessageEchec);
-
-            Assert.IsTrue(monCore.Message.Contains(
-                "select 'Valeur de test'"),
-                "Cas 4 Le message devrait contenir select 'Valeur de test'" +
-                " mais contient : " +
-                monCore.Message);
-            Assert.IsTrue(monCore.Message.Contains(
-                "Valeur attendue : Test pas pareil"),
-                "Cas 4 Le message devrait contenir Valeur attendue : Test pas pareil" +
-                " mais contient : " +
-                monCore.Message);
-
-            Assert.IsTrue(monCore.MessageEchec.Contains (
-                "Ceci est le message d'échec de test"),
-                "Cas 4 Le message d'échec devrait contenir :Ceci est le message d'échec de test: mais contient :" +
-                monCore.MessageEchec); 
-
+            
 
 
             
            
         }
+
+        [TestMethod]
+        public void SQLAssertNombreTrue()
+        {
+            // Cas : Assert un nombre et retourne true
+            monCas.InnerXml = monXMLH.xmlAssertSQL(
+                "{{dual}}",
+                null,
+                "{{un}}",
+                null);
+            // Les variables générées automatiquement ne devraient pas exister
+            Assert.IsFalse(monCore.Variables.CleExiste(
+                "JCA.Expression"));
+            Assert.IsFalse(monCore.Variables.CleExiste(
+                "JCA.ValeurAttendue"));
+            Assert.IsFalse(monCore.Variables.CleExiste(
+                            "JCA.ValeurReelle"));
+
+
+            // exécution de l'assertion
+            Assert.IsTrue(monCore.ExecuteCas(monCas),
+                "Échec du cas 1 de de ODPSQLAssertOK(). true attendu " +
+                monCore.Message +
+                " " + monCore.MessageEchec);
+            // Assertions
+            // Les variables générées automatiquement ne devraient pas exister
+            Assert.IsTrue(monCore.Variables.CleExiste(
+                "JCA.Expression"));
+            Assert.IsTrue(monCore.Variables.CleExiste(
+                "JCA.ValeurAttendue"));
+            Assert.IsTrue(monCore.Variables.CleExiste(
+                            "JCA.ValeurReelle"));
+
+
+            Assert.IsTrue(monCore.Message.Contains(
+                "select count(*) from dual"), "Le message devrait contenir select count(*) from dual");
+            Assert.IsTrue(monCore.Message.Contains(
+                "Opérateur : ="),
+                "Le message devrait contenir Opérateur : =");
+            Assert.IsTrue(monCore.Message.Contains(
+                "Valeur attendue : 1"),
+                "Le message devrait contenir Valeur attendue : 1");
+
+
+
+            
+            Assert.IsTrue(monCore.MessageEchec == "",
+                "Cas 3 Le message d'échec devrait être vide mais contient :" +
+                monCore.MessageEchec);
+            
+        }
+
 
         [TestMethod]
         public void ODPSQLAssertPasOK()

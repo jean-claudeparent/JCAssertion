@@ -37,6 +37,7 @@ using System.Threading.Tasks;
 
 namespace JCAssertionCore
 {
+    [Serializable]
     public class JCAssertionException : Exception
     {
         public JCAssertionException()

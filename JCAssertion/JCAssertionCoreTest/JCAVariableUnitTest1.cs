@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JCAssertionCore;
 using System.IO;
 
+
+
 namespace JCAssertionCoreTest
 {
     [TestClass]
@@ -26,7 +28,7 @@ namespace JCAssertionCoreTest
         public void SubstituerVariable()
         {
             JCACore monJCACore = new JCACore();
-            // rendu ici
+            
             monJCACore.Variables.MAJVariable("Test2","Ceci estklavaleursubstituée de test 2");
             monJCACore.Variables.MAJVariable("Test1", "Ceci estklavaleursubstituée de test 1");
             monJCACore.Variables.MAJVariable("Test", "Ceci estklavaleursubstituée");
@@ -90,5 +92,53 @@ namespace JCAssertionCoreTest
 
             
         }
+
+
+        [TestMethod]
+        public void CleExisteTest()
+        {
+            JCAVariable mesVariables = 
+                new JCAVariable();
+            Assert.IsFalse(
+                mesVariables.CleExiste("monTest"),
+                "La clé ne devrait pas exister");
+            mesVariables.MAJVariable("monTest",
+                "La valeur");
+            Assert.IsTrue(
+                mesVariables.CleExiste("monTest"),
+                "La clé devrait  exister");
+
+
+
+
+
+
+        }
+
+        [TestMethod]
+        public void EnleveCleTest()
+        {
+            JCAVariable mesVariables =
+                new JCAVariable();
+            Assert.IsFalse(
+                mesVariables.CleExiste("monTest"),
+                "La clé ne devrait pas exister");
+            mesVariables.MAJVariable("monTest",
+                "La valeur");
+            Assert.IsTrue(
+                mesVariables.CleExiste("monTest"),
+                "La clé devrait  exister");
+            mesVariables.EnleverCle("monTest");
+            Assert.IsFalse(
+                mesVariables.CleExiste("monTest"),
+                "La clé ne devrait pas exister");
+
+
+
+
+
+        }
+
+
     }
 }

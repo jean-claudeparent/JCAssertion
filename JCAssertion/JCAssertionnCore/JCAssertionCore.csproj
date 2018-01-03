@@ -39,10 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="JCACompare.cs" />
     <Compile Include="JCAConsole.cs" />
     <Compile Include="JCACore.cs" />
     <Compile Include="JCAPontXML02.cs" />
+    <Compile Include="JCAPontXMLConnectionOracle.cs" />
+    <Compile Include="JCAPontXMLAssertSQL.cs" />
+    <Compile Include="JCAPontXMLHelper.cs" />
     <Compile Include="JCASQLClient.cs" />
     <Compile Include="JCAPontXML.cs" />
     <Compile Include="JCAssertionException.cs" />
@@ -50,6 +54,7 @@
     <Compile Include="JCAUtilitaires.cs" />
     <Compile Include="JCAVariable.cs" />
     <Compile Include="JCAXML.cs" />
+    <Compile Include="JCAXMLHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

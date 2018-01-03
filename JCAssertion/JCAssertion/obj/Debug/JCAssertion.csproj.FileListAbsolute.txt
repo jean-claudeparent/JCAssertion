@@ -22,3 +22,5 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\bin\Debug\Oracle
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\bin\Debug\JCASQLODPCore.pdb
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\bin\Debug\JCAMiniCore.dll
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\bin\Debug\JCAMiniCore.pdb
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\bin\Debug\JCASQLODPCore.dll.config
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertion\obj\Debug\JCAssertion.csproj.CoreCompileInputs.cache

@@ -28,3 +28,7 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debu
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\CompteFichiers\SousDossiers\xmlFile2.XML
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\CompteFichiers\TextFile1.txt
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Ressources\CompteFichiers\SousDossiers\Txmlminuscules.xml
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCASQLODPCore.dll.config
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\fr\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.csproj.CoreCompileInputs.cache

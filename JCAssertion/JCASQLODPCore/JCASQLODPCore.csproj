@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="JCASQLODPCore.cs" />
     <Compile Include="JCASQLODPException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

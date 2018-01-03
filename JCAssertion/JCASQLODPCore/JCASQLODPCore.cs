@@ -50,7 +50,7 @@ namespace JCASQLODPCore
     /// JCASQLODPCore : Classe définissant les propriétés et méthodes
     /// pour accéder une base de données oracle avec le oracle data provider.
     /// </summary>
-    public class JCASQLODPClient
+    public class JCASQLODPClient : IDisposable
     {
         public String Serveur;
         public String User;
@@ -69,7 +69,33 @@ namespace JCASQLODPCore
         private JCASQLODPHelper Helper = new JCASQLODPHelper() ;
         
 
-        
+        public void Dispose()
+        {
+            Dispose(true);  
+             
+        }
+
+        protected virtual void Dispose(bool tout)
+        {
+            if (tout)
+            {
+                // disposer les natifs et managed 
+                if (maConnection != null)
+                    maConnection.Dispose();
+                if (maCommandeSQL != null)
+                    maCommandeSQL.Dispose();
+            } else
+            {
+                // disposer juste les natifs
+                if (maConnection != null)
+                    maConnection.Dispose();
+                if (maCommandeSQL != null)
+                    maCommandeSQL.Dispose();
+            }
+
+        }
+
+
         /// <summary>
         /// CreerConnectionString : retourne la chaîne de connection
         /// crée à partir des propriétés de la classe. Peut
@@ -162,7 +188,7 @@ namespace JCASQLODPCore
                     throw new JCASQLODPException("Commande SQL:" + Environment.NewLine +
                     maCommandeSQLString + Environment.NewLine +
                     excep.Message, excep);
-                else throw excep;
+                else throw;
             }
             if (ActiverResume) Resumer();
              
@@ -531,7 +557,7 @@ namespace JCASQLODPCore
                         throw new JCASQLODPException("Commande SQL:" + Environment.NewLine +
                         SQL + Environment.NewLine +
                         excep.Message  , excep);
-                    else throw excep; 
+                    else throw; 
                 }
             }
 

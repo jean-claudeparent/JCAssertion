@@ -153,9 +153,9 @@ namespace JCAssertionCore
                     monLog.Source = Source;
                     monLog.WriteEntry(Texte, monType);
                 }
-                catch (Exception excep)
+                catch (Exception)
                 {
-                    if (LancerExceptionJE) throw excep;
+                    if (LancerExceptionJE) throw ;
                     else return;
                 }
             } // if

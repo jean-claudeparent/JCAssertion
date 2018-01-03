@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016,2017 Jean-Claude Parent 
+//  Copyright 2016-2018 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //
@@ -44,7 +44,7 @@ namespace JCAssertionCore
     /// <summary>
     /// Classe principale pour diriger l'exécution des assertions
     /// </summary>
-    public class JCACore
+    public class JCACore : IDisposable
     {
         public String FichierDeCas;
         public string FichierJournal;
@@ -70,10 +70,31 @@ namespace JCAssertionCore
         /// </summary>
         public class Constantes
         {
-            public const String Version = "1.0.9";
+            public const String Version = "1.1.0";
 
         }
-        
+
+
+        protected virtual void Dispose(bool Tout)
+        {
+            if (Tout)
+            {
+                if (monSQLClient != null)
+                    monSQLClient.Dispose();
+            } else
+            {
+                if (monSQLClient != null)
+                    monSQLClient.Dispose();
+            };
+        }
+
+        public void Dispose()
+        {
+            Dispose(true); 
+        }
+
+
+
         /// <summary>
         /// Ajoute un texte à la propriété globale
         /// de message

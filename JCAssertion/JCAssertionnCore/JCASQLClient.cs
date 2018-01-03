@@ -44,12 +44,30 @@ namespace JCAssertionCore
     /// Actuellement implanté oracle avec le oracle data provider.
     /// À venir coder les appels a oledb ici aussi
     /// </summary>
-    public class JCASQLClient
+    public class JCASQLClient : IDisposable
     {
 
         private JCASQLODPClient monSQLClientODP = new JCASQLODPClient();
         public enum Action {Aucune, Ouvrir, Fermer };
         public String DernierResultat = "";
+
+        protected virtual void Dispose(bool Tout)
+        {
+            if (Tout)
+            {
+                if (monSQLClientODP != null)
+                    monSQLClientODP.Dispose();
+            } else
+            {
+                if (monSQLClientODP != null)
+                    monSQLClientODP.Dispose();
+            };
+        }
+
+        public void Dispose()
+        {
+            Dispose(true );
+        }
 
         /// <summary>
         /// ConnectionOuverte : Retourne si la connection

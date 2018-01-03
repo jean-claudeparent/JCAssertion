@@ -19,17 +19,30 @@ namespace JCASQLODPCoreTest
             monSQLCliemt.User = "JCA";
             monSQLCliemt.Password = "JCA";
             monSQLCliemt.OuvrirConnection();
-            monSQLCliemt.FermerConnection();
-  
 
-           
+            Assert.IsTrue(  
+                 monSQLCliemt.SiConnectionOuverte(),
+                 "La connection n'est pas ouverte");
+
+            monSQLCliemt.FermerConnection();
+
+            Assert.IsFalse(
+                 monSQLCliemt.SiConnectionOuverte(),
+                 "La connection est toujours ouverte");
+            // test de dispose multiple
+            monSQLCliemt.Dispose();
+            monSQLCliemt.Dispose();
+
+
+
+
         }
 
         [TestMethod]
         public void ConnectionPasOK()
         {
             /// <testsummary>
-            /// Ouvrir une connection valide.
+            /// Ouvrir une connection invalide.
             /// </testsummary>
             JCASQLODPClient monSQLCliemt = new JCASQLODPClient();
             monSQLCliemt.User = "JCA";
@@ -37,11 +50,13 @@ namespace JCASQLODPCoreTest
             monSQLCliemt.Serveur = "serveurnexistepas"; 
             try {
                     monSQLCliemt.OuvrirConnection();
+                    Assert.Fail("Une exception aurait dû se produire");  
                 } catch (Exception excep)
                 {
                     Assert.IsTrue(excep.Message.Contains("ORA-"),
                         "Mauvais message d'exception : " + excep.Message  ); 
                 }
+            monSQLCliemt.Dispose();  
   
 
              

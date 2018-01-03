@@ -123,7 +123,7 @@ namespace JCAssertionCore
             // appeler la méthode
             Int64 ResultatReel = 0;
             Boolean Resultat = false;
-            Resultat =  AssertCF(
+            Resultat =  AssertCompteFichiers(
             monRepertoire,
             monPattern,
             monOperateur,
@@ -160,7 +160,7 @@ namespace JCAssertionCore
         /// <param name="ResultatAttendu">Résultat à comparer au résultat réel avec l'opérateur</param>
         /// <param name="ResultatReel">Retourne le nombre de fichiers comptés avec le pattern</param>
         /// <returns>Si l'assertion est vraie ou fausse</returns>
-        public Boolean AssertCF(
+        public Boolean AssertCompteFichiers(
             String Repertoire,
             String Patterm,
             String Operateur,

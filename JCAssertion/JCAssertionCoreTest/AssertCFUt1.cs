@@ -19,7 +19,7 @@ namespace JCAssertionCoreTest
             Int64 ResultatReel = 0;
 
             Assert.IsTrue(
-                monPont.AssertCF(
+                monPont.AssertCompteFichiers(
                 Chemin + "CompteFichiers",
                 "*.xml",
                 "pg",
@@ -29,7 +29,7 @@ namespace JCAssertionCoreTest
                 ResultatReel.ToString()  );
 
             Assert.IsFalse(
-                monPont.AssertCF(
+                monPont.AssertCompteFichiers(
                 Chemin + "CompteFichiers",
                 "*.xml",
                 "pp",

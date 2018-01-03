@@ -43,7 +43,7 @@
     <Compile Include="JCACompare.cs" />
     <Compile Include="JCAConsole.cs" />
     <Compile Include="JCACore.cs" />
-    <Compile Include="JCAPontXML02.cs" />
+    <Compile Include="JCAPontXMLCompteFichiers.cs" />
     <Compile Include="JCAPontXMLAssertXPath.cs" />
     <Compile Include="JCAPontXMLConnectionOracle.cs" />
     <Compile Include="JCAPontXMLAssertSQL.cs" />

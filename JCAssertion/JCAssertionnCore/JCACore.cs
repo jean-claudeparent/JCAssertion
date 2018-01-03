@@ -71,12 +71,37 @@ namespace JCAssertionCore
         public class Constantes
         {
             public const String Version = "1.1.1";
-            public const String JCAUserOracleTest = "JCA";
-            public const String JCAPasswordOracleTest = "JCA";
-            public const String JCAServeurOracleTest = "localhost";
-
+            
 
         }
+
+
+        /// <summary>
+        /// retourne le user oracle pour les tyests
+        /// </summary>
+        /// <returns></returns>
+        public static String JCAUserOracleTest()
+        {
+           return  "JCA";
+        }
+
+        /// <summary>
+        /// retourne le password oracle poru les tests
+        /// </summary>
+        /// <returns></returns>
+        public static String JCAPasswordOracleTest()
+        {
+            return "JCA";
+        }
+        /// <summary>
+        /// retourne l'instance oracle poru les tests
+        /// </summary>
+        /// <returns></returns>
+        public static String JCAServeurOracleTest()
+        {
+            return "localhost";
+        }
+
 
 
         protected virtual void Dispose(bool Tout)

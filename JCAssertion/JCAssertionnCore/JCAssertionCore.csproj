@@ -44,6 +44,7 @@
     <Compile Include="JCAConsole.cs" />
     <Compile Include="JCACore.cs" />
     <Compile Include="JCAPontXML02.cs" />
+    <Compile Include="JCAPontXMLAssertXPath.cs" />
     <Compile Include="JCAPontXMLConnectionOracle.cs" />
     <Compile Include="JCAPontXMLAssertSQL.cs" />
     <Compile Include="JCAPontXMLHelper.cs" />

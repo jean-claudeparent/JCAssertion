@@ -60,4 +60,3 @@ D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAss
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.dll
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionCoreTest\obj\Debug\JCAssertionCoreTest.pdb
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAMiniCore.xml
-D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionCoreTest\bin\Debug\JCAssertionnCore.xml

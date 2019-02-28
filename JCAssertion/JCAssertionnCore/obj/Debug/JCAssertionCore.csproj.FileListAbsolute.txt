@@ -16,7 +16,6 @@ D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\J
 D:\DevCenter\Sources\github\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionCore.csproj.CoreCompileInputs.cache
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.dll
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.pdb
-D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionnCore.xml
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAMiniCore.dll
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCASQLODPCore.dll
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\Oracle.ManagedDataAccess.dll
@@ -28,3 +27,4 @@ D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\JCAssert
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionCore.csproj.CoreCompileInputs.cache
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionnCore.dll
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\obj\Debug\JCAssertionnCore.pdb
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Debug\JCAssertionCore.xml

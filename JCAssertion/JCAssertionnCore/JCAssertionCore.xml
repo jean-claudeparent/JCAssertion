@@ -1,0 +1,435 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JCAssertionnCore</name>
+    </assembly>
+    <members>
+        <member name="M:JCAssertionCore.JCACompare.Compare(System.Int64,System.String,System.Int64)">
+            <summary>
+            Compare deux entier avec un operateur
+            </summary>
+            <param name="ResultatReel">Résultat réel d'un calcul</param>
+            <param name="Operateur">Operateur de comparaison</param>
+            <param name="ResultatAttendu">Résultat ¸a comparer avec le résultat réel</param>
+            <returns>Résultat de comparaison</returns>
+        </member>
+        <member name="T:JCAssertionCore.JCACore">
+            <summary>
+            Classe principale pour diriger l'exécution des assertions
+            </summary>
+        </member>
+        <member name="T:JCAssertionCore.JCACore.Constantes">
+            <summary>
+            Constante globales
+            </summary>
+        </member>
+        <member name="M:JCAssertionCore.JCACore.JCAUserOracleTest">
+            <summary>
+            retourne le user oracle pour les tyests
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JCAssertionCore.JCACore.JCAPasswordOracleTest">
+            <summary>
+            retourne le password oracle poru les tests
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JCAssertionCore.JCACore.JCAServeurOracleTest">
+            <summary>
+            retourne l'instance oracle poru les tests
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JCAssertionCore.JCACore.MessageAjoutter(System.String)">
+            <summary>
+            Ajoute un texte à la propriété globale
+            de message
+            </summary>
+            <param name="Texte">Texte à ajouter au message</param>
+        </member>
+        <member name="M:JCAssertionCore.JCACore.Load(System.String)">
+            <summary>
+            Surcharge de Load qui accepte le nom de fichier en paramètre
+            </summary>
+            <param name="NomFichierLoad">Nom du fichier à charger</param>
+        </member>
+        <member name="M:JCAssertionCore.JCACore.Load">
+            <summary>
+            Load : Charger le fichier de cas et optionnellement
+            le fichier de valeur de variables
+            initialise aussi lenom dujournalet lenombre de cas et le cas courant
+            </summary>
+        </member>
+        <member name="M:JCAssertionCore.JCACore.RepertoireAssembly">
+            <summary>
+            Retourne le répertoire de l'assembly
+            qui s'exécute. Utile pour trouver le répertoire
+            des ressources
+            </summary>
+            <returns>Répertoire de l'assembly (l'éxécutable)</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCACore.getListeDeCas">
+            <summary>
+            Expose en lecture seulement la liste des cas
+            </summary>
+            <returns>Liste des cas en format xml</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCACore.ExecuteCas(System.Xml.XmlNode)">
+            <summary>
+            ExecuteCas : exécute une assertion en format xml
+            </summary>
+            <param name="XMLCas">Assertion en format xml</param>
+            <returns>Retourne si l'asertion est vraie ou fausse</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.JCACompteFichiers(System.Xml.XmlNode,System.String@,System.Collections.Generic.Dictionary{System.String,System.String}@,System.String@)">
+            <summary>
+            Cette méthode évalue une assertion
+            de type CompteFichiers
+            définie par im document xml.
+            </summary>
+            <param name="monXMLNode">Assertion définie en xml</param>
+            <param name="Message">Message qui retournera de l'information sur 
+            l'évaluation de l'assertion</param>
+            <param name="Variables">Dictionnaire des valeurs de variables</param>
+            <param name="MessageEchec">Information supplémentaire
+            si l'assertion est fausse</param>
+            <returns>true si l'assertion est vraie, 
+            false autrement. Peutt lancr des exceptions</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.AssertCompteFichiers(System.String,System.String,System.String,System.Int64,System.Int64@)">
+            <summary>
+            Évalue une assertion sur le nombre de fichiers
+            comptés dans un répertoire. Cette méthode
+            est utilisée en passant des paramètres
+            du bon type et non pas
+            un document xml définisssant l'assertion.
+            </summary>
+            <param name="Repertoire">Répertoire où compter les fichiers</param>
+            <param name="Patterm">Pattern des fichiers à compter, par exemple "*.xml"</param>
+            <param name="Operateur">Operateur de comparaison entre le résultat réel des fichiers comptés et le résultat attendu, par exemple pg pour plus grand</param>
+            <param name="ResultatAttendu">Résultat à comparer au résultat réel avec l'opérateur</param>
+            <param name="ResultatReel">Retourne le nombre de fichiers comptés avec le pattern</param>
+            <returns>Si l'assertion est vraie ou fausse</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.JCAAssertXPath(System.Xml.XmlNode,System.String@,System.Collections.Generic.Dictionary{System.String,System.String}@,System.String@)">
+            <summary>
+            Évalue une assertion basée
+            sur la sélection de noeuds dans un document xml.
+            Les noeuds sont choisis avec une expression XPath
+            et optionnellement avec une recherche  de texte
+            </summary>
+            <param name="monXMLNode">Assertion définie dans un ocument xml</param>
+            <param name="Message">Message donnant de l'information sur le traitement de l'assertion</param>
+            <param name="Variables">Dictionnaire de variables et leur valeurs</param>
+            <param name="MessageEchec">Message donnant de l'information lorsuqe l'assertion est fausse</param>
+            <returns>Si l'assertion est vraie ou fausse</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.JCAConnectionOracle(System.Xml.XmlNode,System.String@,System.Collections.Generic.Dictionary{System.String,System.String}@,System.String@,JCAssertionCore.JCASQLClient@)">
+            <summary>
+            Évalue une assertion qui ouvre
+            une connection oracle
+            avec ODP.MET.
+            </summary>
+            <param name="monXMLNode">Document xml contenant l'assertion à évaluer</param>
+            <param name="Message">Cette chaîne sera modifié pour donner de l'information sur l'évaluation de l'assertion</param>
+            <param name="Variables">Dictionnaire des variables pouvant être substituée dans l'assertion</param>
+            <param name="MessageEchec">Contiendra de l'information supplémentaire si l'assertion est fausse</param>
+            <param name="monODPSQLClient">Object servant `travailler avec la bd</param>
+            <returns>retourne si l'assertion est vraie ou fausse. S</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.MAJVariable(System.Collections.Generic.Dictionary{System.String,System.String}@,System.String,System.String)">
+            <summary>
+            Nodifie le dictionnaire de variable
+            en utilisant la vraie métode
+            des objects Variables
+            </summary>
+            <param name="Variables"></param>
+            <param name="Cle"></param>
+            <param name="Valeur"></param>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.getValeurVariable(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            Retourne la valeur d'une variable
+            en utilisant la méthode de
+            l'objet variable
+            </summary>
+            <param name="Variables"></param>
+            <param name="Cle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.FormaterExpression(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            retourne une expression d'assertion
+            formattée.
+            </summary>
+            <param name="ValeurReelle"></param>
+            <param name="Operateur"></param>
+            <param name="ValeurAttendue"></param>
+            <param name="TypeString">Indique si les valeurs sont des strings plutôt que des nombres</param>
+            <returns>Expression formattée</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.TraiterBalise(System.Xml.XmlNode,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Retourne la valeur d'une balise
+            avec substitutionde variables
+            Optionnellement initialise avec une valeur
+            par défaut et fait des validations
+            </summary>
+            <param name="xmlNode">XML d'où extraire la valeur de la balise</param>
+            <param name="Balise">Balise à extraire</param>
+            <param name="Variables">Dictionnaire de variables pour ébventuellementcompléter la valeur</param>
+            <param name="ValeurParDefaut">Valeur par défaut si la balise est vide ou inexistante</param>
+            <param name="Obligatoire">Indique de faire un exception si la balise n'est pas dans le xml</param>
+            <param name="ExceptionSiVide">Indique de faire une exception  si la baleur trouvée est une cha¸ine vide</param>
+            <returns>Valeur de la balise</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.ValeurBalise(System.Xml.XmlNode,System.String)">
+            <summary>
+            Retourne le texte d'une balise XML
+            ou une chaîne vide si on ne trouve pas la balise
+            </summary>
+            <param name="monXMLNode">Un document xml ou une autre structure XML qui peuut contenir la balise recherchée</param>
+            <param name="maBalise">Balise à rechercher</param>
+            <returns>La valeur de la balise ou ""</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.SiBaliseExiste(System.Xml.XmlNode,System.String)">
+            <summary>
+            Cherche si une balise est présente au moins une fois
+            dans une structure xml
+            </summary>
+            <param name="monXMLNode">Document ou structure xnl où chercher</param>
+            <param name="maBalise">Nom de la balise à rechercher</param>
+            <returns>Trouvé ou non</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAPontXML.ValideBalise(System.Xml.XmlNode,System.String)">
+            <summary>
+            Retourne une exception sauf si
+            une balise existe et contient quelque chose différent d'une chaîne vide
+            </summary>
+            <param name="monXMLNode">Docuememt ou structure xml à valider</param>
+            <param name="maBalise">Nom de la balise qui doit exister</param>
+        </member>
+        <member name="T:JCAssertionCore.JCASQLClient">
+            <summary>
+            JCASQLClient : Classe définissant les propriétés et méthodes
+            de plus haut niveau pour le pont xml
+            pour accéder une base de données.
+            Actuellement implanté oracle avec le oracle data provider.
+            À venir coder les appels a oledb ici aussi
+            </summary>
+        </member>
+        <member name="M:JCAssertionCore.JCASQLClient.ConnectionOuverte">
+            <summary>
+            ConnectionOuverte : Retourne si la connection
+            courante courante est ouverte.
+            Pour l'instant une seule connection est
+            permise par ODP a oracle.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JCAssertionCore.JCASQLClient.InitConnection(System.String,System.String,System.String,JCAssertionCore.JCASQLClient.Action)">
+            <summary>
+            InitConnection : Définit les param
+            etres de la
+            connection et permet d'ouvrir
+            retourne la chaîne de conntextion ou de ferner celle-ci
+            </summary>
+        </member>
+        <member name="M:JCAssertionCore.JCASQLClient.SQLAssert(System.String,System.String)">
+            <summary>
+            SQLAssert : Appelle le SQLAssert
+            de la connection  courante. 
+            </summary>
+            <param name="SQL">Commande SQL servant pour l'assertion</param>
+            <param name="ResultatAttendu">Résultat attendu à comparer pour que l'assertion soit vraie.</param>
+            <returns>Retourne si l'assertion est vraie
+            Modifie aussi l propriété DernierResultat</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCASQLClient.SQLAssert(System.String,System.Double,System.String)">
+            <summary>
+            SQLAssert : Appelle le SQLAssert
+            de la connection  courante. 
+            </summary>
+            <param name="SQL">Commande SQL servant pour l'assertion</param>
+            <param name="ResultatAttendu">Résultat attendu à comparer pour que l'assertion soit vraie.</param>
+            <param name="Operateur">Opérateur logique pour comparer le résultat SQL et le résultat attendu. Par exemple plus grand que</param>
+            <returns>Retourne si l'assertion est vraie</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCASQLClient.SQLExecute(System.String)">
+            <summary>
+            SQLExecute : excute une commande SQL qui modifie la base de données
+            courante. Par exemoke un insert dans une table.
+            Peut lancer des exceptions.
+            </summary>
+            <param name="SQL">Commande SQL à exécuter.</param>
+            <returns>Nombre de rangées de table modifiées si la commande SQL nodifie des rangées.</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCASQLClient.SQLChargeLOB(System.String,System.String)">
+            <summary>
+            Charge un fichier dans une colonne
+            qui contient un objet binaire large
+            </summary>
+            <param name="SQL">SQL indiquant la colonne LOB à renplir ainsi que les rangées à traiter</param>
+            <param name="Fichier">Fichier contenant le contenu à charger</param>
+            <returns>Nombre de rangées affectées par le chargement</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.ExtraireVariable(System.String)">
+            <summary>
+            Retourne le nom de  la prochaine variable
+            trouvée dans le texte.
+            Les variables sont délimitées par
+            "{{" et "}}"
+            </summary>
+            <param name="Argument">Texte dans lequel rechercher la variable</param>
+            <returns>Retourne le nom de la première variable trouvée dans le texte. Retourne une cha¸ine vide si aucune n'est trouvée.</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.SubstituerVariables(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Remplace toutes
+            les balises de variable
+            par le contenu du dictionnaire
+            des valeurs de variables.
+            Si la variable n'est pas
+            dans le dictionnaire cela lance une exception.
+            </summary>
+            <param name="Argument">Texte dans lequel on doit remplacer les balises de variables</param>
+            <param name="Variables">Le dictionnaire des clés versus valeurs des variables.</param>
+            <returns>Le texte avec les balises remplacées par le contenu ou une exception</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.MAJVariable(System.String,System.String)">
+            <summary>
+            Si la clé existe dans le dictionnaire
+            de contenu de variables, la
+            valeur est mise à jour.
+            Sinon la clé et la veleur sont crées 
+            dans le dictionnaire.
+            Le dictionnaire est ensuite trié.
+            </summary>
+            <param name="Cle">Clé de la variables</param>
+            <param name="Valeur">Valeur de la variable</param>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.NombreVariables">
+            <summary>
+            Retourne le nombre de variables
+            dans le dictionnaire.
+            </summary>
+            <returns>Nombre de variables dans le dictionnaire</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.GetValeurVariable(System.String)">
+            <summary>
+            GetValeurVariable : retourne la valeur d'une clé identifiant une variable 
+            </summary>
+            <returns>Retourne la valeur asociée à ka cké dans le dictionnaire des variables. Retourne null si la lcé n'existe pas.</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.GetDictionnaireVariable">
+            <summary>
+            retourne le dictionnaire des variables
+            </summary>
+            <returns>Dictionnaire des variables</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.EcrireFichier(System.String)">
+            <summary>
+            Écrit le dictionnaire
+            des variables comme un
+            document xml dans un fichier xml. 
+            Le dictionnaire est trié.
+            </summary>
+            <param name="NomFichier">Nom du fichier avec le chemin</param>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.LireFichier(System.String,System.Boolean)">
+            <summary>
+            Lit un fichier xml
+            définissant le dictionnaire de variable
+            et le met dans le dictionnaire.
+            </summary>
+            <param name="NomFichier">
+            Nom du fichier xml contenant le dictionnaire en format xml
+            </param>
+            <param name="Ajouter">
+            Si true le contenu du fichier
+            sera ajouté au dictionnaire existant.
+            Si une clé existe dans le dictionnaire
+            actuel la valeur sera remplacée par celle du fichier.
+            Si fakse seul le contenu du fichier sera conservé
+            dans le dictionnaire.</param>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.Trier">
+            <summary>
+            trie le dictionnaire des variables
+            par ordre croissant  alphabétique de clé.
+            </summary>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.EstEgal(System.Collections.Generic.Dictionary{System.String,System.String},System.String@)">
+            <summary>
+            Compare deux dictionnaires
+            de variables.  
+            </summary>
+            <param name="VarAcomparer">Dictionnaire à comparer</param>
+            <param name="Detail">
+            Si les deux 
+            dictionnaires sont différents.
+            retourne Une string comportant
+            l'explication des différences en sortie</param>
+            <returns>true si les deux dictionnaires sont pareils,
+            false si non</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.ExtrairePaire(System.String,System.String@)">
+            <summary>
+            retourne la clé 
+            et dans une variable de sortie
+            la valeur d'une paire sous la forme
+            cle=valeur
+            si jamais la clause = valeur n'existe pas
+            la valeur retournée sera la clé
+            </summary>
+            <param name="Argument">Texte à analyser
+            sous la forma cle=valeur ou cle</param>
+            <param name="Valeur"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.CleExiste(System.String)">
+            <summary>
+            retourne si une clé
+            existe dans le dictionnaire
+            de variables
+            </summary>
+            <param name="Cle">Clé de l'entrée au dictionnaire</param>
+            <returns>True si la clé existe dans le dicyionnaire, false sinon</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAVariable.EnleverCle(System.String)">
+            <summary>
+            Enlève une clé et
+            sa valeur du dictionnaire de variables.
+            Si la clé n'existe pas il n'y a pas d'exception de lancée.
+            </summary>
+            <param name="Cle">Clé à emlever</param>
+        </member>
+        <member name="M:JCAssertionCore.JCAXML.AssertXPath(System.String,System.String,System.String,System.Int64,System.Int64@,System.String,System.Boolean)">
+            <summary>
+            Fait une assertion logique
+            sur le nombre de noeuds 
+            retournés par une expression XPath
+            sur un fichier xml
+            </summary>
+            <param name="FichierXML">Chemin et nom du fichier XML</param>
+            <param name="XPath">Expression XPath</param>
+            <param name="Operateur">Operateur de comparaison avec le résultat attendu</param>
+            <param name="ResultatAttendu">Resultat à comparer</param>
+            <param name="ResultatReel">Retourne le nombre de noeuds retournés par l'expression</param>
+            <returns>La comparaison est vraie ou fausse</returns>
+        </member>
+        <member name="M:JCAssertionCore.JCAXMLHelper.xmlConnectionOracle(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Retourne une string qui contient
+            le XML de l'assertion ConnectionOracle
+            </summary>
+            <param name="User"></param>
+            <param name="Password"></param>
+            <param name="Serveur"></param>
+            <param name="Action"></param>
+            <param name="Cache"></param>
+            <returns>Document xml dans une string</returns>
+        </member>
+    </members>
+</doc>

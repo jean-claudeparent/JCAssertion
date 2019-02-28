@@ -43,4 +43,3 @@ D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertion\obj\Debug\JCAssertion.c
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertion\obj\Debug\JCAssertion.exe
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertion\obj\Debug\JCAssertion.pdb
 D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertion\bin\Debug\JCAMiniCore.xml
-D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertion\bin\Debug\JCAssertionnCore.xml

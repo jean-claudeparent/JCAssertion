@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAssertion", "JCAssertion\JCAssertion.csproj", "{5239186A-819E-4E20-8D2B-CC12001999F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAssertionCore", "JCAssertionnCore\JCAssertionCore.csproj", "{2591A9DE-E6EC-4BE0-AFBE-175AE508AD8E}"
@@ -16,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCASQLODPCoreTest", "JCASQLODPCoreTest\JCASQLODPCoreTest.csproj", "{5AD46F88-FBD7-46EE-BD8E-5382E07893DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAMiniCore", "JCAMiniCore\JCAMiniCore.csproj", "{3EF8FAD4-6536-4B2C-979C-E4279D66957D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCAssertionOutilsBuild", "JCAssertionOutilsBuild\JCAssertionOutilsBuild.csproj", "{E724F574-5593-49F8-ABBD-40053CF236E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,8 +59,15 @@ Global
 		{3EF8FAD4-6536-4B2C-979C-E4279D66957D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EF8FAD4-6536-4B2C-979C-E4279D66957D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EF8FAD4-6536-4B2C-979C-E4279D66957D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E724F574-5593-49F8-ABBD-40053CF236E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E724F574-5593-49F8-ABBD-40053CF236E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E724F574-5593-49F8-ABBD-40053CF236E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E724F574-5593-49F8-ABBD-40053CF236E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62384016-AD62-4903-B309-576AD4ED6BBD}
 	EndGlobalSection
 EndGlobal

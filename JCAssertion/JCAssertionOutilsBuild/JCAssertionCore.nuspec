@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>org.jcassertion.JCAssertionCore</id>
+    <version>0.0.1beta</version>
+    <title>JCAssertionCore une biblothèque de fonctions pour les tests.</title>
+    <authors>Jean-Claude Parent</authors>
+    <owners>jean-claude.parent</owners>
+    <license type="expression">GPL</license>
+    <projectUrl>https://www.jcassertion.org/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Divers utilitaires pour utiliser dans des unit tests
+    ou des essais d'intégration faits avec un projet de test
+    visual studio.
+    Implémentation uniquement   en .net framework 4.5
+    </description>
+    <summary></summary>
+    <releaseNotes>Eexploration de l'utilisation de la composante par nuget.</releaseNotes>
+    <copyright>Copyright 2016-2019 Jean-Claude Parent</copyright>
+    <language>fr-CA</language>
+    
+    <tags>unit test testtools</tags>
+  </metadata>
+  <files>
+    <file src="lib\net45\**" target="lib\net45" />
+    
+  </files>
+  
+</package>

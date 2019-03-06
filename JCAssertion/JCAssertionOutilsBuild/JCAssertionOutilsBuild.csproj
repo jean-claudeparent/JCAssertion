@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="JCANuget.cmd" />
+    <None Include="JCAssertion.nuspec" />
     <None Include="JCAssertionCore.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

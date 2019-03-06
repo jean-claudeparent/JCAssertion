@@ -5,7 +5,7 @@
 //              pour configurer et vérifier les environnements 
 //              de tests sous windows.
 //
-//  Copyright 2016-2018 Jean-Claude Parent 
+//  Copyright 2016-2019 Jean-Claude Parent 
 // 
 //  Informations : www.jcassertion.org
 //
@@ -70,7 +70,7 @@ namespace JCAssertionCore
         /// </summary>
         public class Constantes
         {
-            public const String Version = "1.1.1";
+            public const String Version = "2.0.0";
             
 
         }

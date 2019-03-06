@@ -121,8 +121,10 @@
             // tbxActivite
             // 
             this.tbxActivite.Location = new System.Drawing.Point(11, 84);
+            this.tbxActivite.MaxLength = 132767;
             this.tbxActivite.Multiline = true;
             this.tbxActivite.Name = "tbxActivite";
+            this.tbxActivite.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbxActivite.Size = new System.Drawing.Size(534, 222);
             this.tbxActivite.TabIndex = 6;
             this.tbxActivite.Text = "Démarrage";

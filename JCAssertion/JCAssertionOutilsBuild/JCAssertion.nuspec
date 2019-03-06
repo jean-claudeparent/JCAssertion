@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0"?>
 <package >
   <metadata>
-    <id>org.jcassertion.JCAssertionCore</id>
-    <version>0.0.1-beta</version>
-    <title>JCAssertionCore une biblothèque de fonctions pour les tests.</title>
+    <id>org.jcassertion.JCAssertion</id>
+    <version>2.0.0</version>
+    <title>JCAssertion un ensemble d'outils pour les essais.</title>
     <authors>Jean-Claude Parent</authors>
     <owners>jean-claude.parent</owners>
     <license type="expression">GPL-2.0-or-later</license>
@@ -11,11 +11,14 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Divers utilitaires pour utiliser dans des unit tests
     ou des essais d'intégration faits avec un projet de test
-    visual studio.
-    Implémentation uniquement   en .net framework 4.5
+    visual studio. Des programmes en ligne
+    de commande pour exécuter les essais
+    sans viisual studio sontt aussi fournis.
+    Implémentation uniquement   en .net framework 4.5. 
+    Une composante odp.net oracle est inclue dans le nuget.
     </description>
     <summary></summary>
-    <releaseNotes>Eexploration de l'utilisation de la composante par nuget.</releaseNotes>
+    <releaseNotes>À partir de la version 2.0.0 jcassertion est uniquememt disponible par nuget ou github.</releaseNotes>
     <copyright>Copyright 2016-2019 Jean-Claude Parent</copyright>
     <language>fr-CA</language>
     
@@ -23,7 +26,8 @@
   </metadata>
   <files>
     <file src="lib\net45\**" target="lib\net45" />
-    
+    <file src="content\**" target="content" />
+
   </files>
   
 </package>

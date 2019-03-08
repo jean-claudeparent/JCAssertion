@@ -1,0 +1,17 @@
+Go 
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Release\JCAMiniCore.dll
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Release\JCAMiniCore.pdb
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Release\JCASQLODPCore.dll
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Release\JCASQLODPCore.dll.config
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Release\JCASQLODPCore.pdb
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Release\JCAssertionnCore.dll
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Release\JCAssertionnCore.pdb
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionnCore\bin\Release\Oracle.ManagedDataAccess.dll
+8 fichier(s) copi‚(s)
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAExport\bin\Release\JCAExporte.exe
+1 fichier(s) copi‚(s)
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertion\bin\Release\JCAssertion.exe
+1 fichier(s) copi‚(s)
+D:\DevCenter\Sources\JCAssertion\JCAssertion\JCAssertionOutilsBuild\JCAssertion.nuspec -> D:\DevCenter\build\TempBuild\bin\JCAssertion\JCAssertion.nuspec
+1 fichier(s) copi‚(s)
+Fichier de command fini sans erreur 

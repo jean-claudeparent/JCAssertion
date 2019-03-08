@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JCAMiniCore</name>
+    </assembly>
+    <members>
+        <member name="T:JCAMC.JCAMiniCore">
+            <summary>
+            Le mini core contient des fonctions
+            qui ont juste des dépendances
+            avec le framework .net
+            </summary>
+        </member>
+        <member name="M:JCAMC.JCAMiniCore.TypeEncodage(System.String)">
+            <summary>
+            Retourne l'encodage d'un fichier texte
+            en se basant sur le BOM (octets d'identification au début du fichier)
+            Si le BOM est manquant ou inconnu ASCII est assumé
+            </summary>
+            <param name="Fichier">Mom du fichier pour lequel il faut déterminer l'encodage</param>
+            <returns>Type d'encodage</returns>
+        </member>
+        <member name="M:JCAMC.JCAMiniCore.EffaceFichier(System.String)">
+            <summary>
+            Efface un fichier s'il existe
+            </summary>
+            <param name="NomFichier">Nom du fichier à efface avec son chemin</param>
+        </member>
+        <member name="M:JCAMC.JCAMiniCore.NomValide(System.String)">
+            <summary>
+            Remplace les catactères invalides dans
+            un nom de fichier par des soulignées
+            Exemple "Fichier:01" deviendra "Fichier_-1"
+            </summary>
+            <param name="NomFichier">Nom du fichier à rendre conforme</param>
+            <returns>Nom compatible avec le système de fichier de windows</returns>
+        </member>
+    </members>
+</doc>
